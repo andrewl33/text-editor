@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Container } from 'semantic-ui-react';
+import Editor from './Editor/Editor';
 import TopHeader from './Header/Header';
 
 class App extends React.Component {
@@ -8,6 +9,9 @@ class App extends React.Component {
       <Container className="App" fluid={true}>
         <Container fluid={true}>
           <TopHeader />
+        </Container>
+        <Container fluid={true}>
+          <Editor/>
         </Container>
       </Container>
     );

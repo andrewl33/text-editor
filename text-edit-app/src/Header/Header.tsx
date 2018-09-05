@@ -5,7 +5,7 @@ class TopHeader extends React.Component {
   public render() {
     return (
       <header>
-        <Menu attached={true} inverted={true} primary={true} size='huge'>
+        <Menu attached={true} inverted={true} primary="true" size='huge'>
           <Menu.Item name='TextEdit' />
           <Menu.Menu position='right'>
             <Menu.Item>
