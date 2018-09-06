@@ -1,47 +1,42 @@
 import * as React from 'react';
-import { Container } from 'semantic-ui-react';
-import cursorManager from './cursorManager';
+import ContentEditable from "react-sane-contenteditable";
+// import { Container, List } from 'semantic-ui-react';
+// import CodeLine from './CodeLine';
+// import cursorManager from './cursorManager';
 
-// declare global {
-//   interface Array<T> {
-//     contains(obj: any): boolean;
-//   }
-// }
+interface EditorState {
+  lineNum: number;
+  text: string;
+}
 
-class Editor extends React.Component {
-  private myRef: any;
+class Editor extends React.Component<{}, EditorState> {
+  // private myRef: any;
 
   constructor(props: any) {
     super(props);
-    this.myRef = React.createRef();
+    // this.myRef = React.createRef();
+    this.state = {
+      lineNum: 1,
+      text: "Your text here"
+    }
   }
 
-  public handleInput = (e: any) => {
-    (window as any).Prism.highlightAll();
+  public handleChange= (e: React.SyntheticEvent , val: string) => {
     // tslint:disable-next-line
-    console.log(this.myRef);
-    // (window as any).cursorManager.setEndOfContenteditable(this.myRef.current);
-    cursorManager(this.myRef.current);
+    console.log(val);
+    this.setState({text: val});
   }
-
-
 
   public render() {
     return (
-      <div ref={this.myRef}>
-        <Container 
-        className="editor language-js" 
-        fluid={true} 
-        contentEditable="true"
-        onInput={this.handleInput}
- 
-        >
-          var wow = "yes";
-          function same() &#123; return best; &#125;
-        </Container>
-      </div>
-      
-    );
+        <ContentEditable
+          className="code-line editor"
+          content={this.state.text}
+          editable={true}
+          multiLine={true}
+          onChange={this.handleChange}
+        />
+    )
   }
 }
 

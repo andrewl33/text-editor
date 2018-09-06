@@ -13,7 +13,23 @@ https://prismjs.com/download.html#themes=prism-okaidia&languages=clike+javascrip
  * @author ocodia
  */
 
- .editor {
+.editor {
+	padding: 1em;
+	overflow: auto;
+	background: #21262B;
+}
+
+.ui.ordered.list .list>.item:before, 
+.ui.ordered.list>.item:before, 
+ol.ui.list li:before {
+	color: white;
+	line-height: 1.5;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+}
+
+.code-line {
 	color: #f8f8f2;
 	background: none;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
@@ -31,12 +47,9 @@ https://prismjs.com/download.html#themes=prism-okaidia&languages=clike+javascrip
 	-moz-hyphens: none;
 	-ms-hyphens: none;
 	hyphens: none;
-	padding: 1em;
-	overflow: auto;
-	background: #21262B;
 }
 
-.editor:focus {
+.code-line:focus {
   outline: none;
 }
 
