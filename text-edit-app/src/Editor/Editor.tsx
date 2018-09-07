@@ -10,11 +10,10 @@ interface EditorState {
 }
 
 class Editor extends React.Component<{}, EditorState> {
-  // private myRef: any;
 
   constructor(props: any) {
     super(props);
-    // this.myRef = React.createRef();
+
     this.state = {
       lineNum: 1,
       text: "Your text here"
