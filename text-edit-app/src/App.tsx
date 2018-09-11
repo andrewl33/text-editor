@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container } from 'semantic-ui-react';
 import Editor from './Editor/Editor';
-import TopHeader from './Header/Header';
+import TopHeader from './Header/HeaderContainer';
 
 class App extends React.Component {
   public render() {
