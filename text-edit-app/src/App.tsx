@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Container } from 'semantic-ui-react';
-import Editor from './Editor/Editor';
-import TopHeader from './Header/HeaderContainer';
+import EditorContainer from './Editor/EditorContainer';
+import HeaderContainer from './Header/HeaderContainer';
 
 class App extends React.Component {
   public render() {
     return (
       <Container className="App" fluid={true}>
         <Container fluid={true}>
-          <TopHeader />
+          <HeaderContainer />
         </Container>
         <Container fluid={true}>
-          <Editor/>
+          <EditorContainer />
         </Container>
       </Container>
     );

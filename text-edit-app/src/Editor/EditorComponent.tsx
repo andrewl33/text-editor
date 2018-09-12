@@ -5,7 +5,6 @@ import ContentEditable from "react-sane-contenteditable";
 // import cursorManager from './cursorManager';
 
 interface EditorState {
-  lineNum: number;
   text: string;
 }
 
@@ -15,14 +14,13 @@ class Editor extends React.Component<{}, EditorState> {
     super(props);
 
     this.state = {
-      lineNum: 1,
       text: "Your text here"
     }
   }
 
   public handleChange= (e: React.SyntheticEvent , val: string) => {
     // tslint:disable-next-line
-    console.log(val);
+    // console.log(val);
     this.setState({text: val});
   }
 

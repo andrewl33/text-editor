@@ -11,7 +11,7 @@ const initialState: GlobalStoreState = {
   isSaved: false
 }
 
-export const header = (state: GlobalStoreState = initialState, action: HeaderAction) => {
+export const headerReducer = (state: GlobalStoreState = initialState, action: HeaderAction) => {
   switch(action.type) {
     case NEW_TEXT:
       // create new url
