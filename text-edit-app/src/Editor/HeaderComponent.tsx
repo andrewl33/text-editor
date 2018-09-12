@@ -7,7 +7,7 @@ export interface HeaderProps {
   onShare?: () => void;
 }
 
-const TopHeader = ({ onNew, onLock, onShare }: HeaderProps) => {
+const HeaderComponent = ({ onNew, onLock, onShare }: HeaderProps | any) => {
   return (
     <header>
       <Menu attached={true} inverted={true} primary="true" size='huge'>
@@ -28,4 +28,4 @@ const TopHeader = ({ onNew, onLock, onShare }: HeaderProps) => {
   );
 }
 
-export default TopHeader;
+export default HeaderComponent;

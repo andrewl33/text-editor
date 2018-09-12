@@ -2,27 +2,37 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import EditorComponent from './EditorComponent';
-import { updateCode, changeCode, EditorAction } from './EditorAction';
+import HeaderComponent from './HeaderComponent';
+import { updateCode, changeCode, lockText, newText, shareLink, EditorAction } from './EditorAction';
 import * as types from '../types';
 
-class EditorContainer extends React.Component {
+
+class EditorContainer extends React.Component<types.EditorStoreState> {
   public render() {
-    return <EditorComponent />
+    return (
+      <div>
+        <HeaderComponent {...this.props}/>
+        <EditorComponent {...this.props}/>
+      </div>
+
+    );
   }
 }
 
 const mapStateToProps = (state: types.EditorStoreState) => {
-  const { codeText } = state;
-
+  const { codeText, isLoading, isNewPage, url, hasAuth, isLocked, isSaved } = state;
   return {
-    codeText
+    codeText, isLoading, isNewPage, url, hasAuth, isLocked, isSaved
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<EditorAction>) => {
   return {
     onBatchUpdate: () => dispatch(updateCode()),
-    onCodeChange: () => dispatch(changeCode())
+    onCodeChange: () => dispatch(changeCode()),
+    onLock: () => dispatch(lockText()),
+    onNew: () => dispatch(newText()),
+    onShare: () => dispatch(shareLink())
   }
 }
 

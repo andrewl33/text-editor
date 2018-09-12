@@ -1,8 +1,5 @@
 import * as React from 'react';
 import ContentEditable from "react-sane-contenteditable";
-// import { Container, List } from 'semantic-ui-react';
-// import CodeLine from './CodeLine';
-// import cursorManager from './cursorManager';
 
 interface EditorState {
   text: string;
@@ -26,13 +23,13 @@ class Editor extends React.Component<{}, EditorState> {
 
   public render() {
     return (
-        <ContentEditable
-          className="code-line editor"
-          content={this.state.text}
-          editable={true}
-          multiLine={true}
-          onChange={this.handleChange}
-        />
+      <ContentEditable
+        className="code-line editor"
+        content={this.state.text}
+        editable={true}
+        multiLine={true}
+        onChange={this.handleChange}
+      />
     )
   }
 }
