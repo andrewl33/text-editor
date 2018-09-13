@@ -1,5 +1,13 @@
 export interface StoreState {
   editor: EditorStoreState;
+  router: {
+    action: string;
+    location: {
+      hash: string;
+      pathname: string;
+      search: string;
+    }
+  }
 }
 export interface EditorStoreState {
   codeText: string;

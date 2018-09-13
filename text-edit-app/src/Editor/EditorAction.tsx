@@ -1,7 +1,10 @@
-import { UPDATE_CODE, CHANGED_CODE, NEW_TEXT, LOCK_TEXT, SHARE_LINK} from '../constants';
-
 import { ThunkDispatch } from 'redux-thunk';
+import { push, RouterAction } from 'connected-react-router';
+
+import { UPDATE_CODE, CHANGED_CODE, NEW_TEXT, LOCK_TEXT, SHARE_LINK} from '../constants';
 import { StoreState } from '../types';
+
+const URL = "http://localhost:3300";
 
 export interface UpdateCode{
   type: UPDATE_CODE;
@@ -27,10 +30,11 @@ export interface ShareLink {
 export type EditorAction =  UpdateCode | ChangedCode | NewText | LockText | ShareLink;
 
 export const updateCode = (codeText: string) => {
-  return async (dispatch: ThunkDispatch<StoreState, void, EditorAction>) => {
-    const data = {url: 'test', codeText };
+  return async (dispatch: ThunkDispatch<StoreState, void, EditorAction>, getState: () => StoreState) => {
+    const data = {url: getState().router.location.pathname, codeText };
+    
     try {
-      await fetch('/save', {
+      await fetch(`${URL}/save`, {
         method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
@@ -45,7 +49,8 @@ export const updateCode = (codeText: string) => {
         payload: codeText
       })
     } catch(e) {
-      //
+      // tslint:disable-next-line
+      console.log(e);
     }
   }
 }
@@ -64,10 +69,21 @@ export const lockText = (): LockText => {
   }
 }
 
-export const newText = (): NewText => {
-  return {
-    type: NEW_TEXT
+export const newText = () => {
+
+  return async (dispatch: ThunkDispatch<StoreState, void, EditorAction | RouterAction>) => {
+    try {
+      const response = await fetch(`${URL}/generate`);
+      const body = await response.json();
+      dispatch(push(body.url));
+      dispatch({type: NEW_TEXT});
+    } catch(e) {
+      // tslint:disable-next-line
+      console.log(e);
+    }
+
   }
+
 }
 
 export const shareLink = (): ShareLink => {

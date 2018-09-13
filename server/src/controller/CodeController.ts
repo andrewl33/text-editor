@@ -21,8 +21,9 @@ export class CodeController {
       console.log("Generate Error:")
       console.log(err);
     }
-
-    response.send(uuid);
+    response.setHeader('Content-Type', 'application/json');
+    // response.send({newUrl: uuid});
+    response.send({url:uuid});
   }
 
   async open(request: Request, response: Response, next: NextFunction) {
@@ -41,8 +42,11 @@ export class CodeController {
   async save(request: Request, response: Response, next: NextFunction) {
     // saves the code to server
     let saved = true;
+    let url = request.body.url;
+    url = url.replace(/\//g, '');
+
     try {
-      await this.codeRespository.update({url: request.body.url}, {date: 'now()', codeText: request.body.codeText});
+      await this.codeRespository.update({url}, {date: 'now()', codeText: request.body.codeText});
     } catch(err) {
       console.log("Save err:");
       console.log(err);
