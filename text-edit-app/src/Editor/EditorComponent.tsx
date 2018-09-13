@@ -1,11 +1,14 @@
 import * as React from 'react';
 import ContentEditable from "react-sane-contenteditable";
+import { EditorProps } from '../types';
 
-interface EditorState {
-  text: string;
+interface EditorPrivateState {
+  text: string
 }
 
-class Editor extends React.Component<{}, EditorState> {
+class Editor extends React.Component<EditorProps, EditorPrivateState> {
+
+  private delayBeforeUpdate: number;
 
   constructor(props: any) {
     super(props);
@@ -13,12 +16,6 @@ class Editor extends React.Component<{}, EditorState> {
     this.state = {
       text: "Your text here"
     }
-  }
-
-  public handleChange= (e: React.SyntheticEvent , val: string) => {
-    // tslint:disable-next-line
-    // console.log(val);
-    this.setState({text: val});
   }
 
   public render() {
@@ -32,6 +29,20 @@ class Editor extends React.Component<{}, EditorState> {
       />
     )
   }
+
+
+  private handleChange = (e: React.SyntheticEvent , val: string) => {
+    this.setState({text: val});
+    clearTimeout(this.delayBeforeUpdate);
+    this.delay();
+  }
+
+  private delay = () => {
+    // uses browser's setTimeout instead of node
+    this.delayBeforeUpdate = window.setTimeout(() => this.props.onBatchUpdate(this.state.text), 2500);
+  }
+
+
 }
 
 export default Editor;

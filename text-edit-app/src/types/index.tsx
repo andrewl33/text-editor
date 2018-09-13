@@ -10,3 +10,11 @@ export interface EditorStoreState {
   isLocked: boolean;
   isSaved: boolean;
 }
+
+export interface EditorProps extends EditorStoreState {
+  onBatchUpdate: (codeText: string) => any,
+  onCodeChange: () => any,
+  onLock: () => any,
+  onNew: () => any,
+  onShare: () => any
+}

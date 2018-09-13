@@ -1,7 +1,11 @@
 import { UPDATE_CODE, CHANGED_CODE, NEW_TEXT, LOCK_TEXT, SHARE_LINK} from '../constants';
 
-export interface UpdateCode {
+import { ThunkDispatch } from 'redux-thunk';
+import { StoreState } from '../types';
+
+export interface UpdateCode{
   type: UPDATE_CODE;
+  payload: string;
 }
 
 export interface ChangedCode {
@@ -20,15 +24,34 @@ export interface ShareLink {
   type: SHARE_LINK;
 }
 
-export type EditorAction = UpdateCode | ChangedCode | NewText | LockText | ShareLink;
+export type EditorAction =  UpdateCode | ChangedCode | NewText | LockText | ShareLink;
 
-export const updateCode = (): UpdateCode => {
-  return {
-    type: UPDATE_CODE
+export const updateCode = (codeText: string) => {
+  return async (dispatch: ThunkDispatch<StoreState, void, EditorAction>) => {
+    const data = {url: 'test', codeText };
+    try {
+      await fetch('/save', {
+        method: 'PUT',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      dispatch({
+        type: UPDATE_CODE,
+        payload: codeText
+      })
+    } catch(e) {
+      //
+    }
   }
 }
 
-export const changeCode = (): ChangedCode => {
+
+export const changedCode = (): ChangedCode => {
   return {
     type: CHANGED_CODE
   }

@@ -40,10 +40,9 @@ export class CodeController {
 
   async save(request: Request, response: Response, next: NextFunction) {
     // saves the code to server
-    const id = (await this.codeRespository.findOne({url: request.body.url})).id;
     let saved = true;
     try {
-      await this.codeRespository.update(id, {date: 'now()', codeText: request.body.codeText});
+      await this.codeRespository.update({url: request.body.url}, {date: 'now()', codeText: request.body.codeText});
     } catch(err) {
       console.log("Save err:");
       console.log(err);

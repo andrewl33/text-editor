@@ -4,6 +4,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import {Request, Response} from "express";
 import {Routes} from "./routes";
+import { Code } from "./entity/Code";
 
 createConnection().then(async connection => {
 
@@ -25,12 +26,20 @@ createConnection().then(async connection => {
     });
 
     // setup express app here
-    // ...
+    
+    // test entry
+    const testEntry = new Code();
+    testEntry.url = 'test';
+    testEntry.date = 'now()';
+    testEntry.codeText = 'test';
+    testEntry.isLocked = false;
+    
+    await connection.manager.save(testEntry);
 
     // start express server
     app.listen(3000);
 
 
-    console.log("Express server has started on port 3000.");
+    console.log("Express server has started on port 3300.");
 
 }).catch(error => console.log(error));
