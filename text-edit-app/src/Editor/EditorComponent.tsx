@@ -3,18 +3,18 @@ import ContentEditable from "react-sane-contenteditable";
 import { EditorProps } from '../types';
 
 interface EditorPrivateState {
-  text: string
+  text: string;
 }
 
-class Editor extends React.Component<EditorProps, EditorPrivateState> {
+class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
 
   private delayBeforeUpdate: number;
 
   constructor(props: any) {
     super(props);
-
+    
     this.state = {
-      text: "Your text here"
+      text: this.props.codeText
     }
   }
 
@@ -30,7 +30,6 @@ class Editor extends React.Component<EditorProps, EditorPrivateState> {
     )
   }
 
-
   private handleChange = (e: React.SyntheticEvent , val: string) => {
     this.setState({text: val});
     clearTimeout(this.delayBeforeUpdate);
@@ -41,8 +40,7 @@ class Editor extends React.Component<EditorProps, EditorPrivateState> {
     // uses browser's setTimeout instead of node
     this.delayBeforeUpdate = window.setTimeout(() => this.props.onBatchUpdate(this.state.text), 2500);
   }
-
-
+  
 }
 
-export default Editor;
+export default EditorComponent;

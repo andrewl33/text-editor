@@ -23,6 +23,7 @@ export interface EditorProps extends EditorStoreState {
   onBatchUpdate: (codeText: string) => any,
   onCodeChange: () => any,
   onLock: () => any,
+  onMount: () => any,
   onNew: () => any,
   onShare: () => any
 }

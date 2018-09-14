@@ -14,3 +14,7 @@ export type UPDATE_CODE = typeof UPDATE_CODE;
 
 export const CHANGED_CODE = 'CHANGED_CODE';
 export type CHANGED_CODE = typeof CHANGED_CODE;
+
+// first load
+export const GET_TEXT = 'GET_TEXT';
+export type GET_TEXT = typeof GET_TEXT;

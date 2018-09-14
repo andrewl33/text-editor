@@ -31,13 +31,13 @@ createConnection().then(async connection => {
     // setup express app here
     
     // test entry
-    const testEntry = new Code();
-    testEntry.url = 'test';
-    testEntry.date = 'now()';
-    testEntry.codeText = 'test';
-    testEntry.isLocked = false;
+    // const testEntry = new Code();
+    // testEntry.url = 'test';
+    // testEntry.date = 'now()';
+    // testEntry.codeText = 'test';
+    // testEntry.isLocked = false;
     
-    await connection.manager.save(testEntry);
+    // await connection.manager.save(testEntry);
 
     // start express server
     app.listen(3300);

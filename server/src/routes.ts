@@ -6,7 +6,7 @@ export const Routes = [{
     controller: CodeController,
     action: "generate"
 }, {
-    method: "get",
+    method: "post",
     route: "/open",
     controller: CodeController,
     action: "open"

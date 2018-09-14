@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { push, RouterAction } from 'connected-react-router';
 
-import { UPDATE_CODE, CHANGED_CODE, NEW_TEXT, LOCK_TEXT, SHARE_LINK} from '../constants';
+import { UPDATE_CODE, CHANGED_CODE, GET_TEXT, NEW_TEXT, LOCK_TEXT, SHARE_LINK} from '../constants';
 import { StoreState } from '../types';
 
 const URL = "http://localhost:3300";
@@ -13,6 +13,11 @@ export interface UpdateCode{
 
 export interface ChangedCode {
   type: CHANGED_CODE;
+}
+
+export interface GetText {
+  type: GET_TEXT;
+  payload: string;
 }
 
 export interface NewText {
@@ -27,10 +32,10 @@ export interface ShareLink {
   type: SHARE_LINK;
 }
 
-export type EditorAction =  UpdateCode | ChangedCode | NewText | LockText | ShareLink;
+export type EditorAction =  UpdateCode | ChangedCode | GetText | NewText | LockText | ShareLink;
 
 export const updateCode = (codeText: string) => {
-  return async (dispatch: ThunkDispatch<StoreState, void, EditorAction>, getState: () => StoreState) => {
+  return async (dispatch: ThunkDispatch<StoreState, void, UpdateCode>, getState: () => StoreState) => {
     const data = {url: getState().router.location.pathname, codeText };
     
     try {
@@ -62,6 +67,35 @@ export const changedCode = (): ChangedCode => {
   }
 }
 
+export const getText = () => {
+  
+  return async (dispatch: ThunkDispatch<StoreState, void, GetText>, getState: () => StoreState) => {
+    
+    const data = {url: getState().router.location.pathname };
+
+    try {
+      const response = await fetch(
+        `${URL}/open`, {
+          'method': 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          body: JSON.stringify(data)
+        });
+      const body = await response.json();
+      dispatch({
+        type: GET_TEXT,
+        payload: body.codeText
+      })
+    } catch(e) {
+      // tslint:disable-next-line
+      console.log(e);
+    }
+
+
+  }
+}
+
 export const lockText = (): LockText => {
   // nothing yet
   return {
@@ -71,7 +105,7 @@ export const lockText = (): LockText => {
 
 export const newText = () => {
 
-  return async (dispatch: ThunkDispatch<StoreState, void, EditorAction | RouterAction>) => {
+  return async (dispatch: ThunkDispatch<StoreState, void, NewText | RouterAction>) => {
     try {
       const response = await fetch(`${URL}/generate`);
       const body = await response.json();

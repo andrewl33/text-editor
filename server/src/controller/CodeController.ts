@@ -29,14 +29,16 @@ export class CodeController {
   async open(request: Request, response: Response, next: NextFunction) {
     // returns the correct text to the user
     let code;
+    let url = request.body.url;
+    url = url.replace(/\//g, '');
     try {
-      code = await this.codeRespository.findOne({url: request.query.url});
+      code = await this.codeRespository.findOne({ url });
     } catch(err) {
       console.log("Open err:");
       console.log(err);
     }
     
-    code ? response.send(code) : response.send(false);
+    code ? response.send({codeText: code.codeText}) : response.send(false);
   }
 
   async save(request: Request, response: Response, next: NextFunction) {

@@ -6,6 +6,8 @@ import { rootReducer } from './reducers';
 import { EditorAction } from './Editor/EditorAction';
 import { StoreState } from './types';
 
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 export const history = createBrowserHistory();
 
 export const store = createStore<StoreState, EditorAction, any, any>(
@@ -14,8 +16,10 @@ export const store = createStore<StoreState, EditorAction, any, any>(
   // connectRouter creates a new StoreState, but without the 
   // typings for rootreducer
   connectRouter(history)(rootReducer as Reducer<StoreState>),
-  applyMiddleware(
-    thunk as ThunkMiddleware<StoreState, EditorAction>,
-    routerMiddleware(history)
+  composeWithDevTools(
+    applyMiddleware(
+      thunk as ThunkMiddleware<StoreState, EditorAction>,
+      routerMiddleware(history)
+    )
   )
 );
