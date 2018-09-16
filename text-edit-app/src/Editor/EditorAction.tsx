@@ -1,14 +1,19 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { push, RouterAction } from 'connected-react-router';
 
-import { UPDATE_CODE, CHANGED_CODE, GET_TEXT, NEW_TEXT, LOCK_TEXT, SHARE_LINK} from '../constants';
+import { 
+  UPDATE_CODE_REQUEST, UPDATE_CODE_SUCCESS, UPDATE_CODE_FAILURE, 
+  CHANGED_CODE, GET_TEXT_REQUEST, GET_TEXT_SUCCESS, GET_TEXT_FAILURE, 
+  NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE, 
+  LOCK_TEXT, SHARE_LINK
+} from '../constants';
 import { StoreState } from '../types';
 
 const URL = "http://localhost:3300";
 
 export interface UpdateCode{
-  type: UPDATE_CODE;
-  payload: string;
+  type: UPDATE_CODE_REQUEST | UPDATE_CODE_SUCCESS | UPDATE_CODE_FAILURE;
+  payload?: string;
 }
 
 export interface ChangedCode {
@@ -16,12 +21,12 @@ export interface ChangedCode {
 }
 
 export interface GetText {
-  type: GET_TEXT;
-  payload: string;
+  type: GET_TEXT_REQUEST | GET_TEXT_SUCCESS | GET_TEXT_FAILURE;
+  payload?: string;
 }
 
 export interface NewText {
-  type: NEW_TEXT;
+  type: NEW_TEXT_REQUEST | NEW_TEXT_SUCCESS | NEW_TEXT_FAILURE;
 }
 
 export interface LockText {
@@ -38,6 +43,10 @@ export const updateCode = (codeText: string) => {
   return async (dispatch: ThunkDispatch<StoreState, void, UpdateCode>, getState: () => StoreState) => {
     const data = {url: getState().router.location.pathname, codeText };
     
+    dispatch({
+      type: UPDATE_CODE_REQUEST
+    });
+
     try {
       await fetch(`${URL}/save`, {
         method: 'PUT',
@@ -50,12 +59,15 @@ export const updateCode = (codeText: string) => {
         body: JSON.stringify(data)
       });
       dispatch({
-        type: UPDATE_CODE,
+        type: UPDATE_CODE_SUCCESS,
         payload: codeText
       })
     } catch(e) {
       // tslint:disable-next-line
       console.log(e);
+      dispatch({
+        type: UPDATE_CODE_FAILURE
+      })
     }
   }
 }
@@ -73,6 +85,10 @@ export const getText = () => {
     
     const data = {url: getState().router.location.pathname };
 
+    dispatch({
+      type: GET_TEXT_REQUEST
+    })
+
     try {
       const response = await fetch(
         `${URL}/open`, {
@@ -84,12 +100,15 @@ export const getText = () => {
         });
       const body = await response.json();
       dispatch({
-        type: GET_TEXT,
+        type: GET_TEXT_SUCCESS,
         payload: body.codeText
       })
     } catch(e) {
       // tslint:disable-next-line
       console.log(e);
+      dispatch({
+        type: GET_TEXT_FAILURE
+      })
     }
 
 
@@ -106,14 +125,18 @@ export const lockText = (): LockText => {
 export const newText = () => {
 
   return async (dispatch: ThunkDispatch<StoreState, void, NewText | RouterAction>) => {
+    
+    dispatch({type: NEW_TEXT_REQUEST});
+    
     try {
       const response = await fetch(`${URL}/generate`);
       const body = await response.json();
       dispatch(push(body.url));
-      dispatch({type: NEW_TEXT});
+      dispatch({type: NEW_TEXT_SUCCESS});
     } catch(e) {
       // tslint:disable-next-line
       console.log(e);
+      dispatch({type: NEW_TEXT_FAILURE});
     }
 
   }
