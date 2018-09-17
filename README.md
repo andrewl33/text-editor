@@ -15,6 +15,7 @@ In `server`, run `nodemon`
 ## Todo
 - [ ] Testing
 - [ ] Copy to clipboard
+- [ ] Modify/find/do something with PrismJS
 - [ ] Authentication
 - [ ] Notification pop-ups
 - [ ] Notification animation
