@@ -5,12 +5,14 @@ import { History } from 'history';
 import { Container } from 'semantic-ui-react';
 import EditorContainer from './Editor/EditorContainer';
 import { history } from './store';
+import { StoreState } from './types';
+
 
 interface AppProps {
   history: History;
 }
 
-class App extends React.Component<AppProps> {
+class App extends React.Component<AppProps | StoreState> {
   public render() {
     return (
       <Container className="App" fluid={true}>

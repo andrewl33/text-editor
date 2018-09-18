@@ -7,14 +7,13 @@ import {
 } from '../constants';
 import { EditorStoreState } from '../types';
 
-const initialState: EditorStoreState = {
+export const initialState: EditorStoreState = {
   codeText: "var wow", 
   isLoading: true,
   isNewPage: false,
-  url: '',
   hasAuth: false,
   isLocked: false,
-  isSaved: false
+  isSaved: true
 }
 
 export const editorReducer = (state: EditorStoreState = initialState, action: EditorAction) => {
@@ -22,26 +21,25 @@ export const editorReducer = (state: EditorStoreState = initialState, action: Ed
   switch(action.type) {
   
     case UPDATE_CODE_REQUEST:
-      return state;
+      return {...state, isLoading: true};
     case UPDATE_CODE_SUCCESS:
-      return state;
+      return {...state, isLoading: false, isSaved: true};
     case UPDATE_CODE_FAILURE:
-      return state;
+      return {...state, isLoading: false, isSaved: false};
     
     case GET_TEXT_REQUEST:
-      return state;
+      return {...state, isLoading: true};
     case GET_TEXT_SUCCESS:
-      return {...state, codeText: action.payload, isLoading: false};
+      return {...state, codeText: action.payload, isLoading: false, isSaved: true};
     case GET_TEXT_FAILURE:
-      return state;
+      return {...state, isLoading: false, isSaved: false};
 
     case NEW_TEXT_REQUEST:
-      // create new url
-      return { ...state};
+      return {...state, isLoading:true, isNewPage: true};
     case NEW_TEXT_SUCCESS:
-      return state;
+      return {...initialState, isNewPage: true, isLoading: false};
     case NEW_TEXT_FAILURE:
-      return state;
+      return {...state, isNewPage: false, isLoading: false};
 
     case CHANGED_CODE:
     return state;

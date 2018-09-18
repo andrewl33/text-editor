@@ -16,6 +16,7 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
     this.state = {
       text: this.props.codeText
     }
+    
   }
 
   public render() {

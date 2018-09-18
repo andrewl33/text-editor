@@ -27,9 +27,9 @@ class EditorContainer extends React.Component<EditorProps> {
 }
 
 const mapStateToProps = (state: StoreState) => {
-  const { codeText, isLoading, isNewPage, url, hasAuth, isLocked, isSaved } = state.editor;
+  const { codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved } = state.editor;
   return {
-    codeText, isLoading, isNewPage, url, hasAuth, isLocked, isSaved
+    codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved
   };
 }
 
