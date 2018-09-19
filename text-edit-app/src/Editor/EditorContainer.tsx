@@ -6,7 +6,7 @@ import { updateCode, changedCode, getText, lockText, newText, shareLink, EditorA
 import { EditorProps, StoreState } from '../types';
 import { ThunkDispatch } from 'redux-thunk';
 
-class EditorContainer extends React.Component<EditorProps> {
+export class EditorContainer extends React.Component<EditorProps> {
   public render() {
     if (this.props.isLoading) {
       return null;
@@ -18,7 +18,6 @@ class EditorContainer extends React.Component<EditorProps> {
         </div>
       );
     }
-
   }
 
   public componentDidMount() {

@@ -41,14 +41,14 @@ export type EditorAction =  UpdateCode | ChangedCode | GetText | NewText | LockT
 
 export const updateCode = (codeText: string) => {
   return async (dispatch: ThunkDispatch<StoreState, void, UpdateCode>, getState: () => StoreState) => {
-    const data = {url: getState().router.location.pathname, codeText };
+    const data = { url: getState().router.location.pathname, codeText };
     
     dispatch({
       type: UPDATE_CODE_REQUEST
     });
 
     try {
-      await fetch(`${URL}/save`, {
+      const response: Response = await fetch(`${URL}/save`, {
         method: 'PUT',
         mode: 'cors',
         cache: 'no-cache',
@@ -58,16 +58,25 @@ export const updateCode = (codeText: string) => {
         },
         body: JSON.stringify(data)
       });
-      dispatch({
-        type: UPDATE_CODE_SUCCESS,
-        payload: codeText
-      })
+
+      const body = await response.json();
+
+      if (body.isSaved) {
+        dispatch({
+          type: UPDATE_CODE_SUCCESS,
+          payload: codeText
+        })
+      } else {
+        dispatch({
+          type: UPDATE_CODE_FAILURE
+        });
+      }
     } catch(e) {
       // tslint:disable-next-line
       console.log(e);
       dispatch({
         type: UPDATE_CODE_FAILURE
-      })
+      });
     }
   }
 }
@@ -97,18 +106,26 @@ export const getText = () => {
             'Content-Type': 'application/json; charset=utf-8',
           },
           body: JSON.stringify(data)
-        });
+      });
       const body = await response.json();
-      dispatch({
-        type: GET_TEXT_SUCCESS,
-        payload: body.codeText
-      })
+
+      if (body.success) {
+        dispatch({
+          type: GET_TEXT_SUCCESS,
+          payload: body.codeText
+        });
+      } else {
+        dispatch({
+          type: GET_TEXT_FAILURE
+        });
+      }
+
     } catch(e) {
       // tslint:disable-next-line
       console.log(e);
       dispatch({
         type: GET_TEXT_FAILURE
-      })
+      });
     }
 
 
@@ -131,8 +148,12 @@ export const newText = () => {
     try {
       const response = await fetch(`${URL}/generate`);
       const body = await response.json();
-      dispatch(push(body.url));
-      dispatch({type: NEW_TEXT_SUCCESS});
+      if (body.success) {
+        dispatch(push(body.url));
+        dispatch({type: NEW_TEXT_SUCCESS});
+      } else {
+        dispatch({type: NEW_TEXT_FAILURE});
+      }
     } catch(e) {
       // tslint:disable-next-line
       console.log(e);

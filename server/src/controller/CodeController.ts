@@ -20,10 +20,11 @@ export class CodeController {
     } catch(err) {
       console.log("Generate Error:")
       console.log(err);
+      return response.send({success: false});
     }
     response.setHeader('Content-Type', 'application/json');
     // response.send({newUrl: uuid});
-    response.send({url:uuid});
+    response.send({url:uuid, success: true});
   }
 
   async open(request: Request, response: Response, next: NextFunction) {
@@ -38,7 +39,7 @@ export class CodeController {
       console.log(err);
     }
     
-    code ? response.send({codeText: code.codeText}) : response.send(false);
+    code ? response.send({codeText: code.codeText, success: true}) : response.send({success:false});
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
@@ -55,6 +56,6 @@ export class CodeController {
       saved = false;
     }
     
-    response.send(saved);
+    response.send({isSaved: saved});
   }
 }
