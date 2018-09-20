@@ -12,6 +12,7 @@ const props = {
   isLocked: false,
   isSaved: true,
   onBatchUpdate: mockBatchUpdate,
+  pathname: 'test',
   onCodeChange: () => {/**/},
   onLock: () => {/**/},
   onMount: () => {/**/},

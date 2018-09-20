@@ -110,8 +110,7 @@ describe('EditorAction: newText', () => {
     return store.dispatch(actions.newText())
       .then(() => {
         const expectedActions = store.getActions();
-        // tslint:disable-next-line
-        console.log(expectedActions);
+        
         // push is also dispatched for connected-react-router
         expect(expectedActions.length).toBe(3);
         expect(expectedActions).toContainEqual({type: constants.NEW_TEXT_REQUEST});

@@ -27,8 +27,9 @@ export class EditorContainer extends React.Component<EditorProps> {
 
 const mapStateToProps = (state: StoreState) => {
   const { codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved } = state.editor;
+  const { pathname } = state.router.location;
   return {
-    codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved
+    codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved, pathname
   };
 }
 

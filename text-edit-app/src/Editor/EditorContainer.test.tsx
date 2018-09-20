@@ -3,9 +3,9 @@ import { EditorContainer } from './EditorContainer';
 import HeaderComponent from './HeaderComponent';
 import EditorComponent from './EditorComponent';
 import { shallow } from 'enzyme';
-import { initialState } from './EditorReducer';
+import { initialState as editorStoreState } from './EditorReducer';
 
-const dispatchProps = {
+export const dispatchProps = {
   onBatchUpdate: jest.fn(),
   onCodeChange: jest.fn(),
   onLock: jest.fn(),
@@ -14,9 +14,10 @@ const dispatchProps = {
   onShare: jest.fn()
 }
 
-const loadedState = {...initialState, isLoading: false};
+export const initState = {...editorStoreState, pathname: 'test.com/test'}
+const loadedState = {...initState, isLoading: false};
 
-const component = shallow(<EditorContainer {...initialState} {...dispatchProps}/>);
+const component = shallow(<EditorContainer {...initState} {...dispatchProps}/>);
 const componentLoaded = shallow(<EditorContainer {...loadedState} {...dispatchProps}/>);
 describe('EditorContainer', () => {
   test('it renders null on startup', () => {

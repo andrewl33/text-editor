@@ -24,5 +24,6 @@ export interface EditorProps extends EditorStoreState {
   onLock: () => any,
   onMount: () => any,
   onNew: () => any,
-  onShare: () => any
+  onShare: () => any,
+  pathname: string
 }

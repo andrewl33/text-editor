@@ -3,7 +3,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import { History } from 'history';
 import { Container } from 'semantic-ui-react';
-import { EditorContainer } from './Editor/EditorContainer';
+import EditorContainer from './Editor/EditorContainer';
 import { history } from './store';
 import { StoreState } from './types';
 
