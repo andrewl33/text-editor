@@ -5,7 +5,7 @@ import {
   UPDATE_CODE_REQUEST, UPDATE_CODE_SUCCESS, UPDATE_CODE_FAILURE, 
   CHANGED_CODE, GET_TEXT_REQUEST, GET_TEXT_SUCCESS, GET_TEXT_FAILURE, 
   NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE, 
-  LOCK_TEXT, SHARE_LINK
+  LOCK_TEXT, SHARE_LINK, CLOSE_ALERT
 } from '../constants';
 import { StoreState } from '../types';
 
@@ -37,12 +37,16 @@ export interface ShareLink {
   type: SHARE_LINK;
 }
 
-export type EditorAction =  UpdateCode | ChangedCode | GetText | NewText | LockText | ShareLink;
+export interface CloseAlert {
+  type: CLOSE_ALERT;
+}
+
+export type EditorAction =  UpdateCode | ChangedCode | GetText | NewText | LockText | ShareLink | CloseAlert;
 
 export const updateCode = (codeText: string) => {
   return async (dispatch: ThunkDispatch<StoreState, void, UpdateCode>, getState: () => StoreState) => {
     const data = { url: getState().router.location.pathname, codeText };
-    
+
     dispatch({
       type: UPDATE_CODE_REQUEST
     });
@@ -62,11 +66,13 @@ export const updateCode = (codeText: string) => {
       const body = await response.json();
 
       if (body.isSaved) {
+ 
         dispatch({
           type: UPDATE_CODE_SUCCESS,
           payload: codeText
         })
       } else {
+
         dispatch({
           type: UPDATE_CODE_FAILURE
         });
@@ -78,6 +84,8 @@ export const updateCode = (codeText: string) => {
         type: UPDATE_CODE_FAILURE
       });
     }
+
+    // checkAlertState(dispatch, getState);
   }
 }
 
@@ -169,3 +177,18 @@ export const shareLink = (): ShareLink => {
     type: SHARE_LINK
   }
 }
+
+
+export const closeAlert = (): CloseAlert => {
+  return {
+    type: CLOSE_ALERT
+  }
+}
+
+
+// need to find a way to update spam ShareLink
+// function checkAlertState(dispatch: any, getState: () => StoreState) {
+//   if (getState().editor.openAlert) {
+//     dispatch(closeAlert);
+//   }
+// }

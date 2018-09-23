@@ -132,3 +132,11 @@ describe('EditorAction: newText', () => {
       });
   });
 });
+
+describe('EditorAction: non-async', () => {
+  it('closes alert', () => {
+    store.dispatch(actions.closeAlert());
+    expect(store.getActions().length).toBe(1);
+    expect(store.getActions()).toContainEqual({type: constants.CLOSE_ALERT});
+  });
+});

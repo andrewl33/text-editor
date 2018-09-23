@@ -16,11 +16,14 @@ export interface EditorStoreState {
   hasAuth: boolean;
   isLocked: boolean;
   isSaved: boolean;
+  openAlert: boolean;
+  alertMessage: string;
 }
 
 export interface EditorProps extends EditorStoreState {
   onBatchUpdate: (codeText: string) => any,
   onCodeChange: () => any,
+  onAlert: () => any,
   onLock: () => any,
   onMount: () => any,
   onNew: () => any,

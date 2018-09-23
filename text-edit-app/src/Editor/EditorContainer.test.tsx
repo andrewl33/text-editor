@@ -8,6 +8,7 @@ import { initialState as editorStoreState } from './EditorReducer';
 export const dispatchProps = {
   onBatchUpdate: jest.fn(),
   onCodeChange: jest.fn(),
+  onAlert: jest.fn(),
   onLock: jest.fn(),
   onMount: jest.fn(),
   onNew: jest.fn(),
@@ -17,12 +18,8 @@ export const dispatchProps = {
 export const initState = {...editorStoreState, pathname: 'test.com/test'}
 const loadedState = {...initState, isLoading: false};
 
-const component = shallow(<EditorContainer {...initState} {...dispatchProps}/>);
 const componentLoaded = shallow(<EditorContainer {...loadedState} {...dispatchProps}/>);
 describe('EditorContainer', () => {
-  test('it renders null on startup', () => {
-    expect(component.get(0)).toEqual(null);
-  });
 
   test('onMount called on mount', () => {
     expect(dispatchProps.onMount).toBeCalled();

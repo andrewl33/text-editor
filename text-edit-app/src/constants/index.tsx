@@ -14,6 +14,9 @@ export type LOCK_TEXT = typeof LOCK_TEXT;
 export const SHARE_LINK = 'SHARE_LINK';
 export type SHARE_LINK = typeof SHARE_LINK;
 
+export const CLOSE_ALERT = 'CLOSE_ALERT';
+export type CLOSE_ALERT = typeof CLOSE_ALERT;
+
 // editor
 export const UPDATE_CODE_REQUEST = 'UPDATE_CODE_REQUEST';
 export type UPDATE_CODE_REQUEST = typeof UPDATE_CODE_REQUEST;

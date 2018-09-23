@@ -2,22 +2,18 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import EditorComponent from './EditorComponent';
 import HeaderComponent from './HeaderComponent';
-import { updateCode, changedCode, getText, lockText, newText, shareLink, EditorAction } from './EditorAction';
+import { updateCode, changedCode, getText, lockText, newText, shareLink, closeAlert, EditorAction } from './EditorAction';
 import { EditorProps, StoreState } from '../types';
 import { ThunkDispatch } from 'redux-thunk';
 
 export class EditorContainer extends React.Component<EditorProps> {
   public render() {
-    if (this.props.isLoading) {
-      return null;
-    } else {
-      return (
-        <div>
-          <HeaderComponent {...this.props}/>
-          <EditorComponent {...this.props}/>
-        </div>
-      );
-    }
+    return (
+      <div>
+        <HeaderComponent {...this.props}/>
+        <EditorComponent {...this.props}/>
+      </div>
+    );
   }
 
   public componentDidMount() {
@@ -26,10 +22,10 @@ export class EditorContainer extends React.Component<EditorProps> {
 }
 
 const mapStateToProps = (state: StoreState) => {
-  const { codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved } = state.editor;
+  const { codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage } = state.editor;
   const { pathname } = state.router.location;
   return {
-    codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved, pathname
+    codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage, pathname
   };
 }
 
@@ -37,6 +33,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorActi
   return {
     onBatchUpdate: (codeText: string) => dispatch(updateCode(codeText)),
     onCodeChange: () => dispatch(changedCode()),
+    onAlert: () => dispatch(closeAlert()),
     onLock: () => dispatch(lockText()),
     onMount: () => dispatch(getText()),
     onNew: () => dispatch(newText()),

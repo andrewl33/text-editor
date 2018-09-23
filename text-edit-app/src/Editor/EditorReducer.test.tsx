@@ -2,7 +2,7 @@ import { editorReducer, initialState } from './EditorReducer';
 import { 
   UPDATE_CODE_REQUEST, UPDATE_CODE_SUCCESS, UPDATE_CODE_FAILURE,
   GET_TEXT_REQUEST, GET_TEXT_SUCCESS, GET_TEXT_FAILURE, 
-  NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE
+  NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE, CLOSE_ALERT
 } from '../constants';
 
 
@@ -13,8 +13,8 @@ test('it should return inital state', () => {
 describe('update code', () => {
 
   const updatedCodeRequest = {...initialState, isLoading: true};
-  const updatedCodeSuccess = {...initialState, isLoading: false, isSaved: true};
-  const updatedCodeFailure = {...initialState, isLoading: false, isSaved: false};
+  const updatedCodeSuccess = {...initialState, isLoading: false, isSaved: true, openAlert: true, alertMessage: 'Updated code'};
+  const updatedCodeFailure = {...initialState, isLoading: false, isSaved: false, openAlert: true, alertMessage: 'Failed to update code'};
 
   test('it should handle UPDATE_CODE_REQUEST', () => {
     expect(editorReducer(undefined, {type: UPDATE_CODE_REQUEST}))
@@ -35,9 +35,9 @@ describe('update code', () => {
 describe('get text', () => {
 
   const textString = 'Ncu06QeyNlNk8q2St5KvNOjtDHmOC9sU5yILgjS1X7bs6H';
-  const request = {...initialState, isLoading: true};
+  const request = {...initialState, isLoading: true, openAlert: true, alertMessage: 'Loading code...'};
   const success = {...initialState, isLoading: false, isSaved: true, codeText: textString};
-  const failure = {...initialState, isLoading: false, isSaved: false};
+  const failure = {...initialState, isLoading: false, isSaved: false, openAlert: true, alertMessage: 'Failed to load saved code'};
 
   test('it should handle GET_TEXT_REQUEST', () => {
     expect(editorReducer(undefined, {type: GET_TEXT_REQUEST}))
@@ -59,8 +59,8 @@ describe('get text', () => {
 describe('new text', () => {
 
   const request = {...initialState, isLoading: true, isNewPage: true};
-  const success = {...initialState, isLoading: false, isNewPage: true};
-  const failure = {...initialState, isNewPage: false, isLoading: false};
+  const success = {...initialState, isLoading: false, isNewPage: true, openAlert: true, alertMessage: 'Created a new page'};
+  const failure = {...initialState, isNewPage: false, isLoading: false, openAlert: true, alertMessage: 'Failed to create new page, try again'};
 
   test('it should handle NEW_TEXT_REQUEST', () => {
     expect(editorReducer(undefined, {type: NEW_TEXT_REQUEST}))
@@ -80,3 +80,8 @@ describe('new text', () => {
 });
 
 // type changed code, lock text, and share link
+describe('EditorReducer: local actions', () => {
+  test('it should handle CLOSE_ALERT', () => {
+    expect(editorReducer(undefined, {type: CLOSE_ALERT})).toEqual({...initialState, openAlert: false});
+  })
+});
