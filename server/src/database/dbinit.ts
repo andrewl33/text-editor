@@ -1,5 +1,8 @@
-import query from './config';
+/**
+ * For now, clears the DB whenever a dev refresh happens. Must be changed for prod
+ */
 
+import query from '.';
 
 const TABLES = ['code'];
 const MODELS = [

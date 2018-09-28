@@ -8,6 +8,6 @@ const pool = new Pool({
   database: 'test'
 });
 
-const query = (text: any, params?: any): any => pool.query(text, params);
+const query = (text: string, params?: string[]): Promise<any> => pool.query(text, params);
 
 export default query;
