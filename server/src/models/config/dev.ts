@@ -1,4 +1,3 @@
-// init database
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -8,6 +7,5 @@ const pool = new Pool({
   database: 'test'
 });
 
-const query = (text: string, params?: string[]): Promise<any> => pool.query(text, params);
 
-export default query;
+export default pool;

@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 
-import startDB from './database/dbinit';
-import {generate, open, save} from './controllers/codeController';
+import {startDB} from './models/dbinit';
+import {generate, open, save} from './controllers/code.controller';
 
 dotenv.config();
 
