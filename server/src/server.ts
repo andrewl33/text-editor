@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 
 import {startDB} from './models/dbinit';
 import {generate, open, save} from './controllers/code.controller';
+import { authenticateAccount, createAccount } from './controllers/auth.controller';
 
 dotenv.config();
 
@@ -17,6 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/generate', generate);
 app.post('/open', open);
 app.put('/save', save);
+
+// login authentication
+app.post('/auth/create', createAccount);
+app.post('/auth/login', authenticateAccount);
 
 
 app.listen(app.get('port'), () => {

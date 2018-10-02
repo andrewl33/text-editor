@@ -19,7 +19,8 @@ async function replaceTable(tables: string[], models: string[], callback: any) {
 
 export function startDB() {
   replaceTable(TABLES, MODELS, async (table: string, model: string) => {
-    const template = `DO $do$ BEGIN IF (EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name='${table}'))THEN DROP TABLE ${table} CASCADE; END IF; END; $do$`
+    // const template = `DO $do$ BEGIN IF (EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name='${table}'))THEN DROP TABLE ${table} CASCADE; END IF; END; $do$`
+    const template = `DROP TABLE IF EXISTS ${table}`;
     try {
       await query(template);
       await query(model);
