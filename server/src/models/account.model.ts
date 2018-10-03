@@ -2,18 +2,18 @@ import query from './query';
 
 export const account = 'account';
 export const accountModel = `
-  CREATE  TABLE account (
+  CREATE TABLE account (
     id int AUTO_INCREMENT PRIMARY KEY,
-    accountname VARCHAR(255) not null,
+    account_name VARCHAR(255) not null,
     password VARCHAR(255) not null
-  )
+  ) ENGINE=InnoDB;
 `;
 
 export const accountExists = async (accountName: string): Promise<boolean> => {
   let isValidAccount = false;
 
   try {
-    const dbRes = await query(`SELECT * FROM account WHERE accountname='${accountName}'`);
+    const dbRes = await query(`SELECT * FROM account WHERE account_name='${accountName}'`);
 
     if (dbRes[0].length > 0) {
       isValidAccount = true;
@@ -30,7 +30,7 @@ export const insertNewAccount = async (accountName: string, hashPass: string): P
   let didInsertAccount = false;
 
   try {
-    const dbRes = await query(`INSERT INTO account (accountname,  password) VALUES ('${accountName}', '${hashPass}')`);
+    const dbRes = await query(`INSERT INTO account (account_name,  password) VALUES ('${accountName}', '${hashPass}')`);
     didInsertAccount = true;
   } catch (e) {
     console.log('new account insert error');
@@ -45,7 +45,7 @@ export const getHashFromAccount = async (accountName: string): Promise<{hash: st
   let payload = {hash: '', success: false};
 
   try {
-    const hashedPass = await query(`SELECT password FROM account WHERE accountname='${accountName}'`);
+    const hashedPass = await query(`SELECT password FROM account WHERE account_name='${accountName}'`);
     payload.hash = hashedPass[0][0].password;
     payload.success = true;
   } catch(e) {
@@ -55,3 +55,14 @@ export const getHashFromAccount = async (accountName: string): Promise<{hash: st
 
   return payload;
 }
+
+
+// delete account
+// export const deleteAccount = async(accountName: string): Promise<boolean> => {
+//   let success = false;
+
+//   try {
+//     cost
+//   }
+
+// }

@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 import {NextFunction, Request, Response} from 'express';
-import { uuidExists, createNewCodeRow , getTextFromDB, saveToDB } from '../models/code.model';
+import { uuidExists, createNewCodeRow , getTextFromDB, saveToDB } from '../models/file.model';
 
 
 export const generate = async (request: Request, response: Response, next: NextFunction) => {

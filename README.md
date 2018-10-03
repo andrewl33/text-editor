@@ -28,4 +28,4 @@ Run `npm test` for tests.
 - [ ] Handle notification spam
 - [ ] Notification animation in buttons
 - [ ] Deploy
-- [ ] Remove ORM 
+- [x] Remove ORM 

@@ -4,11 +4,18 @@
 
 import query from './query';
 
-import { code, codeModel } from './code.model';
 import { account, accountModel } from './account.model';
+import { collection, collectionModel } from './collection.model';
+import { collectionAccount, collectionAccountModel } from './collectionAccount.model';
+import { collectionFile, collectionFileModel } from './collectionFile.model';
+import { file, fileModel } from './file.model';
+import { fileAccount, fileAccountModel } from './fileAccount.model';
+import { fileTag, fileTagModel } from './fileTag.model';
+import { tag, tagModel } from './tag.model';
 
-const TABLES = [code, account];
-const MODELS = [codeModel, accountModel];
+
+const TABLES = [account, collection, collectionAccount, file, collectionFile, fileAccount, tag, fileTag];
+const MODELS = [accountModel, collectionModel, collectionAccountModel, fileModel, collectionFileModel, fileAccountModel, tagModel, fileTagModel];
 
 // replaces tables if they exists
 async function replaceTable(tables: string[], models: string[], callback: any) {
@@ -17,9 +24,15 @@ async function replaceTable(tables: string[], models: string[], callback: any) {
   }
 }
 
-export function startDB() {
-  replaceTable(TABLES, MODELS, async (table: string, model: string) => {
-    // const template = `DO $do$ BEGIN IF (EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name='${table}'))THEN DROP TABLE ${table} CASCADE; END IF; END; $do$`
+export async function startDB() {
+
+  try {
+    await query('SET FOREIGN_KEY_CHECKS=0')
+  } catch(e) {
+    console.log('Could not disable foreign keys');
+  }
+
+  await replaceTable(TABLES, MODELS, async (table: string, model: string) => {
     const template = `DROP TABLE IF EXISTS ${table}`;
     try {
       await query(template);
@@ -27,5 +40,12 @@ export function startDB() {
     } catch(e) {
       console.error(e);
     }
-  })
+  });
+
+  try {
+    await query('SET FOREIGN_KEY_CHECKS=1')
+  } catch(e) {
+    console.log('Could not re-enable foreign keys');
+  }
+
 }

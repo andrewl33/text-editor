@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 
 import {startDB} from './models/dbinit';
-import {generate, open, save} from './controllers/code.controller';
+import {generate, open, save} from './controllers/file.controller';
 import { authenticateAccount, createAccount } from './controllers/auth.controller';
 
 dotenv.config();
