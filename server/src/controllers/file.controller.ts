@@ -52,3 +52,10 @@ export const save = async (request: Request, response: Response, next: NextFunct
 
   return response.send({isSaved: isSavedToDB});
 }
+
+// TODO: make private, add a password
+// TODO: unlock with a password
+// TODO: add a name to your file
+// TODO: remove a tag from your file
+// TODO: add a tag to your file
+// TODO: remove a tag from your file

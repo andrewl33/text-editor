@@ -7,7 +7,7 @@ export const fileModel = `
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   url VARCHAR(30) NOT NULL,
   updated_date DATE NOT NULL,
-  is_locked BOOL NOT NULL,
+  is_private BOOL NOT NULL,
   is_editable BOOL NOT NULL,
   code_text TEXT,
   name VARCHAR(255),
@@ -38,7 +38,7 @@ export const createNewCodeRow = async (uuid: string): Promise<boolean> => {
   let success: boolean = true;
 
   try {
-    await query(`INSERT INTO file (url, updated_date, is_locked, is_editable, code_text) VALUES ('${uuid}', now(), FALSE, FALSE, ' ')`);
+    await query(`INSERT INTO file (url, updated_date, is_private, is_editable, code_text) VALUES ('${uuid}', now(), FALSE, FALSE, ' ')`);
   } catch(err) {
     console.log("creatNewCodeRow Error:");
     console.log(err);
@@ -75,4 +75,98 @@ export const saveToDB =  async (url: string, codeText: string): Promise<boolean>
   return true;
 }
 
+// make private
+const makePrivate = async (uuid: string): Promise<boolean> => {
+
+  let success = false;
+
+  try {
+    const res = await query(`UPDATE file SET is_private=TRUE WHERE url='${uuid}'`);
+    
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+
+  } catch(e) {
+    console.log('file make private error');
+    console.log(e);
+  }
+
+  return success;
+
+}
+
+// change name
+const updateName = async (uuid: string, name: string): Promise<boolean> => {
+  
+  let success = false;
+
+  try {
+    const res = await query(`UPDATE file SET name='${name}' WHERE url='${uuid}'`);
+    
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+
+  } catch(e) {
+    console.log('file update name error');
+    console.log(e);
+  }
+
+  return success;
+
+}
+
+// update password 
+const updatePassword = async (uuid: string, password: string): Promise<boolean> => {
+  
+  let success = false;
+
+  try {
+    const res = await query(`UPDATE file SET password='${password}' WHERE url='${uuid}'`);
+    
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+
+  } catch(e) {
+    console.log('file update password error');
+    console.log(e);
+  }
+
+  return success;
+
+}
+
+// get password
+export const getPasswordCollection = async (uuid: string): Promise<{success: boolean, password: string}> => {
+  
+  let passObj = {success: false, password: ''};
+
+  try {
+    const res = await query(`SELECT password FROM file WHERE url='${uuid}'`);
+    passObj.success= true;
+    passObj.password = res[0][0].password;
+  } catch(e) {
+    console.log(e);
+  }
+
+  return passObj;
+}
+
 // delete file
+export const deleteFile = async (uuid: string): Promise<boolean> => {
+  let success = false;
+
+  try {
+    const res = await query(`DELETE FROM file WHERE url='${uuid}'`);
+
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+  } catch(e) {
+    console.log(e);
+  }
+
+  return success;
+}

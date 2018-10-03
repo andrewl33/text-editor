@@ -2,9 +2,10 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 
-import {startDB} from './models/dbinit';
-import {generate, open, save} from './controllers/file.controller';
-import { authenticateAccount, createAccount } from './controllers/auth.controller';
+import { startDB } from './models/dbinit';
+
+import account from './routes/account.route';
+import file from './routes/file.route';
 
 dotenv.config();
 
@@ -14,14 +15,10 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//app.get('/', homeController.index);
-app.get('/generate', generate);
-app.post('/open', open);
-app.put('/save', save);
+// routes
+app.use('/api/account', account);
+app.use('/api/file', file);
 
-// login authentication
-app.post('/auth/create', createAccount);
-app.post('/auth/login', authenticateAccount);
 
 
 app.listen(app.get('port'), () => {

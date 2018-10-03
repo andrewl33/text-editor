@@ -19,7 +19,7 @@ export const accountExists = async (accountName: string): Promise<boolean> => {
       isValidAccount = true;
     }
   } catch(e) {
-    console.log('account findone error:');
+    console.log('account exists error:');
     console.log(e);
   }
 
@@ -58,11 +58,19 @@ export const getHashFromAccount = async (accountName: string): Promise<{hash: st
 
 
 // delete account
-// export const deleteAccount = async(accountName: string): Promise<boolean> => {
-//   let success = false;
+export const deleteAccountDB = async(accountName: string): Promise<boolean> => {
+  let success = false;
 
-//   try {
-//     cost
-//   }
+  try {
+    const deletedAccount = await query(`DELETE FROM account WHERE account_name='${accountName}'`);
 
-// }
+    if (deletedAccount.affectedRows > 0) {
+      success = true;
+    }
+  } catch(e) {
+    console.log(e);
+  }
+
+
+  return success;
+}
