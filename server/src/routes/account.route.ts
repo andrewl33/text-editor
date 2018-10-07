@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { authenticateAccount, createAccount } from '../controllers/account.controller';
 
-
 const router = Router();
 
 // login authentication

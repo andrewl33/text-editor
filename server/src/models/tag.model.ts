@@ -9,6 +9,16 @@ export const tagModel = `
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 
+export const initialTagInsert = async () => {
+  
+  const data = ["JavaScript", "Plain text", "Hacks"];
+
+  for (let i = 0; i < data.length; i++) {
+    await createNewTag(data[i]);
+  }
+
+}
+
 // insert tag
 const createNewTag = async (name: string): Promise<boolean> => {
   

@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
 import {NextFunction, Request, Response} from 'express';
-import { uuidExists, createNewCodeRow , getTextFromDB, saveToDB } from '../models/file.model';
+import { uuidExists, createNewCodeRow, makePrivate, updatePassword, getTextFromDB, saveToDB, isPrivate as selectIsPrivate, getPassword } from '../models/codeFile.model';
+import { updateToken, decodeToken } from './token';
 
 
 export const generate = async (request: Request, response: Response, next: NextFunction) => {
@@ -53,8 +54,48 @@ export const save = async (request: Request, response: Response, next: NextFunct
   return response.send({isSaved: isSavedToDB});
 }
 
-// TODO: make private, add a password
-// TODO: unlock with a password
+
+export const passwordProtect = async (req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+  const { password } = req.body;
+
+  try {
+    await makePrivate(uuid);
+    await updatePassword(uuid, password);
+    const token = await updateToken(await decodeToken(req.headers.authorization), '', [uuid], []);
+    res.set({'Authorization': 'Bearer' + token});
+    return res.send({success: true});
+  } catch(e) {
+    console.log(e);
+    return res.send({success: false});
+  }
+}
+
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+
+  try {
+    if (await getPassword(uuid) === req.body.password) {
+      await updateToken(await decodeToken(req.headers.authorization), '', [uuid], []);
+    }
+  } catch(e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export const isPrivate = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const resDB = await selectIsPrivate(req.body.url);
+    return resDB;
+  } catch(e) {
+    console.log(e);
+  }
+
+}
 // TODO: add a name to your file
 // TODO: remove a tag from your file
 // TODO: add a tag to your file

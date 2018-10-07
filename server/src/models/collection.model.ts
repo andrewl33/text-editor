@@ -14,6 +14,25 @@ export const collectionModel = `
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 
+
+export const initialCollectionInsert = async () => {
+  
+  const data = [
+    "1", "2", "3", "4", "5", "6", "7"
+  ];
+
+  for (let i = 0; i < data.length; i++) {
+    await insertNewCollection(data[i]);
+  }
+
+  await updateToPrivate("4");
+  await updateToPrivate("6");
+  await updatePassword("4", "password1");
+  await updatePassword("6", "password2");
+
+  await updateName("7", "name of collection");
+}
+
 // check that url is free
 export const urlExists = async (uuid: string): Promise<boolean> => {
   
@@ -142,4 +161,16 @@ export const deleteCollection = async (uuid: string): Promise<boolean> => {
   }
 
   return success;
+}
+
+// check if collection is password protected
+export const isPrivate = async(uuid: string): Promise<boolean> => {
+
+  try {
+    const res = await query(`SELECT is_private FROM collection WHERE url='${uuid}'`);
+    return res[0][0].is_private === 1 ? true : false;
+  } catch(e) {
+    console.log(e);
+  }
+
 }

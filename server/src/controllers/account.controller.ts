@@ -1,29 +1,7 @@
 import {NextFunction, Request, Response} from 'express';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import { jwtSecret } from '../config';
 import { accountExists, deleteAccountDB, insertNewAccount, getHashFromAccount, account } from '../models/account.model';
-
-async function tokenForUser(user: string) {
-  return new Promise((res, rej) => {
-    jwt.sign({sub: user}, jwtSecret, (err: any, token: string) => {
-      if (err) rej(err);
-      else res(token);
-    });
-  });
-}
-
-async function validateUser(token: string) {
-  try {
-    const decoded = jwt.verify(token, jwtSecret) as {sub: string};
-    return await accountExists(decoded.sub);
-  } catch(e) {
-    console.log("validate user error:");
-    console.log(e);
-    return false;
-  }
-}
-
+import { createToken } from './token';
 export const createAccount = async (req: Request, res: Response, next: NextFunction) => {
   const { accountName, password } =  req.body;
 
@@ -59,7 +37,7 @@ export const createAccount = async (req: Request, res: Response, next: NextFunct
   }
 
   try {
-    return await res.send({success: await insertNewAccount(accountName, hashedPass), token: await tokenForUser(accountName)});
+    return await res.send({success: await insertNewAccount(accountName, hashedPass), token: await createToken(accountName, [], [])});
   } catch(e) {
     return  res.send({success: false});
   }
@@ -92,7 +70,7 @@ export const authenticateAccount = async (req: Request, res: Response, next: Nex
 
   await bcrypt.compare(password, hashObj.hash, async (err, isSame) => {
     if (err) {console.log(err)};
-    res.send({success: isSame, token: await tokenForUser(accountName)});
+    res.send({success: isSame, token: await createToken(accountName, [], [])});
   });
 }
 

@@ -9,6 +9,21 @@ export const accountModel = `
   ) ENGINE=InnoDB;
 `;
 
+export const initialAccountInsert = async () => {
+
+  const accountData= [
+    ["account1", "pass1"],
+    ["account2", "pass2"],
+    ["account3", "pass3"],
+    ["account4", "pass4"],
+    ["account5", "pass5"]
+  ];
+
+  for (let i = 0; i < accountData.length; i++) {
+    await insertNewAccount(accountData[i][0], accountData[i][1]);
+  }
+}
+
 export const accountExists = async (accountName: string): Promise<boolean> => {
   let isValidAccount = false;
 
