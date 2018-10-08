@@ -23,9 +23,9 @@ export const intialFileInsert = async () => {
 
 
   // set text
-  await saveToDB("1", "text1");
-  await saveToDB("5", "text2");
-  await saveToDB("7", "text8");
+ for (let i = 0; i < 10; i++) {
+   await saveToDB(String(i+1), 'text items ' + String(i+1));
+ }
   
   // set private
   makePrivate("1");
@@ -85,7 +85,7 @@ export const getTextFromDB = async (url: string): Promise<{success: boolean, cod
     return {success: false, codeText: ''};
   }
 
-  return {success:true, codeText: code[0][0].codeText};
+  return {success:true, codeText: code[0][0].code_text};
 }
 
 export const saveToDB =  async (url: string, codeText: string): Promise<boolean> => {
@@ -185,8 +185,7 @@ export const deleteFile = async (uuid: string): Promise<boolean> => {
 
   try {
     const res = await query(`DELETE FROM code_file WHERE url='${uuid}'`);
-
-    if (res.affectedRows > 0) {
+    if (res[0].affectedRows > 0) {
       success = true;
     }
   } catch(e) {

@@ -6,8 +6,8 @@ export async function updateToken(oldToken: IToken, user: string, collections: s
   if (oldToken === null) {
     return  await createToken(user, collections, files);
   } else {
-    let c = [...oldToken.collections, ...collections];
-    let f = [...oldToken.files, ...files];
+    let c = [...new Set((oldToken.collections).concat(collections))];
+    let f = [...new Set((oldToken.files).concat(files))];
   
     return  await createToken(oldToken.user, c, f);
   }
@@ -24,12 +24,19 @@ export async function createToken(user: string, collections: string[], files: st
 }
 
 export async function decodeToken(token: string) {
-  
+
+  if (token === '' || token === undefined || token === null) {
+    return null;
+  }
+
+
   try {
-    const decoded = await jwt.verify(token, jwtSecret) as IToken;
+    const decoded = await jwt.verify(token.replace('Bearer ', ''), jwtSecret) as IToken;
     return decoded;
   } catch(e) {
     console.log("auth verify error:");
     console.log(e);
+
+    return null;
   }
 }

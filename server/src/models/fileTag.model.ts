@@ -6,7 +6,7 @@ export const fileTagModel = `
   CREATE TABLE file_tag (
   file_id int NOT NULL,
   CONSTRAINT \`fk_file_ft\` 
-    FOREIGN KEY (file_id) REFERENCES file (id)
+    FOREIGN KEY (file_id) REFERENCES code_file (id)
     ON DELETE CASCADE,
   tag_id int NOT NULL, 
   CONSTRAINT \`fk_tag_ft\` 

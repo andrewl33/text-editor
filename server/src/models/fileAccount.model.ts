@@ -6,7 +6,7 @@ export const fileAccountModel = `
   CREATE TABLE file_account (
   file_id int NOT NULL,
   CONSTRAINT \`fk_file_fa\` 
-    FOREIGN KEY (file_id) REFERENCES file (id)
+    FOREIGN KEY (file_id) REFERENCES code_file (id)
     ON DELETE CASCADE,
   account_id int NOT NULL,
   CONSTRAINT \`fk_account_fa\`

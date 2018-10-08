@@ -10,7 +10,7 @@ export const collectionFileModel = `
     ON DELETE CASCADE,
   file_id int NOT NULL,
   CONSTRAINT \`fk_file_cf\` 
-    FOREIGN KEY (file_id) REFERENCES file (id)
+    FOREIGN KEY (file_id) REFERENCES code_file (id)
     ON DELETE CASCADE
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");

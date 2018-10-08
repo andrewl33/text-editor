@@ -8,8 +8,10 @@ import { IToken } from  '../types';
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   
-  const { pageType, url } = req.body;
+  const { pageType } = req.body;
+  const url = req.body.url.replace(/\//g, '');
   const token = req.headers.authorization;
+
   try {
 
     if (!await contentIsPrivate(pageType, url)) {
@@ -23,7 +25,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     if (token !== '' && token !== undefined) {
 
       const decoded: IToken = await decodeToken(token);
-      
+      console.log(decoded);
       if (decoded.user !== '' && await !accountExists(decoded.user)) {
         res.set({'Authorization': ''});
         return res.send({message :"logged out"});
@@ -44,7 +46,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
 function urlIsInToken(token: IToken, authType: string, uuid: string) {
   switch(authType) {
-    case 'codeText':
+    case 'file':
       return token.files.indexOf(uuid) > -1;
     case 'collection':
       return token.collections.indexOf(uuid) > -1;
@@ -57,7 +59,7 @@ function urlIsInToken(token: IToken, authType: string, uuid: string) {
 
 async function urlDoesNotExist(pageType: string, uuid: string) {
   switch(pageType) {
-    case 'codeText':
+    case 'file':
       return !await uuidExists(uuid);
     case 'collection':
       return !await urlExists(uuid);
@@ -74,5 +76,7 @@ async function contentIsPrivate(authType: string, uuid: string): Promise<boolean
       return await codeFileIsPrivate(uuid);
     case 'collection':
       return await collectionIsPrivate(uuid);
+    default:
+      return true;
   }
 }
