@@ -9,8 +9,45 @@ export const tagModel = `
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 
-// insert tag
+export const initialTagInsert = async () => {
+  
+  const data = ["JavaScript", "Plain text", "Hacks"];
 
-// delete tag
+  for (let i = 0; i < data.length; i++) {
+    await createNewTag(data[i]);
+  }
+
+}
+
+// insert tag
+const createNewTag = async (name: string): Promise<boolean> => {
+  
+  let success = true;
+
+  try {
+    await query(`INSERT INTO tag (name) VALUES ('${name}')`);
+
+  } catch(e) {
+    console.log('create new tag err');
+    console.log(e);
+    success = false;
+  }
+
+  return success;
+}
 
 // see all tags
+const allTags = async (): Promise<{success: boolean, tagArray: string[]}> => {
+  
+  let tagObj = {success: true, tagArray: [] as string[]};
+
+  try {
+    const res = await query (`SELECT * FROM tag`);
+    console.log(res);
+  } catch(e) {
+
+    console.log(e);
+  }
+
+  return tagObj;
+}

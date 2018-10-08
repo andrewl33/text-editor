@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
 import {NextFunction, Request, Response} from 'express';
-import { uuidExists, createNewCodeRow , getTextFromDB, saveToDB } from '../models/file.model';
+import { uuidExists, createNewCodeRow, makePrivate, updatePassword, getTextFromDB, saveToDB, isPrivate as selectIsPrivate, getPassword, deleteFile } from '../models/codeFile.model';
+import { createToken, updateToken, decodeToken } from './token';
 
 
 export const generate = async (request: Request, response: Response, next: NextFunction) => {
@@ -40,7 +41,6 @@ export const open = async (request: Request, response: Response, next: NextFunct
   url = url.replace(/\//g, '');
 
   const code = await getTextFromDB(url);
-
   return response.send(code);
 }
 
@@ -52,3 +52,77 @@ export const save = async (request: Request, response: Response, next: NextFunct
 
   return response.send({isSaved: isSavedToDB});
 }
+
+
+export const passwordProtect = async (req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+  const { password } = req.body;
+
+  try {
+    await makePrivate(uuid);
+    await updatePassword(uuid, password);
+    const token = await updateToken(await decodeToken(req.headers.authorization), '', [], [uuid]);
+    res.set({'Authorization': 'Bearer ' + token});
+    return res.send({success: true});
+  } catch(e) {
+    console.log(e);
+    return res.send({success: false});
+  }
+}
+
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+
+  try {
+    if (await getPassword(uuid) === req.body.password) {
+      const newToken = await updateToken(await decodeToken(req.headers.authorization), '', [], [uuid]);
+      res.set({'Authorization': 'Bearer ' + newToken})
+    }
+  } catch(e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export const isPrivate = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const resDB = await selectIsPrivate(req.body.url);
+    return resDB;
+  } catch(e) {
+    console.log(e);
+  }
+
+}
+
+export const removeFile = async (req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+  
+  try {
+
+    const resDB = await deleteFile(uuid); 
+
+    if (req.headers.authorization) {
+      const decoded = await decodeToken(req.headers.authorization);
+
+      if (decoded.files.indexOf(uuid) > -1) {
+        const { user, files, collections } = decoded;
+        delete files[decoded.files.indexOf(uuid)];
+        const token = await createToken(user, collections, files);
+        res.set({'Authorization': 'Bearer' + token});
+      }
+    }
+    
+    return await res.send({success: resDB});
+  } catch(e) {
+    console.log("Remove file error:");
+    console.log(e);
+  }
+}
+// TODO: add a name to your file
+// TODO: remove a tag from your file
+// TODO: add a tag to your file
+// TODO: remove a tag from your file

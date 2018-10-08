@@ -14,12 +14,163 @@ export const collectionModel = `
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 
+
+export const initialCollectionInsert = async () => {
+  
+  const data = [
+    "1", "2", "3", "4", "5", "6", "7"
+  ];
+
+  for (let i = 0; i < data.length; i++) {
+    await insertNewCollection(data[i]);
+  }
+
+  await updateToPrivate("4");
+  await updateToPrivate("6");
+  await updatePassword("4", "password1");
+  await updatePassword("6", "password2");
+
+  await updateName("7", "name of collection");
+}
+
+// check that url is free
+export const urlExists = async (uuid: string): Promise<boolean> => {
+  
+  let isNotUniqueUuid: boolean = true;
+
+  try {
+    const dbRes = await query(`SELECT * FROM collection WHERE url='${uuid}'`);
+    if (dbRes[0].length ===  0) {
+      isNotUniqueUuid = false;
+    }
+  } catch(e) {
+    console.log("uuidExists Error:");
+    console.log(e);
+    isNotUniqueUuid = false;
+  }
+
+  return isNotUniqueUuid;
+}
+
 // insert new collection
+const insertNewCollection = async (uuid: string): Promise<boolean> => {
+  
+  let success: boolean = true;
 
+  try {
+    await query(`INSERT INTO collection (url, updated_date, default_ordering, is_private) VALUES ('${uuid}', now(), 'date', FALSE)`);
+  } catch(err) {
+    console.log("createNewCollection Error:");
+    console.log(err);
+    success = false;
+  }
+
+  return success;
+}
 // update to private
+const updateToPrivate = async (uuid: string): Promise<boolean> => {
 
+  let success = false;
+
+  try {
+    const res = await query(`UPDATE collection SET is_private=TRUE WHERE url='${uuid}'`);
+    
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+
+  } catch(e) {
+    console.log('Collection make private error');
+    console.log(e);
+  }
+
+  return success;
+
+}
 // update name
 
+const updateName = async (uuid: string, name: string): Promise<boolean> => {
+  
+  let success = false;
+
+  try {
+    const res = await query(`UPDATE collection SET name='${name}' WHERE url='${uuid}'`);
+    
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+
+  } catch(e) {
+    console.log('Collection update name error');
+    console.log(e);
+  }
+
+  return success;
+
+}
+
 // update password
+const updatePassword = async (uuid: string, password: string): Promise<boolean> => {
+  
+  let success = false;
+
+  try {
+    const res = await query(`UPDATE collection SET password='${password}' WHERE url='${uuid}'`);
+    
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+
+  } catch(e) {
+    console.log('Collection update password error');
+    console.log(e);
+  }
+
+  return success;
+
+}
+
+// get password
+export const getPasswordCollection = async (uuid: string): Promise<{success: boolean, password: string}> => {
+  
+  let passObj = {success: false, password: ''};
+
+  try {
+    const res = await query(`SELECT password FROM collection WHERE url='${uuid}'`);
+    passObj.success= true;
+    passObj.password = res[0][0].password;
+  } catch(e) {
+    console.log(e);
+  }
+
+  return passObj;
+}
 
 // delete collection
+export const deleteCollection = async (uuid: string): Promise<boolean> => {
+  let success = false;
+
+  try {
+    const res = await query(`DELETE FROM collection WHERE url='${uuid}'`);
+
+    if (res.affectedRows > 0) {
+      success = true;
+    }
+  } catch(e) {
+    console.log(e);
+  }
+
+  return success;
+}
+
+// check if collection is password protected
+export const isPrivate = async(uuid: string): Promise<boolean> => {
+
+  try {
+    const res = await query(`SELECT is_private FROM collection WHERE url='${uuid}'`);
+    return res[0][0].is_private === 1 ? true : false;
+  } catch(e) {
+    console.log(e);
+  }
+
+}

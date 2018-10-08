@@ -4,18 +4,18 @@
 
 import query from './query';
 
-import { account, accountModel } from './account.model';
-import { collection, collectionModel } from './collection.model';
-import { collectionAccount, collectionAccountModel } from './collectionAccount.model';
-import { collectionFile, collectionFileModel } from './collectionFile.model';
-import { file, fileModel } from './file.model';
-import { fileAccount, fileAccountModel } from './fileAccount.model';
-import { fileTag, fileTagModel } from './fileTag.model';
-import { tag, tagModel } from './tag.model';
+import { account, accountModel, initialAccountInsert } from './account.model';
+import { collection, collectionModel, initialCollectionInsert } from './collection.model';
+import { collectionAccount, collectionAccountModel, collectionAccountInsert } from './collectionAccount.model';
+import { collectionFile, collectionFileModel, collectionFileInsert } from './collectionFile.model';
+import { codeFile, codeFileModel, intialFileInsert } from './codeFile.model';
+import { fileAccount, fileAccountModel, fileAccountInsert } from './fileAccount.model';
+import { fileTag, fileTagModel, fileTagInsert } from './fileTag.model';
+import { tag, tagModel, initialTagInsert } from './tag.model';
 
 
-const TABLES = [account, collection, collectionAccount, file, collectionFile, fileAccount, tag, fileTag];
-const MODELS = [accountModel, collectionModel, collectionAccountModel, fileModel, collectionFileModel, fileAccountModel, tagModel, fileTagModel];
+const TABLES = [account, collection, collectionAccount, codeFile, collectionFile, fileAccount, tag, fileTag];
+const MODELS = [accountModel, collectionModel, collectionAccountModel, codeFileModel, collectionFileModel, fileAccountModel, tagModel, fileTagModel];
 
 // replaces tables if they exists
 async function replaceTable(tables: string[], models: string[], callback: any) {
@@ -46,6 +46,21 @@ export async function startDB() {
     await query('SET FOREIGN_KEY_CHECKS=1')
   } catch(e) {
     console.log('Could not re-enable foreign keys');
+  }
+
+  // insert init data
+  try {
+    await initialAccountInsert();
+    await initialCollectionInsert();
+    await intialFileInsert();
+    await initialTagInsert();
+    await collectionAccountInsert();
+    await collectionFileInsert();
+    await fileAccountInsert();
+    await fileTagInsert();
+  } catch (e) {
+    console.log("StartDB Insert Error");
+    console.log(e);
   }
 
 }

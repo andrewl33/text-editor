@@ -9,6 +9,21 @@ export const accountModel = `
   ) ENGINE=InnoDB;
 `;
 
+export const initialAccountInsert = async () => {
+
+  const accountData= [
+    ["account1", "pass1"],
+    ["account2", "pass2"],
+    ["account3", "pass3"],
+    ["account4", "pass4"],
+    ["account5", "pass5"]
+  ];
+
+  for (let i = 0; i < accountData.length; i++) {
+    await insertNewAccount(accountData[i][0], accountData[i][1]);
+  }
+}
+
 export const accountExists = async (accountName: string): Promise<boolean> => {
   let isValidAccount = false;
 
@@ -19,7 +34,7 @@ export const accountExists = async (accountName: string): Promise<boolean> => {
       isValidAccount = true;
     }
   } catch(e) {
-    console.log('account findone error:');
+    console.log('account exists error:');
     console.log(e);
   }
 
@@ -58,11 +73,19 @@ export const getHashFromAccount = async (accountName: string): Promise<{hash: st
 
 
 // delete account
-// export const deleteAccount = async(accountName: string): Promise<boolean> => {
-//   let success = false;
+export const deleteAccountDB = async(accountName: string): Promise<boolean> => {
+  let success = false;
 
-//   try {
-//     cost
-//   }
+  try {
+    const deletedAccount = await query(`DELETE FROM account WHERE account_name='${accountName}'`);
 
-// }
+    if (deletedAccount.affectedRows > 0) {
+      success = true;
+    }
+  } catch(e) {
+    console.log(e);
+  }
+
+
+  return success;
+}
