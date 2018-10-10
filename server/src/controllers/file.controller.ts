@@ -65,7 +65,7 @@ export const passwordProtect = async (req: Request, res: Response, next: NextFun
     await updatePassword(uuid, password);
     const token = await updateToken(await decodeToken(req.headers.authorization), '', [], [uuid]);
     res.set({'Authorization': 'Bearer ' + token});
-    return res.send({success: true});
+    return await res.send({success: true});
   } catch(e) {
     console.log(e);
     return res.send({success: false});

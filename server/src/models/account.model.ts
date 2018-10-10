@@ -89,5 +89,3 @@ export const deleteAccountDB = async(accountName: string): Promise<boolean> => {
 
   return success;
 }
-
-//TODO: log out

@@ -30,10 +30,49 @@ export const fileAccountInsert = async () => {
   }
 }
 
-// find all files associated with an account
+export const findAllFilesForAnAccount = async (accountName: string): Promise<string[]> => {
+    
+  try {
+    const resDB = query(`SELECT code_file.url FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`);
+    const files: string[] = [];
 
-// find all accounts associated with a file
+    if (resDB[0].length > 0) {
+      resDB[0].forEach(({url}: {url: string}) => {
+        files.push(url);
+      });
+    }
 
-// add an account to a shared file
+    return files;
+  } catch(e) {
+    console.log(e);
+    return [];
+  }
+} 
 
-// remove an account from a shared file
+export const addFileToAccount = async(accountName: string, fileUuid: string) => {
+
+  try {
+    const res = await query(`INSERT INTO file_account (account_id, file_id) VALUES ((SELECT id FROM account WHERE account_name='${accountName}'), (SELECT id FROM code_file WHERE url='${fileUuid}'))`);
+    return res[0].affectedRows > 0;
+  } catch(e) {
+    console.log('addFileToAccount');
+    console.log(e);
+    return false;
+  }
+
+}
+
+export const removeFileFromAccount = async(accountName: string, fileUuid: string) => {
+
+  try {
+    const res = await query(`DELETE FROM file_account WHERE account_id=(SELECT id FROM account WHERE account_name='${accountName}') AND file_id=(SELECT id FROM code_file WHERE url='${fileUuid}')`);
+    return res[0].affectedRows > 0;
+  } catch(e) {
+    console.log('addFileToAccount');
+    console.log(e);
+    return false;
+  }
+
+}
+
+// TODO: find all accounts associated with a file

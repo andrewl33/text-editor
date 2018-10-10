@@ -51,7 +51,7 @@ function urlIsInToken(token: IToken, authType: string, uuid: string) {
     case 'collection':
       return token.collections.indexOf(uuid) > -1;
     case 'login':
-      return true;
+      return false;
     default: 
       return false;
   }
@@ -70,7 +70,7 @@ async function urlDoesNotExist(pageType: string, uuid: string) {
 
 async function contentIsPrivate(authType: string, uuid: string): Promise<boolean> {
   switch (authType) {
-    case 'userDashboard':
+    case 'user':
       return true;
     case 'file':
       return await codeFileIsPrivate(uuid);

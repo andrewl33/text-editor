@@ -4,6 +4,9 @@ import * as bodyParser from 'body-parser';
 
 import { startDB } from './models/dbinit';
 
+import setToken from './middleware/token.middleware';
+
+import authRouter from './routes/auth.route';
 import accountRouter from './routes/account.route';
 import fileRouter from './routes/file.route';
 import collectionRouter from './routes/collection.route';
@@ -17,7 +20,10 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(setToken);
+
 // routes
+app.use('/api/auth', authRouter);
 app.use('/api/account', accountRouter);
 app.use('/api/file', fileRouter);
 app.use('/api/collection', collectionRouter);

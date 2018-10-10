@@ -4,13 +4,13 @@ CodeShare clone, saves text and shares it with anyone who has the custom url.
 
 ## Dev/Watch
 
-PostgreSQL, will need to be installed.
+MariaDB will need to be installed.
 
 To watch:
 
 In `text-edit-app`, run `npm start` 
 
-In `server`, run `nodemon` 
+In `server`, run `npm run dev` 
 
 ## Testing
  To run jest, `react-sane-contenteditable` needs to be modified in the `.babelrc` file from `"modules": false` to `"modules": "commonjs"`. [Issue](https://github.com/ashleyw/react-sane-contenteditable/pull/32).
