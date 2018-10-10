@@ -122,7 +122,7 @@ export const makePrivate = async (uuid: string): Promise<boolean> => {
 }
 
 // change name
-const updateName = async (uuid: string, name: string): Promise<boolean> => {
+export const updateName = async (uuid: string, name: string): Promise<boolean> => {
   
   let success = false;
 

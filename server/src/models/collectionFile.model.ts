@@ -29,7 +29,50 @@ export const collectionFileInsert = async () => {
 }
 
 // get all files from a collection
+export const getFilesFromCollection = async(uuid: string): Promise<{success: boolean, files?: string[]}> => {
+  try {
+    const res = await query(`SELECT code_file.url FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id WHERE collection_file.collection_id = ${uuid}`);
+    let files: string[] = [];
+
+    if (res[0].length > 0) {
+      res[0].forEach((file: {url: string}) => {
+        files.push(file.url);
+      })
+    }
+    
+    return {success: true, files};
+
+  } catch(e) {
+    console.log("getFilesFromCollection");
+    console.log(e);
+    return {success: false};
+  }
+}
 
 // add a file to a collection
+export const addFileToCollection = async (colUuid: string, fileUuid: string) => {
 
-// remove a file from a collection
+  try {
+    const res = await query(`INSERT INTO collection_file (collection_id, file_id) VALUES ((SELECT collection.id from collection WHERE collection.url = ${colUuid}), (SELECT code_file.id FROM code_file WHERE code_file.url = ${fileUuid}))`);
+    return {success: res[0].affectedRows > 0};
+  } catch(e) {
+    console.log("addFileToCollection");
+    console.log(e);
+    return {success: false};
+  }
+
+}
+
+
+export const removeFileFromCollection = async (colUuid: string, fileUuid: string) => {
+
+  try {
+    const res = await query(`DELETE FROM collection_file WHERE collection_id=(SELECT collection.id from collection where url=${colUuid}) AND file_id = (SELECT id from code_file where url=${fileUuid});`);
+    return {success: res[0].affectedRows > 0};
+  } catch(e) {
+    console.log("removeFileFromCollection");
+    console.log(e);
+    return {success: false};
+  }
+
+}

@@ -53,7 +53,7 @@ export const urlExists = async (uuid: string): Promise<boolean> => {
 }
 
 // insert new collection
-const insertNewCollection = async (uuid: string): Promise<boolean> => {
+export const insertNewCollection = async (uuid: string): Promise<boolean> => {
   
   let success: boolean = true;
 
@@ -67,8 +67,9 @@ const insertNewCollection = async (uuid: string): Promise<boolean> => {
 
   return success;
 }
+
 // update to private
-const updateToPrivate = async (uuid: string): Promise<boolean> => {
+export const updateToPrivate = async (uuid: string): Promise<boolean> => {
 
   let success = false;
 
@@ -110,7 +111,7 @@ const updateName = async (uuid: string, name: string): Promise<boolean> => {
 }
 
 // update password
-const updatePassword = async (uuid: string, password: string): Promise<boolean> => {
+export const updatePassword = async (uuid: string, password: string): Promise<boolean> => {
   
   let success = false;
 

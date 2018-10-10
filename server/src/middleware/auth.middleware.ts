@@ -22,16 +22,16 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       return next();
     }
 
-    if (token !== '' && token !== undefined) {
+    if (token !== '' && token !== undefined && token !== null) {
 
       const decoded: IToken = await decodeToken(token);
-      console.log(decoded);
-      if (decoded.user !== '' && await !accountExists(decoded.user)) {
+
+      if (decoded && decoded.user !== '' && await !accountExists(decoded.user)) {
         res.set({'Authorization': ''});
         return res.send({message :"logged out"});
       }
 
-      if (await urlIsInToken(decoded, pageType, url)) {
+      if (decoded && await urlIsInToken(decoded, pageType, url)) {
         return next();
       } 
     } 

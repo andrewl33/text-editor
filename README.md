@@ -20,12 +20,9 @@ Make sure to run `yarn install` and `yarn build ` to modify exported library.
 Run `npm test` for tests.
 
 ## Todo
-- [X] Testing
-- [X] Copy to clipboard
 - [ ] Modify/find/do something with PrismJS
-- [ ] Authentication
-- [X] Notification pop-ups
 - [ ] Handle notification spam
 - [ ] Notification animation in buttons
 - [ ] Deploy
-- [x] Remove ORM 
+- [ ] Test API
+- [ ] Change api verbs

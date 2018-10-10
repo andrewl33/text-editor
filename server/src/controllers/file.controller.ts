@@ -1,7 +1,8 @@
 import * as crypto from 'crypto';
 import {NextFunction, Request, Response} from 'express';
-import { uuidExists, createNewCodeRow, makePrivate, updatePassword, getTextFromDB, saveToDB, isPrivate as selectIsPrivate, getPassword, deleteFile } from '../models/codeFile.model';
+import { updateName, uuidExists, createNewCodeRow, makePrivate, updatePassword, getTextFromDB, saveToDB, isPrivate as selectIsPrivate, getPassword, deleteFile } from '../models/codeFile.model';
 import { createToken, updateToken, decodeToken } from './token';
+import { addTagToFile, removeTagFromFile } from '../models/fileTag.model';
 
 
 export const generate = async (request: Request, response: Response, next: NextFunction) => {
@@ -122,7 +123,48 @@ export const removeFile = async (req: Request, res: Response, next: NextFunction
     console.log(e);
   }
 }
-// TODO: add a name to your file
-// TODO: remove a tag from your file
-// TODO: add a tag to your file
-// TODO: remove a tag from your file
+
+export const changeName = async(req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+  const { name } = req.body;
+
+  try {
+    const resDB = await updateName(uuid, name);
+    res.send({success: resDB});
+  } catch(e) {
+    console.log("Change name");
+    console.log(e);
+    res.send({success: false});
+  }
+}
+
+export const addTag = async(req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+  const { tagName } = req.body;
+
+  try {
+    const resDB = await addTagToFile(uuid, tagName);
+    res.send({success: resDB});
+  } catch(e) {
+    console.log("addTag");
+    console.log(e);
+    res.send({success: false});
+  }
+}
+
+export const removeTag = async(req: Request, res: Response, next: NextFunction) => {
+  
+  const uuid = req.body.url.replace(/\//g, '');
+  const { tagName } = req.body;
+
+  try {
+    const resDB = await removeTagFromFile(tagName, uuid);
+    res.send({success: resDB});
+  } catch(e) {
+    console.log("removeTag");
+    console.log(e);
+    res.send({success: false});
+  }
+}

@@ -27,9 +27,53 @@ export const fileTagInsert = async () => {
 }
 
 // add tag to a file
+export const addTagToFile = async (fileUuid: string, tagName: string): Promise<boolean> => {
 
+  try {
+    const res = await query(`INSERT INTO file_tag (file_id, tag_id) VALUES ((SELECT id FROM code_file WHERE url='${fileUuid}'), (SELECT id FROM tag WHERE name='${tagName}'))`);
+    return res[0].affectedRows > 0;
+  } catch(e) {
+    console.log('addTagToFile');
+    console.log(e);
+  }
+
+  return false;
+}
 //  remove tag from a file
-
+export const removeTagFromFile = async (tagName: string, fileUuid: string): Promise<boolean> => {
+  
+  try {
+    const res = await query(`DELETE FROM file_tag WHERE tag_id = (SELECT id FROM tag WHERE name='${tagName}') and file_id=(SELECT id FROM code_file WHERE url='${fileUuid}')`);
+    return res[0].affectedRows > 0;
+  } catch(e) {
+    console.log("removeTagFromFile");
+    console.log(e);
+    return false;
+  }
+}
 // see all tags from a file
+export const allFileTags = async (fileUuid: string): Promise<{success: boolean, tags: string[]}> => {
 
-// see all files from a tag
+  const fileTagObj = {success: false, tags: [] as string[]};
+
+  try {
+    const res = await query(`SELECT tag.name FROM tag INNER JOIN file_tag ON tag.id = file_tag.tag_id WHERE file_tag.file_id = (SELECT id FROM code_file WHERE url='${fileUuid}')`);
+
+    if (res[0].length > 0) {
+      res[0].forEach(({ name }: {name: string}) => {
+        fileTagObj.tags.push(name);
+      })
+    }
+
+    fileTagObj.success = true;
+
+    return fileTagObj;
+  } catch(e) {
+    console.log("allFileTags");
+    console.log(e);
+    return fileTagObj;
+  }
+
+}
+
+// TODO: see all files from a tag (might not be needed)

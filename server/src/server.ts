@@ -4,8 +4,10 @@ import * as bodyParser from 'body-parser';
 
 import { startDB } from './models/dbinit';
 
-import account from './routes/account.route';
-import file from './routes/file.route';
+import accountRouter from './routes/account.route';
+import fileRouter from './routes/file.route';
+import collectionRouter from './routes/collection.route';
+import tagRouter from './routes/tag.route';
 
 dotenv.config();
 
@@ -16,9 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
-app.use('/api/account', account);
-app.use('/api/file', file);
-
+app.use('/api/account', accountRouter);
+app.use('/api/file', fileRouter);
+app.use('/api/collection', collectionRouter);
+app.use('/api/tag', tagRouter);
 
 
 app.listen(app.get('port'), () => {

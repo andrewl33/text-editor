@@ -20,32 +20,36 @@ export const initialTagInsert = async () => {
 }
 
 // insert tag
-const createNewTag = async (name: string): Promise<boolean> => {
+export const createNewTag = async (name: string): Promise<boolean> => {
   
-  let success = true;
-
   try {
-    await query(`INSERT INTO tag (name) VALUES ('${name}')`);
-
+    const res = await query(`INSERT INTO tag (name) VALUES ('${name}')`);
+    return res[0].affectedRows > 0;
   } catch(e) {
     console.log('create new tag err');
     console.log(e);
-    success = false;
+    return false;
   }
 
-  return success;
 }
 
 // see all tags
-const allTags = async (): Promise<{success: boolean, tagArray: string[]}> => {
+export const allTags = async (): Promise<{success: boolean, tags: string[]}> => {
   
-  let tagObj = {success: true, tagArray: [] as string[]};
+  let tagObj = {success: true, tags: [] as string[]};
 
   try {
+    
     const res = await query (`SELECT * FROM tag`);
-    console.log(res);
-  } catch(e) {
+    tagObj.success = false;
+    if (res[0].length > -1) {
+      res[0].forEach(({ name }: {id: number, name: string}) => {
+        tagObj.tags.push(name);
+      });
+    }
 
+  } catch(e) {
+    console.log("all tags");
     console.log(e);
   }
 
