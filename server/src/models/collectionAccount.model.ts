@@ -11,7 +11,9 @@ export const collectionAccountModel = `
   account_id int NOT NULL,
   CONSTRAINT \`fk_account_ca\`
     FOREIGN KEY (account_id) REFERENCES account (id) 
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT \`collection_account_pk\`
+    PRIMARY KEY (collection_id, account_id)
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 

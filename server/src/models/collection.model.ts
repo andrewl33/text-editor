@@ -5,7 +5,7 @@ export const collection = 'collection';
 export const collectionModel = `
   CREATE TABLE collection (
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  url VARCHAR(30) NOT NULL,
+  url VARCHAR(50) NOT NULL,
   updated_date DATE NOT NULL,
   default_ordering VARCHAR(30) NOT NULL,
   name VARCHAR(255),

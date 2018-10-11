@@ -5,7 +5,7 @@ export const codeFile = 'code_file';
 export const codeFileModel = `
   CREATE TABLE code_file (
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  url VARCHAR(30) NOT NULL,
+  url VARCHAR(50) NOT NULL,
   updated_date DATE NOT NULL,
   is_private BOOL NOT NULL,
   is_editable BOOL NOT NULL,

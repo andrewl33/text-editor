@@ -11,7 +11,9 @@ export const collectionFileModel = `
   file_id int NOT NULL,
   CONSTRAINT \`fk_file_cf\` 
     FOREIGN KEY (file_id) REFERENCES code_file (id)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT \`collection_file_pk\`
+    PRIMARY KEY (collection_id, file_id)
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 

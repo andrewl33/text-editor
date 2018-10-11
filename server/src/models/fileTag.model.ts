@@ -11,7 +11,9 @@ export const fileTagModel = `
   tag_id int NOT NULL, 
   CONSTRAINT \`fk_tag_ft\` 
     FOREIGN KEY (tag_id) REFERENCES tag (id) 
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT \`file_tag_pk\`
+    PRIMARY KEY (file_id, tag_id)
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 

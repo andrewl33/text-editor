@@ -11,7 +11,9 @@ export const fileAccountModel = `
   account_id int NOT NULL,
   CONSTRAINT \`fk_account_fa\`
     FOREIGN KEY (account_id) REFERENCES account (id) 
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT \`file_account_pk\`
+    PRIMARY KEY (file_id, account_id)
   ) ENGINE=InnoDB;
 `.replace(/\n/gm,"");
 
