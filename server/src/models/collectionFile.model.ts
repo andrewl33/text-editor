@@ -33,7 +33,7 @@ export const collectionFileInsert = async () => {
 // get all files from a collection
 export const getFilesFromCollection = async(uuid: string): Promise<{success: boolean, files?: string[]}> => {
   try {
-    const res = await query(`SELECT code_file.url FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id WHERE collection_file.collection_id = ${uuid}`);
+    const res = await query(`SELECT code_file.url FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id WHERE collection_file.collection_id = '${uuid}'`);
     let files: string[] = [];
 
     if (res[0].length > 0) {
@@ -55,7 +55,7 @@ export const getFilesFromCollection = async(uuid: string): Promise<{success: boo
 export const addFileToCollection = async (colUuid: string, fileUuid: string) => {
 
   try {
-    const res = await query(`INSERT INTO collection_file (collection_id, file_id) VALUES ((SELECT collection.id from collection WHERE collection.url = ${colUuid}), (SELECT code_file.id FROM code_file WHERE code_file.url = ${fileUuid}))`);
+    const res = await query(`INSERT INTO collection_file (collection_id, file_id) VALUES ((SELECT collection.id from collection WHERE collection.url = '${colUuid}'), (SELECT code_file.id FROM code_file WHERE code_file.url = '${fileUuid}'))`);
     return {success: res[0].affectedRows > 0};
   } catch(e) {
     console.log("addFileToCollection");
@@ -69,7 +69,7 @@ export const addFileToCollection = async (colUuid: string, fileUuid: string) => 
 export const removeFileFromCollection = async (colUuid: string, fileUuid: string) => {
 
   try {
-    const res = await query(`DELETE FROM collection_file WHERE collection_id=(SELECT collection.id from collection where url=${colUuid}) AND file_id = (SELECT id from code_file where url=${fileUuid});`);
+    const res = await query(`DELETE FROM collection_file WHERE collection_id=(SELECT collection.id from collection where url='${colUuid}') AND file_id = (SELECT id from code_file where url='${fileUuid})'`);
     return {success: res[0].affectedRows > 0};
   } catch(e) {
     console.log("removeFileFromCollection");
