@@ -1,6 +1,6 @@
 import * as React from 'react';
-import HeaderComponent from './HeaderComponent';
-import {initState as editorProps, dispatchProps} from './EditorContainer.test';
+import { HeaderComponent } from './HeaderComponent';
+import {initState as editorProps, dispatchProps} from '../../Editor/EditorContainer.test';
 import { mount } from 'enzyme';
 import { Button } from 'semantic-ui-react';
 

@@ -18,7 +18,7 @@ class App extends React.Component<AppProps | StoreState> {
       <Container className="App" fluid={true}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route exact={true} path="/*/" component={EditorContainer} />
+            <Route exact={true} path="/files/*" component={EditorContainer} />
           </Switch>
         </ConnectedRouter>
       </Container>

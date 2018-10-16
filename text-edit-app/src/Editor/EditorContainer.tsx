@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import EditorComponent from './EditorComponent';
-import HeaderComponent from './HeaderComponent';
+import { HeaderComponent } from '../generic/TopBar/HeaderComponent';
 import { updateCode, changedCode, getText, lockText, newText, shareLink, closeAlert, EditorAction } from './EditorAction';
 import { EditorProps, StoreState } from '../types';
 import { ThunkDispatch } from 'redux-thunk';

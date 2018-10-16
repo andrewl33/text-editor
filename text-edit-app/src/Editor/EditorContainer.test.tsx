@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EditorContainer } from './EditorContainer';
-import HeaderComponent from './HeaderComponent';
+import { HeaderComponent } from '../generic/TopBar/HeaderComponent';
 import EditorComponent from './EditorComponent';
 import { shallow } from 'enzyme';
 import { initialState as editorStoreState } from './EditorReducer';
