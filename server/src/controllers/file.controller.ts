@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import {NextFunction, Request, Response} from 'express';
 import { updateName, uuidExists, createNewCodeRow, makePrivate, updatePassword, getTextFromDB, saveToDB, isPrivate as selectIsPrivate, getPassword, deleteFile } from '../models/codeFile.model';
 import { createToken, updateToken, decodeToken } from './token';
-import { addTagToFile, removeTagFromFile } from '../models/fileTag.model';
+import { addTagToFile, removeTagFromFile, allFileTags } from '../models/fileTag.model';
 
 
 export const generate = async (request: Request, response: Response, next: NextFunction) => {
@@ -40,9 +40,24 @@ export const open = async (request: Request, response: Response, next: NextFunct
   // returns the correct text to the user
   let url = request.body.url;
   url = url.replace(/\//g, '');
+  try {
+    const code = await getTextFromDB(url);
+    const tags = await allFileTags(url);
 
-  const code = await getTextFromDB(url);
-  return response.send(code);
+    return response.send({
+      success: true,
+      codeText: code,
+      tags: tags.tags
+    });
+  } catch (e) {
+    console.log("File open");
+    console.log(e);
+
+    return response.send({
+      success: false
+    });
+  }
+
 }
 
 export const save = async (request: Request, response: Response, next: NextFunction) => {

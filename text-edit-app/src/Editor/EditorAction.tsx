@@ -1,17 +1,17 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { push, RouterAction } from 'connected-react-router';
+import { API_URL as URL } from '../envConstants';
 
 import { 
   UPDATE_CODE_REQUEST, UPDATE_CODE_SUCCESS, UPDATE_CODE_FAILURE, 
-  CHANGED_CODE, GET_TEXT_REQUEST, GET_TEXT_SUCCESS, GET_TEXT_FAILURE, 
+  CHANGED_CODE, GET_TEXT_REQUEST, GET_TEXT_SUCCESS, GET_TEXT_FAILURE, GET_TEXT_AUTH,
   NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE, 
-  LOCK_TEXT, SHARE_LINK, CLOSE_ALERT
-} from '../constants';
+  AUTH_FILE_REQUEST, AUTH_FILE_SUCCESS, AUTH_FILE_FAILURE 
+} from './constants';
+import {  LOCK_TEXT, SHARE_LINK, CLOSE_ALERT } from '../constants';
 import { StoreState } from '../types';
 
-const URL = "http://localhost:3300";
-
-export interface UpdateCode{
+export interface UpdateCode {
   type: UPDATE_CODE_REQUEST | UPDATE_CODE_SUCCESS | UPDATE_CODE_FAILURE;
   payload?: string;
 }
@@ -21,8 +21,14 @@ export interface ChangedCode {
 }
 
 export interface GetText {
-  type: GET_TEXT_REQUEST | GET_TEXT_SUCCESS | GET_TEXT_FAILURE;
-  payload?: string;
+  type: GET_TEXT_REQUEST | GET_TEXT_SUCCESS | GET_TEXT_FAILURE | GET_TEXT_AUTH;
+  payload?: {
+    success: boolean, 
+    body?: {
+      codeText: string,
+      tags: string[]
+    }
+  }
 }
 
 export interface NewText {
@@ -33,6 +39,11 @@ export interface LockText {
   type: LOCK_TEXT;
 }
 
+export interface AuthFile {
+  type: AUTH_FILE_REQUEST | AUTH_FILE_SUCCESS | AUTH_FILE_FAILURE;
+  payload?: {success: boolean; message: string}; 
+}
+
 export interface ShareLink {
   type: SHARE_LINK;
 }
@@ -41,7 +52,7 @@ export interface CloseAlert {
   type: CLOSE_ALERT;
 }
 
-export type EditorAction =  UpdateCode | ChangedCode | GetText | NewText | LockText | ShareLink | CloseAlert;
+export type EditorAction =  UpdateCode | ChangedCode | GetText | NewText | LockText | AuthFile | ShareLink | CloseAlert;
 
 export const updateCode = (codeText: string) => {
   return async (dispatch: ThunkDispatch<StoreState, void, UpdateCode>, getState: () => StoreState) => {
@@ -118,13 +129,29 @@ export const getText = () => {
       const body = await response.json();
 
       if (body.success) {
-        dispatch({
-          type: GET_TEXT_SUCCESS,
-          payload: body.codeText
-        });
+        if (body.password) {
+          dispatch({
+            type: GET_TEXT_AUTH
+          })
+        } else {
+          dispatch({
+            type: GET_TEXT_SUCCESS,
+            payload: {
+              success: true,
+              body: {
+                codeText: body.codeText,
+                tags: body.tags
+              }
+            }
+          });
+        }
+
       } else {
         dispatch({
-          type: GET_TEXT_FAILURE
+          type: GET_TEXT_SUCCESS,
+          payload: {
+            success: false
+          }
         });
       }
 
@@ -140,6 +167,7 @@ export const getText = () => {
   }
 }
 
+// TODO: lock
 export const lockText = (): LockText => {
   // nothing yet
   return {
@@ -172,6 +200,42 @@ export const newText = () => {
 
 }
 
+export const authFile = (password: string) => {
+  return async (dispatch: ThunkDispatch<StoreState, void, AuthFile>) => {
+    
+    dispatch({type: AUTH_FILE_REQUEST});
+    
+    try {
+      const response = await fetch(`${URL}/file/auth`);
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: AUTH_FILE_SUCCESS,
+          payload: {
+            success: true,
+            message: 'Authenticated'
+          }
+        });
+        dispatch(getText());
+      } else {
+        dispatch({
+          type: AUTH_FILE_SUCCESS,
+          payload: {
+            success: false,
+            message: "Wrong password"
+          }
+        })
+      }
+    } catch(e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({type: AUTH_FILE_FAILURE});
+    }
+
+  }
+
+}
+
 export const shareLink = (): ShareLink => {
   return {
     type: SHARE_LINK
@@ -184,6 +248,10 @@ export const closeAlert = (): CloseAlert => {
     type: CLOSE_ALERT
   }
 }
+
+// TODO: Delete
+// TODO: add tag
+// TODO: remove tag
 
 
 // need to find a way to update spam ShareLink

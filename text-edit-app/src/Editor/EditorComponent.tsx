@@ -1,6 +1,8 @@
 import * as React from 'react';
-import ContentEditable from "react-sane-contenteditable";
+// import * as Prism from 'prismjs';
+import ContentEditable, { RefObject } from "react-sane-contenteditable";
 import { EditorProps } from '../types';
+// import '../../node_modules/prismjs/themes/prism-okaidia.css';
 
 interface EditorPrivateState {
   text: string;
@@ -9,10 +11,12 @@ interface EditorPrivateState {
 class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
 
   private delayBeforeUpdate: number;
-
-  constructor(props: any) {
+  private myRef: RefObject<any>;
+  constructor(props: EditorProps) {
     super(props);
     
+    this.myRef = React.createRef();
+
     this.state = {
       text: this.props.codeText
     }
@@ -21,13 +25,15 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
 
   public render() {
     return (
-      <ContentEditable
-        className="code-line editor"
-        content={this.state.text}
-        editable={true}
-        multiLine={true}
-        onChange={this.handleChange}
-      />
+      <div className="editor language-javascript" ref={this.myRef}>
+        <ContentEditable
+          className="code-line editor"
+          content={this.state.text}
+          editable={true}
+          multiLine={true}
+          onChange={this.handleChange}
+        />
+      </div>
     )
   }
 
@@ -39,9 +45,11 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
 
   private delay = () => {
     // uses browser's setTimeout instead of node
-    this.delayBeforeUpdate = window.setTimeout(() => this.props.onBatchUpdate(this.state.text), 2500);
+    this.delayBeforeUpdate = window.setTimeout(() => {
+      this.props.onBatchUpdate(this.state.text);
+    }, 2500);
   }
-  
+
 }
 
 export default EditorComponent;

@@ -35,7 +35,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         return next();
       } 
     } 
-    return res.send({password: "required"});
+    return res.send({
+      success: true,
+      password: true
+    });
     
   } catch (e) {
     console.log("auth error");

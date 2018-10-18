@@ -2,15 +2,39 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import EditorComponent from './EditorComponent';
 import { HeaderComponent } from '../generic/TopBar/HeaderComponent';
-import { updateCode, changedCode, getText, lockText, newText, shareLink, closeAlert, EditorAction } from './EditorAction';
-import { EditorProps, StoreState } from '../types';
+import { logIn, AuthAction } from '../Auth/AuthAction';
+import { updateCode, changedCode, getText, lockText, newText, authFile, shareLink, closeAlert, EditorAction } from './EditorAction';
+import { EditorProps, UserProps, StoreState } from '../types';
 import { ThunkDispatch } from 'redux-thunk';
 
-export class EditorContainer extends React.Component<EditorProps> {
+export class EditorContainer extends React.Component<EditorProps & UserProps> {
   public render() {
+
+    const { authPrompt, onAuthAccount, 
+      onNew, onLock, onShare, onAlert, 
+      accountName, loggedIn, pathname, 
+      openAlert, alertMessage, filePrompt, 
+      onAuthFile } = this.props;
+
     return (
       <div>
-        <HeaderComponent {...this.props}/>
+        <HeaderComponent 
+          onNew={onNew}
+          onLock={onLock}
+          onShare={onShare}
+          onAlert={onAlert}
+          accountName={accountName}
+          loggedIn={loggedIn}
+          pathname={pathname}
+          isShareable={true}
+          openAlert={openAlert}
+          alertMessage={alertMessage}
+          pageName={"File"}
+          prompt={authPrompt ? "Login" : "Private File"}
+          onPrompt={authPrompt || filePrompt}
+          getPassword={onAuthFile}
+          getAccountCredentials={onAuthAccount}
+        />
         <EditorComponent {...this.props}/>
       </div>
     );
@@ -22,14 +46,17 @@ export class EditorContainer extends React.Component<EditorProps> {
 }
 
 const mapStateToProps = (state: StoreState) => {
-  const { codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage } = state.editor;
+  const { accountName, loggedIn, authPrompt } = state.authentication;
+  const { codeText, tags, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage, filePrompt } = state.editor;
   const { pathname } = state.router.location;
   return {
-    codeText, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage, pathname
+    accountName, loggedIn, authPrompt,
+    codeText, tags, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage, filePrompt,
+    pathname
   };
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorAction>) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorAction | AuthAction>) => {
   return {
     onBatchUpdate: (codeText: string) => dispatch(updateCode(codeText)),
     onCodeChange: () => dispatch(changedCode()),
@@ -37,7 +64,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorActi
     onLock: () => dispatch(lockText()),
     onMount: () => dispatch(getText()),
     onNew: () => dispatch(newText()),
-    onShare: () => dispatch(shareLink())
+    onShare: () => dispatch(shareLink()),
+    onAuthAccount: (name: string, pass: string) => (logIn(name, pass)),
+    onAuthFile: (pass: string) => (authFile(pass))
   }
 }
 

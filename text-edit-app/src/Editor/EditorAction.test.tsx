@@ -1,5 +1,6 @@
 import * as actions from './EditorAction';
-import * as constants from '../constants';
+import * as constants from './constants';
+import { CLOSE_ALERT } from '../constants';
 import { initialState } from './EditorReducer';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
@@ -137,6 +138,6 @@ describe('EditorAction: non-async', () => {
   it('closes alert', () => {
     store.dispatch(actions.closeAlert());
     expect(store.getActions().length).toBe(1);
-    expect(store.getActions()).toContainEqual({type: constants.CLOSE_ALERT});
+    expect(store.getActions()).toContainEqual({type: CLOSE_ALERT});
   });
 });

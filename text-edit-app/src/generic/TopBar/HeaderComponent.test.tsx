@@ -23,7 +23,10 @@ const wrapper = mount(
     {...dispatchProps}
     onNew={mockButtonFunction}
     onLock={mockButtonFunction}
-    onShare={mockButtonFunction}  
+    onShare={mockButtonFunction}
+    accountName={"account name"}
+    loggedIn={true} 
+    pageName={"Collection"} 
   />
 );
 

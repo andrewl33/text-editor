@@ -12,13 +12,15 @@ export const dispatchProps = {
   onLock: jest.fn(),
   onMount: jest.fn(),
   onNew: jest.fn(),
-  onShare: jest.fn()
+  onShare: jest.fn(),
+  onAuthAccount: jest.fn(),
+  onAuthFile: jest.fn()
 }
 
-export const initState = {...editorStoreState, pathname: 'test.com/test'}
+export const initState = {...editorStoreState, pathname: 'test.com/test', authPrompt: false}
 const loadedState = {...initState, isLoading: false};
 
-const componentLoaded = shallow(<EditorContainer {...loadedState} {...dispatchProps}/>);
+const componentLoaded = shallow(<EditorContainer {...loadedState} {...dispatchProps} accountName={"wow"} loggedIn={true}/>);
 describe('EditorContainer', () => {
 
   test('onMount called on mount', () => {

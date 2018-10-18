@@ -2,8 +2,9 @@ import { editorReducer, initialState } from './EditorReducer';
 import { 
   UPDATE_CODE_REQUEST, UPDATE_CODE_SUCCESS, UPDATE_CODE_FAILURE,
   GET_TEXT_REQUEST, GET_TEXT_SUCCESS, GET_TEXT_FAILURE, 
-  NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE, CLOSE_ALERT
-} from '../constants';
+  NEW_TEXT_REQUEST, NEW_TEXT_SUCCESS, NEW_TEXT_FAILURE
+} from './constants';
+import { CLOSE_ALERT } from '../constants';
 
 
 test('it should return inital state', () => {
@@ -45,7 +46,7 @@ describe('get text', () => {
   });
 
   test('it should handle GET_TEXT_SUCCESS', () => {
-    expect(editorReducer(undefined, {type: GET_TEXT_SUCCESS, payload: textString}))
+    expect(editorReducer(undefined, {type: GET_TEXT_SUCCESS}))
       .toEqual(success);
   });
 

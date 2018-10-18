@@ -6,6 +6,7 @@ import ContentEditable from 'react-sane-contenteditable';
 const mockBatchUpdate = jest.fn();
 const props = {
   codeText: "var wow", 
+  tags: [],
   isLoading: true,
   isNewPage: false,
   hasAuth: false,
@@ -15,12 +16,16 @@ const props = {
   openAlert: false,
   alertMessage: '',
   pathname: 'test',
+  authPrompt: false,
+  filePrompt: false,
   onCodeChange: () => {/**/},
   onAlert: () => {/**/},
   onLock: () => {/**/},
   onMount: () => {/**/},
   onNew: () => {/**/},
-  onShare: () => {/**/}
+  onShare: () => {/**/},
+  onAuthAccount: () => {/**/},
+  onAuthFile: () => {/**/}
 }
 
 const wrapper = mount(
