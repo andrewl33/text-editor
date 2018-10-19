@@ -77,7 +77,7 @@ export const newCollection = () => {
       const response = await fetch(`${URL}/generate`);
       const body = await response.json();
       if (body.success) {
-        dispatch(push(body.url));
+        dispatch(push('/collection/' + body.url));
         dispatch({type: NEW_COLLECTION_SUCCESS, payload: body.success});
       } else {
         dispatch({type: NEW_COLLECTION_SUCCESS, payload: body.success});

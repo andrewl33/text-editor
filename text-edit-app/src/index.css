@@ -5,6 +5,10 @@ body {
   background: #21262B;
 }
 
+#root {
+	height: 100%;
+}
+
 
 /* PrismJS 1.15.0
 https://prismjs.com/download.html#themes=prism-okaidia&languages=clike+javascript */

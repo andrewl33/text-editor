@@ -185,7 +185,7 @@ export const newText = () => {
       const response = await fetch(`${URL}/generate`);
       const body = await response.json();
       if (body.success) {
-        dispatch(push(body.url));
+        dispatch(push('/file/'+body.url));
         dispatch({type: NEW_TEXT_SUCCESS});
       } else {
         dispatch({type: NEW_TEXT_FAILURE});

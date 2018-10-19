@@ -20,7 +20,6 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
     this.state = {
       text: this.props.codeText
     }
-    
   }
 
   public render() {
@@ -37,7 +36,7 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
     )
   }
 
-  private handleChange = (e: React.SyntheticEvent , val: string) => {
+  private handleChange = (e: React.SyntheticEvent, val: string) => {
     this.setState({text: val});
     clearTimeout(this.delayBeforeUpdate);
     this.delay();
@@ -49,7 +48,6 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
       this.props.onBatchUpdate(this.state.text);
     }, 2500);
   }
-
 }
 
 export default EditorComponent;

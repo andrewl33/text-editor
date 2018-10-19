@@ -25,4 +25,10 @@ Run `npm test` for tests.
 - [ ] Notification animation in buttons
 - [ ] Deploy
 - [ ] Test API
-- [ ] Change api verbs
+- [ ] Loading reducer/use request actions
+- [ ] Test everything
+- [ ] Catch tabs and other kb actions
+- [ ] Create right click menu
+- [ ] place tags somewhere
+- [ ] place cursor at end of contentEditable when clicked
+- [ ] center loading indicator

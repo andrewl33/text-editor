@@ -7,9 +7,19 @@ export interface StoreState {
 
 /**
  * 
- * Pages
+ * Connected Components
  * 
  */
+
+// authentication
+export interface AuthStoreState {
+  loggedIn: boolean;
+  accountName?: string;
+  dashboard?: DashboardProps;
+  openAlert: boolean;
+  alertMessage?: string;
+  authPrompt: boolean;
+}
 
 // Collection 
 export interface CollectionStoreState extends CollectionComponentProps {
@@ -51,6 +61,16 @@ export interface EditorProps extends EditorStoreState {
 
 }
 
+// home
+export interface HomeProps {
+  onNewFile: () => {};
+  onNewCollection: () => {};
+  onLogin: (name: string, pass: string) => {};
+  toDashboard: () => {};
+  loggedIn: boolean;
+}
+
+
 // user
 export interface UserStoreState extends UserProps {
   dashboard: DashboardProps;
@@ -76,21 +96,12 @@ export interface RouterStoreState {
   }
 }
 
+
 /**
  * 
  * Helpers
  * 
  */
-
-// authentication
-export interface AuthStoreState {
-  loggedIn: boolean;
-  accountName?: string;
-  dashboard?: DashboardProps;
-  openAlert: boolean;
-  alertMessage?: string;
-  authPrompt: boolean;
-}
 
 
 // header
@@ -116,6 +127,11 @@ export interface PromptComponentProps {
   prompt?: "Login" | "Create Account" | "Private Collection" | "Private File";
 }
 
+export interface Item {
+  uuid: string;
+  tags: string[];
+  date: string;
+}
 
 // lists
 export interface ListProps {
@@ -123,9 +139,5 @@ export interface ListProps {
   items: Item[] | null;
 }
 
-export interface Item {
-  uuid: string;
-  tags: string[];
-  date: string;
-}
+
 
