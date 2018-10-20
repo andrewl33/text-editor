@@ -11,7 +11,8 @@ import { StoreState } from '../types';
 export class CollectionContainer extends React.Component<any> {
   public render() {
 
-    const { accountName, authPrompt, loggedIn, dashboard, openAlert, alertMessage, onAlert } = this.props;
+    // const { accountName, authPrompt, loggedIn, dashboard, openAlert, alertMessage, onAlert } = this.props;
+    const { accountName, authPrompt, loggedIn, openAlert, alertMessage, onAlert } = this.props;
     const header = (
       <HeaderComponent 
         accountName={accountName}
@@ -25,15 +26,82 @@ export class CollectionContainer extends React.Component<any> {
       />
     );
 
-    if (!loggedIn) {
-      return (
-        <div>
-          {header}
-          Not logged in!
-        </div>
-      );
-    } else {
-      const { collections, files } = dashboard;
+    // if (!loggedIn) {
+    //   return (
+    //     <div>
+    //       {header}
+    //       Not logged in!
+    //     </div>
+    //   );
+    // } else {
+    //   const { collections, files } = dashboard;
+    //   return (
+    //     <div>
+    //       {header}
+    //       <DashboardComponent
+    //         files={files}
+    //         collections={collections}
+    //       />
+    //     </div>
+  
+    //   );
+    // }
+
+
+    const collections = [
+      {
+        uuid: '1',
+        name: 'My best File',
+        date: "1-1-1"
+      },
+      {
+        uuid: '1',
+        name: "test",
+        date: "1-1-1"
+      },
+      {
+        uuid: '1',
+        name: '',
+        date: "1-1-1"
+      },
+      {
+        uuid: '1',
+        name: 'wow',
+        date: "1-1-1"
+      },
+      {
+        uuid: '1',
+        name: 'hello',
+        date: "1-1-1"
+      },
+      {
+        uuid: '1',
+        name: 'world',
+        date: "1-1-1"
+      }
+    ]
+    
+    const files = [
+      {
+        uuid: '1',
+        name: "Hello World",
+        tags: ["Snippet", "Rust", "Mission Critical"],
+        date: "1-1-1"
+      },
+      {
+        uuid: '2',
+        name: 'test',
+        tags: ["css", "firefox", "mobile"],
+        date: "1-1-1"
+      },
+      {
+        uuid: '3',
+        name: '',
+        tags: ["test", "Google", "jimmy"],
+        date: "1-1-1"
+      },
+    ]
+
       return (
         <div>
           {header}
@@ -44,7 +112,6 @@ export class CollectionContainer extends React.Component<any> {
         </div>
   
       );
-    }
   }
 }
 

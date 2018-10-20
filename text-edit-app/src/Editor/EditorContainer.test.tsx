@@ -14,7 +14,8 @@ export const dispatchProps = {
   onNew: jest.fn(),
   onShare: jest.fn(),
   onAuthAccount: jest.fn(),
-  onAuthFile: jest.fn()
+  onAuthFile: jest.fn(),
+  onNameChange: jest.fn()
 }
 
 export const initState = {...editorStoreState, pathname: 'test.com/test', authPrompt: false}

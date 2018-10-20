@@ -25,11 +25,15 @@ export interface AuthStoreState {
 export interface CollectionStoreState extends CollectionComponentProps {
   openAlert: boolean;
   alertMessage: string;
-  isLocked: boolean;
+  collectionPrompt: boolean;
 }
 
 export interface CollectionComponentProps {
   items: Item[] | null;
+  name: string;
+  createDate: string;
+  users: string[];
+  isLocked: boolean;
 }
 
 // Editor
@@ -44,6 +48,9 @@ export interface EditorStoreState {
   openAlert: boolean;
   alertMessage: string;
   filePrompt: boolean;
+  name: string;
+  createDate: string;
+  users: string[];
 }
 
 export interface EditorProps extends EditorStoreState {
@@ -56,9 +63,11 @@ export interface EditorProps extends EditorStoreState {
   onShare: () => any;
   onAuthFile?: () => any;
   onAuthAccount?: () => any;
+  onRemoveTag?: (tagName: string) => any;
+  onAddTag?: (tagName: string) => any;
+  onNameChange: (name: string) => any;
   pathname: string;
   authPrompt: boolean;
-
 }
 
 // home
@@ -129,7 +138,8 @@ export interface PromptComponentProps {
 
 export interface Item {
   uuid: string;
-  tags: string[];
+  name: string;
+  tags?: string[];
   date: string;
 }
 
@@ -140,4 +150,16 @@ export interface ListProps {
 }
 
 
-
+// sidebar
+export interface SidebarProps {
+  name: string;
+  pageType: 'file' | 'collection';
+  tagList?: string[];
+  allTagsList?: string[];
+  createDate: string;
+  isPrivate: boolean;
+  users: string[];
+  onRemoveTag?: (tagName: string) => any;
+  onAddTag?: (tagName: string) => any;
+  onNameChange: (name: string) => any;
+}

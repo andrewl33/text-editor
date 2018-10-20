@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Button, Container, Form, Grid, Header, Icon, Segment } from 'semantic-ui-react';
+import gitLogo from '../github.png';
 import { HomeProps } from '../types';
+
+// TODO: learn how to debounce with throttle
+// Right now, throttle is always false
 
 interface HomeComponentState {
   throttle: boolean;
@@ -58,7 +62,7 @@ export default class HomeComponent extends React.Component<HomeProps, HomeCompon
     return (
       <Container style={{height: '100%'}}>
         <Grid textAlign='center' verticalAlign='middle' centered={true} style={{height: '100%'}}>
-          <Grid.Column textAlign='center' centered={true} style={{ maxWidth: 450}}>
+          <Grid.Column textAlign='center' centered={true} style={{ maxWidth: 450 }}>
             <Header 
               as='h1'
               content='TextEdit'
@@ -82,6 +86,7 @@ export default class HomeComponent extends React.Component<HomeProps, HomeCompon
               <br />
               {loggedInComponent}
             </Segment>
+            <a href="https://github.com/andrewl33/text-editor"><img src={gitLogo} alt="github" /></a>
           </Grid.Column>
         </Grid>
       </Container>
@@ -91,7 +96,7 @@ export default class HomeComponent extends React.Component<HomeProps, HomeCompon
   private newFile = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!this.state.textLoading && !this.state.throttle) {
-      this.setState({textLoading: true, throttle: true});
+      this.setState({textLoading: true, throttle:false});
       this.props.onNewFile();
     }
   }
@@ -99,7 +104,7 @@ export default class HomeComponent extends React.Component<HomeProps, HomeCompon
   private newCollection = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!this.state.collectionLoading && !this.state.throttle) {
-      this.setState({collectionLoading: true, throttle: true});
+      this.setState({collectionLoading: true, throttle: false});
       this.props.onNewFile();
     }
   }
@@ -107,7 +112,7 @@ export default class HomeComponent extends React.Component<HomeProps, HomeCompon
   private onLogIn = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!this.state.logInLoading && !this.state.throttle) {
-      this.setState({logInLoading: true, throttle: true});
+      this.setState({logInLoading: true, throttle: false});
       this.props.onLogin(this.state.accountName, this.state.password);
     }
   }

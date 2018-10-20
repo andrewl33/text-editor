@@ -1,6 +1,9 @@
 import * as React from 'react';
 // import * as Prism from 'prismjs';
 import ContentEditable, { RefObject } from "react-sane-contenteditable";
+import { Container, Grid } from  'semantic-ui-react';
+import Sidebar from '../generic/Sidebar/SidebarComponent';
+
 import { EditorProps } from '../types';
 // import '../../node_modules/prismjs/themes/prism-okaidia.css';
 
@@ -24,15 +27,45 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
 
   public render() {
     return (
-      <div className="editor language-javascript" ref={this.myRef}>
-        <ContentEditable
-          className="code-line editor"
-          content={this.state.text}
-          editable={true}
-          multiLine={true}
-          onChange={this.handleChange}
-        />
-      </div>
+      <Grid style={{marginTop: 0, height: '100%'}}>
+        <Grid.Column width={13}>
+          <div className="editor language-javascript" ref={this.myRef} style={{ height: '100%', }}>
+            <ContentEditable
+              className="code-line editor"
+              content={this.state.text}
+              editable={true}
+              multiLine={true}
+              onChange={this.handleChange}
+              style={{ padding: 0 }}
+            />
+          </div>
+        </Grid.Column>
+        <Grid.Column width={3} textAlign='center' style={{ 
+          paddingRight: '2em', 
+          backgroundColor: "#3180d4",
+          height: '100%'
+        }}
+        >
+          <Container>
+            <Sidebar
+              name={this.props.name}
+              pageType='file'
+              tagList={this.props.tags}
+              allTagsList={["woww", "samesame"]}
+              createDate={this.props.createDate}
+              isPrivate={this.props.isLocked}
+              users={this.props.users}
+              // tslint:disable-next-line
+              onRemoveTag={a => {}}
+              // tslint:disable-next-line
+              onAddTag={a => {}}
+              // tslint:disable-next-line
+              onNameChange={a => {}}
+            />
+          </Container>
+        </Grid.Column>  
+      </Grid>
+
     )
   }
 

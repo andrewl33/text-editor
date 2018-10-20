@@ -20,15 +20,22 @@ Make sure to run `yarn install` and `yarn build ` to modify exported library.
 Run `npm test` for tests.
 
 ## Todo
+Frontend:
 - [ ] Modify/find/do something with PrismJS
 - [ ] Handle notification spam
 - [ ] Notification animation in buttons
-- [ ] Deploy
-- [ ] Test API
-- [ ] Loading reducer/use request actions
-- [ ] Test everything
+  - [ ] isLoading Reducer
+  - [ ] center loading indicator
+- [ ] test
+- [ ] place cursor at end of contentEditable when clicked
+- [ ] wire up sidebar
 - [ ] Catch tabs and other kb actions
 - [ ] Create right click menu
-- [ ] place tags somewhere
-- [ ] place cursor at end of contentEditable when clicked
-- [ ] center loading indicator
+
+Backend:
+- [ ] Test API
+- [ ] Change api to send all information on open
+- [ ] create a generic function to handle all queries
+
+
+- [ ] Deploy

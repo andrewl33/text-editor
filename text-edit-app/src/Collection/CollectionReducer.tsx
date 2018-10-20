@@ -16,7 +16,11 @@ export const initialState: CollectionStoreState = {
   items: null,
   openAlert: false,
   alertMessage: '',
-  isLocked: false
+  isLocked: false,
+  name: 'CollectionTest',
+  createDate: '1-1-1990',
+  users: ['testUser1', 'testUser2'],
+  collectionPrompt: false
 }
 
 export const collectionReducer = (state: CollectionStoreState = initialState, action: CollectionAction) => {

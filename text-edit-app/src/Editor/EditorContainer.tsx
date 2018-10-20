@@ -17,7 +17,7 @@ export class EditorContainer extends React.Component<EditorProps & UserProps> {
       onAuthFile } = this.props;
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <HeaderComponent 
           onNew={onNew}
           onLock={onLock}
@@ -47,11 +47,15 @@ export class EditorContainer extends React.Component<EditorProps & UserProps> {
 
 const mapStateToProps = (state: StoreState) => {
   const { accountName, loggedIn, authPrompt } = state.authentication;
-  const { codeText, tags, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage, filePrompt } = state.editor;
+  const { codeText, tags, isLoading, isNewPage, 
+    hasAuth, isLocked, isSaved, openAlert, alertMessage, 
+    filePrompt, name, createDate, users } = state.editor;
   const { pathname } = state.router.location;
   return {
     accountName, loggedIn, authPrompt,
-    codeText, tags, isLoading, isNewPage, hasAuth, isLocked, isSaved, openAlert, alertMessage, filePrompt,
+    codeText, tags, isLoading, isNewPage, hasAuth, 
+    isLocked, isSaved, openAlert, alertMessage, 
+    filePrompt, name, createDate, users,
     pathname
   };
 }
@@ -61,12 +65,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorActi
     onBatchUpdate: (codeText: string) => dispatch(updateCode(codeText)),
     onCodeChange: () => dispatch(changedCode()),
     onAlert: () => dispatch(closeAlert()),
-    onLock: () => dispatch(lockText()),
+    onLock: () => dispatch(lockText()), // TODO:add password
     onMount: () => dispatch(getText()),
     onNew: () => dispatch(newText()),
     onShare: () => dispatch(shareLink()),
-    onAuthAccount: (name: string, pass: string) => (logIn(name, pass)),
-    onAuthFile: (pass: string) => (authFile(pass))
+    onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
+    onAuthFile: (pass: string) => dispatch(authFile(pass))
   }
 }
 

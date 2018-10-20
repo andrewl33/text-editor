@@ -9,8 +9,20 @@ import { LOCK_TEXT, SHARE_LINK, CLOSE_ALERT } from '../constants';
 import { EditorStoreState } from '../types';
 
 export const initialState: EditorStoreState = {
-  codeText: "var wow",
-  tags: [], 
+  codeText: `// we could write the above example as:
+  var anon = (a, b) => a + b;
+  // or
+  var anon = (a, b) => { return a + b };
+  // if we only have one parameter we can loose the parentheses
+  var anon = a => a;
+  // and without parameters
+  var () => {} // noop
+  
+  // this looks pretty nice when you change something like:
+  [1,2,3,4].filter(function (value) {return value % 2 === 0});
+  // to:
+  [1,2,3,4].filter(value => value % 2 === 0);`,
+  tags: ["tag1", "tag2", "JavaScript"], 
   isLoading: true,
   isNewPage: false,
   hasAuth: false,
@@ -18,7 +30,10 @@ export const initialState: EditorStoreState = {
   isSaved: true,
   openAlert: false,
   alertMessage: '',
-  filePrompt: false
+  filePrompt: false,
+  createDate: '1-1-1990',
+  users: ["jimmy", 'joy'],
+  name: "Example Lambdas"
 }
 
 export const editorReducer = (state: EditorStoreState = initialState, action: EditorAction) => {

@@ -18,6 +18,9 @@ const props = {
   pathname: 'test',
   authPrompt: false,
   filePrompt: false,
+  createDate: '1-1-1990',
+  users: ["jimmy", 'joy'],
+  name: "Example Lambdas",
   onCodeChange: () => {/**/},
   onAlert: () => {/**/},
   onLock: () => {/**/},
@@ -25,7 +28,8 @@ const props = {
   onNew: () => {/**/},
   onShare: () => {/**/},
   onAuthAccount: () => {/**/},
-  onAuthFile: () => {/**/}
+  onAuthFile: () => {/**/},
+  onNameChange: () => {/**/}
 }
 
 const wrapper = mount(

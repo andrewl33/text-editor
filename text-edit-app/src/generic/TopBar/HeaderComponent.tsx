@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Dropdown, Icon, Menu, Transition } from 'semantic-ui-react';
+import { Button, Dropdown, Menu, Transition } from 'semantic-ui-react';
 import AlertComponent from '../Alert/AlertComponent';
 import { HeaderProps } from '../../types';
 import { RefObject } from 'react-sane-contenteditable';
@@ -42,8 +42,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     const lockButton = onLock && <Menu.Item><Button primary={true} onClick={onLock}>Lock</Button></Menu.Item>;
     const accountDropDown = (
       <div>
-        <Icon name='user' inverted={true} />
-        <Dropdown text={loggedIn ? accountName : ''}  floating={true} labeled={true} button={true} className='account-btn'>
+        <Dropdown text={loggedIn ? accountName : ''} icon='user' floating={true} labeled={true} button={true} className='account-btn' style={{color: '#fff'}}>
           {loggedIn
             ? <Dropdown.Menu>
                 <Dropdown.Item>Dashboard</Dropdown.Item>
