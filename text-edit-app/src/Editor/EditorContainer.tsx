@@ -1,24 +1,43 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import EditorComponent from './EditorComponent';
-import { HeaderComponent } from '../generic/TopBar/HeaderComponent';
-import { logIn, AuthAction } from '../Auth/AuthAction';
-import { updateCode, changedCode, getText, lockText, newText, authFile, shareLink, closeAlert, EditorAction } from './EditorAction';
-import { EditorProps, UserProps, StoreState } from '../types';
-import { ThunkDispatch } from 'redux-thunk';
+import * as React from "react";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AuthAction, logIn } from "../Auth/AuthAction";
+import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
+import { EditorProps, StoreState, UserProps } from "../types";
+import {
+  authFile,
+  changedCode,
+  closeAlert,
+  EditorAction,
+  getText,
+  lockText,
+  newText,
+  shareLink,
+  updateCode
+} from "./EditorAction";
+import EditorComponent from "./EditorComponent";
 
 export class EditorContainer extends React.Component<EditorProps & UserProps> {
   public render() {
-
-    const { authPrompt, onAuthAccount, 
-      onNew, onLock, onShare, onAlert, 
-      accountName, loggedIn, pathname, 
-      openAlert, alertMessage, filePrompt, 
-      onAuthFile } = this.props;
+    const {
+      authPrompt,
+      onAuthAccount,
+      onNew,
+      onLock,
+      onShare,
+      onAlert,
+      accountName,
+      loggedIn,
+      pathname,
+      openAlert,
+      alertMessage,
+      filePrompt,
+      onAuthFile
+    } = this.props;
 
     return (
-      <div style={{ height: '100%' }}>
-        <HeaderComponent 
+      <div style={{ height: "100%" }}>
+        <HeaderComponent
           onNew={onNew}
           onLock={onLock}
           onShare={onShare}
@@ -35,7 +54,7 @@ export class EditorContainer extends React.Component<EditorProps & UserProps> {
           getPassword={onAuthFile}
           getAccountCredentials={onAuthAccount}
         />
-        <EditorComponent {...this.props}/>
+        <EditorComponent {...this.props} />
       </div>
     );
   }
@@ -47,20 +66,46 @@ export class EditorContainer extends React.Component<EditorProps & UserProps> {
 
 const mapStateToProps = (state: StoreState) => {
   const { accountName, loggedIn, authPrompt } = state.authentication;
-  const { codeText, tags, isLoading, isNewPage, 
-    hasAuth, isLocked, isSaved, openAlert, alertMessage, 
-    filePrompt, name, createDate, users } = state.editor;
+  const {
+    codeText,
+    tags,
+    isLoading,
+    isNewPage,
+    hasAuth,
+    isLocked,
+    isSaved,
+    openAlert,
+    alertMessage,
+    filePrompt,
+    name,
+    createDate,
+    users
+  } = state.editor;
   const { pathname } = state.router.location;
   return {
-    accountName, loggedIn, authPrompt,
-    codeText, tags, isLoading, isNewPage, hasAuth, 
-    isLocked, isSaved, openAlert, alertMessage, 
-    filePrompt, name, createDate, users,
+    accountName,
+    loggedIn,
+    authPrompt,
+    codeText,
+    tags,
+    isLoading,
+    isNewPage,
+    hasAuth,
+    isLocked,
+    isSaved,
+    openAlert,
+    alertMessage,
+    filePrompt,
+    name,
+    createDate,
+    users,
     pathname
   };
-}
+};
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorAction | AuthAction>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StoreState, void, EditorAction | AuthAction>
+) => {
   return {
     onBatchUpdate: (codeText: string) => dispatch(updateCode(codeText)),
     onCodeChange: () => dispatch(changedCode()),
@@ -71,7 +116,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, EditorActi
     onShare: () => dispatch(shareLink()),
     onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
     onAuthFile: (pass: string) => dispatch(authFile(pass))
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditorContainer);

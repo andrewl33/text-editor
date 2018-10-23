@@ -1,7 +1,7 @@
-import query from './query';
+import query from "./query";
 
 // create schema
-export const collection = 'collection';
+export const collection = "collection";
 export const collectionModel = `
   CREATE TABLE collection (
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -12,14 +12,10 @@ export const collectionModel = `
   password VARCHAR(255),
   is_private BOOL NOT NULL
   ) ENGINE=InnoDB;
-`.replace(/\n/gm,"");
-
+`.replace(/\n/gm, "");
 
 export const initialCollectionInsert = async () => {
-  
-  const data = [
-    "1", "2", "3", "4", "5", "6", "7"
-  ];
+  const data = ["1", "2", "3", "4", "5", "6", "7"];
 
   for (let i = 0; i < data.length; i++) {
     await insertNewCollection(data[i]);
@@ -31,121 +27,124 @@ export const initialCollectionInsert = async () => {
   await updatePassword("6", "password2");
 
   await updateName("7", "name of collection");
-}
+};
 
 // check that url is free
 export const urlExists = async (uuid: string): Promise<boolean> => {
-  
   let isNotUniqueUuid: boolean = true;
 
   try {
     const dbRes = await query(`SELECT * FROM collection WHERE url='${uuid}'`);
-    if (dbRes[0].length ===  0) {
+    if (dbRes[0].length === 0) {
       isNotUniqueUuid = false;
     }
-  } catch(e) {
+  } catch (e) {
     console.log("uuidExists Error:");
     console.log(e);
     isNotUniqueUuid = false;
   }
 
   return isNotUniqueUuid;
-}
+};
 
 // insert new collection
 export const insertNewCollection = async (uuid: string): Promise<boolean> => {
-  
   let success: boolean = true;
 
   try {
-    await query(`INSERT INTO collection (url, updated_date, default_ordering, is_private) VALUES ('${uuid}', now(), 'date', FALSE)`);
-  } catch(err) {
+    await query(
+      `INSERT INTO collection (url, updated_date, default_ordering, is_private) VALUES ('${uuid}', now(), 'date', FALSE)`
+    );
+  } catch (err) {
     console.log("createNewCollection Error:");
     console.log(err);
     success = false;
   }
 
   return success;
-}
+};
 
 // update to private
 export const updateToPrivate = async (uuid: string): Promise<boolean> => {
-
   let success = false;
 
   try {
-    const res = await query(`UPDATE collection SET is_private=TRUE WHERE url='${uuid}'`);
-    
+    const res = await query(
+      `UPDATE collection SET is_private=TRUE WHERE url='${uuid}'`
+    );
+
     if (res.affectedRows > 0) {
       success = true;
     }
-
-  } catch(e) {
-    console.log('Collection make private error');
+  } catch (e) {
+    console.log("Collection make private error");
     console.log(e);
   }
 
   return success;
-
-}
+};
 // update name
 
 const updateName = async (uuid: string, name: string): Promise<boolean> => {
-  
   let success = false;
 
   try {
-    const res = await query(`UPDATE collection SET name='${name}' WHERE url='${uuid}'`);
-    
+    const res = await query(
+      `UPDATE collection SET name='${name}' WHERE url='${uuid}'`
+    );
+
     if (res.affectedRows > 0) {
       success = true;
     }
-
-  } catch(e) {
-    console.log('Collection update name error');
+  } catch (e) {
+    console.log("Collection update name error");
     console.log(e);
   }
 
   return success;
-
-}
+};
 
 // update password
-export const updatePassword = async (uuid: string, password: string): Promise<boolean> => {
-  
+export const updatePassword = async (
+  uuid: string,
+  password: string
+): Promise<boolean> => {
   let success = false;
 
   try {
-    const res = await query(`UPDATE collection SET password='${password}' WHERE url='${uuid}'`);
-    
+    const res = await query(
+      `UPDATE collection SET password='${password}' WHERE url='${uuid}'`
+    );
+
     if (res.affectedRows > 0) {
       success = true;
     }
-
-  } catch(e) {
-    console.log('Collection update password error');
+  } catch (e) {
+    console.log("Collection update password error");
     console.log(e);
   }
 
   return success;
-
-}
+};
 
 // get password
-export const getPasswordCollection = async (uuid: string): Promise<{success: boolean, password: string}> => {
-  
-  let passObj = {success: false, password: ''};
+export const getPasswordCollection = async (
+  uuid: string
+): Promise<{ success: boolean; password: string }> => {
+  const passObj = { success: false, password: "" };
 
   try {
-    const res = await query(`SELECT password FROM collection WHERE url='${uuid}'`);
-    passObj.success= true;
+    const res = await query(
+      `SELECT password FROM collection WHERE url='${uuid}'`
+    );
+    passObj.success = true;
     passObj.password = res[0][0].password;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 
   return passObj;
-}
+};
 
 // delete collection
 export const deleteCollection = async (uuid: string): Promise<boolean> => {
@@ -157,21 +156,21 @@ export const deleteCollection = async (uuid: string): Promise<boolean> => {
     if (res.affectedRows > 0) {
       success = true;
     }
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 
   return success;
-}
+};
 
 // check if collection is password protected
-export const isPrivate = async(uuid: string): Promise<boolean> => {
-
+export const isPrivate = async (uuid: string): Promise<boolean> => {
   try {
-    const res = await query(`SELECT is_private FROM collection WHERE url='${uuid}'`);
+    const res = await query(
+      `SELECT is_private FROM collection WHERE url='${uuid}'`
+    );
     return res[0][0].is_private === 1 ? true : false;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
-
-}
+};

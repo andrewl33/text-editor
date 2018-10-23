@@ -7,18 +7,17 @@
 //   database: 'test'
 // });
 
-
 // // tcp: 3306
 
 // export default pool;
 
-import * as mysql from 'mysql2';
+import * as mysql from "mysql2";
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'test',
-  password: 'test',
-  database: 'test'
+  host: "localhost",
+  user: "test",
+  password: "test",
+  database: "test"
 });
 
 export default (pool as any).promise();

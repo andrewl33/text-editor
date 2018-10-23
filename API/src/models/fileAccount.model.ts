@@ -1,7 +1,7 @@
-import query from './query';
+import query from "./query";
 
 // create schema
-export const fileAccount = 'file_account';
+export const fileAccount = "file_account";
 export const fileAccountModel = `
   CREATE TABLE file_account (
   file_id int NOT NULL,
@@ -15,7 +15,7 @@ export const fileAccountModel = `
   CONSTRAINT \`file_account_pk\`
     PRIMARY KEY (file_id, account_id)
   ) ENGINE=InnoDB;
-`.replace(/\n/gm,"");
+`.replace(/\n/gm, "");
 
 export const fileAccountInsert = async () => {
   const data = [
@@ -28,53 +28,66 @@ export const fileAccountInsert = async () => {
   ];
 
   for (let i = 0; i < data.length; i++) {
-    await query(`INSERT INTO file_account (file_id, account_id) VALUES ('${data[i][0]}', '${data[i][1]}')`);
+    await query(
+      `INSERT INTO file_account (file_id, account_id) VALUES ('${
+        data[i][0]
+      }', '${data[i][1]}')`
+    );
   }
-}
+};
 
-export const findAllFilesForAnAccount = async (accountName: string): Promise<string[]> => {
-    
+export const findAllFilesForAnAccount = async (
+  accountName: string
+): Promise<string[]> => {
   try {
-    const resDB = query(`SELECT code_file.url FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`);
+    const resDB = query(
+      `SELECT code_file.url FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
+    );
     const files: string[] = [];
 
     if (resDB[0].length > 0) {
-      resDB[0].forEach(({url}: {url: string}) => {
+      resDB[0].forEach(({ url }: { url: string }) => {
         files.push(url);
       });
     }
 
     return files;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     return [];
   }
-} 
+};
 
-export const addFileToAccount = async(accountName: string, fileUuid: string) => {
-
+export const addFileToAccount = async (
+  accountName: string,
+  fileUuid: string
+) => {
   try {
-    const res = await query(`INSERT INTO file_account (account_id, file_id) VALUES ((SELECT id FROM account WHERE account_name='${accountName}'), (SELECT id FROM code_file WHERE url='${fileUuid}'))`);
+    const res = await query(
+      `INSERT INTO file_account (account_id, file_id) VALUES ((SELECT id FROM account WHERE account_name='${accountName}'), (SELECT id FROM code_file WHERE url='${fileUuid}'))`
+    );
     return res[0].affectedRows > 0;
-  } catch(e) {
-    console.log('addFileToAccount');
+  } catch (e) {
+    console.log("addFileToAccount");
     console.log(e);
     return false;
   }
+};
 
-}
-
-export const removeFileFromAccount = async(accountName: string, fileUuid: string) => {
-
+export const removeFileFromAccount = async (
+  accountName: string,
+  fileUuid: string
+) => {
   try {
-    const res = await query(`DELETE FROM file_account WHERE account_id=(SELECT id FROM account WHERE account_name='${accountName}') AND file_id=(SELECT id FROM code_file WHERE url='${fileUuid}')`);
+    const res = await query(
+      `DELETE FROM file_account WHERE account_id=(SELECT id FROM account WHERE account_name='${accountName}') AND file_id=(SELECT id FROM code_file WHERE url='${fileUuid}')`
+    );
     return res[0].affectedRows > 0;
-  } catch(e) {
-    console.log('addFileToAccount');
+  } catch (e) {
+    console.log("addFileToAccount");
     console.log(e);
     return false;
   }
-
-}
+};
 
 // TODO: find all accounts associated with a file

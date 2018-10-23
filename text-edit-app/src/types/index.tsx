@@ -6,9 +6,9 @@ export interface StoreState {
 }
 
 /**
- * 
+ *
  * Connected Components
- * 
+ *
  */
 
 // authentication
@@ -21,7 +21,7 @@ export interface AuthStoreState {
   authPrompt: boolean;
 }
 
-// Collection 
+// Collection
 export interface CollectionStoreState extends CollectionComponentProps {
   openAlert: boolean;
   alertMessage: string;
@@ -79,7 +79,6 @@ export interface HomeProps {
   loggedIn: boolean;
 }
 
-
 // user
 export interface UserStoreState extends UserProps {
   dashboard: DashboardProps;
@@ -102,16 +101,14 @@ export interface RouterStoreState {
     hash: string;
     pathname: string;
     search: string;
-  }
+  };
 }
 
-
 /**
- * 
+ *
  * Helpers
- * 
+ *
  */
-
 
 // header
 export interface HeaderProps extends PromptComponentProps {
@@ -127,7 +124,7 @@ export interface HeaderProps extends PromptComponentProps {
   alertMessage?: string;
   pageName: string;
   onPrompt?: boolean;
-} 
+}
 
 // header/prompts
 export interface PromptComponentProps {
@@ -145,15 +142,14 @@ export interface Item {
 
 // lists
 export interface ListProps {
-  header: 'Collections' | 'Files';
+  header: "Collections" | "Files";
   items: Item[] | null;
 }
-
 
 // sidebar
 export interface SidebarProps {
   name: string;
-  pageType: 'file' | 'collection';
+  pageType: "file" | "collection";
   tagList?: string[];
   allTagsList?: string[];
   createDate: string;

@@ -1,20 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
-import { accountExists } from '../models/account.model';
-import { isPrivate as codeFileIsPrivate, uuidExists } from '../models/codeFile.model';
-import { isPrivate as collectionIsPrivate, urlExists } from '../models/collection.model';
-import { decodeToken } from '../controllers/token';
-import { IToken } from  '../types';
-
+import { NextFunction, Request, Response } from "express";
+import { decodeToken } from "../controllers/token";
+import { accountExists } from "../models/account.model";
+import {
+  isPrivate as codeFileIsPrivate,
+  uuidExists
+} from "../models/codeFile.model";
+import {
+  isPrivate as collectionIsPrivate,
+  urlExists
+} from "../models/collection.model";
+import { IToken } from "../types";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
-  
   const { pageType } = req.body;
-  const url = req.body.url.replace(/\//g, '');
+  const url = req.body.url.replace(/\//g, "");
   const token = req.headers.authorization;
 
   try {
-
-    if (!await contentIsPrivate(pageType, url)) {
+    if (!(await contentIsPrivate(pageType, url))) {
       return next();
     }
 
@@ -22,62 +25,66 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       return next();
     }
 
-    if (token !== '' && token !== undefined && token !== null) {
-
+    if (token !== "" && token !== undefined && token !== null) {
       const decoded: IToken = await decodeToken(token);
 
-      if (decoded && decoded.user !== '' && await !accountExists(decoded.user)) {
-        res.set({'Authorization': ''});
-        return res.send({message :"logged out"});
+      if (
+        decoded &&
+        decoded.user !== "" &&
+        (await !accountExists(decoded.user))
+      ) {
+        res.set({ Authorization: "" });
+        return res.send({ message: "logged out" });
       }
 
-      if (decoded && await urlIsInToken(decoded, pageType, url)) {
+      if (decoded && (await urlIsInToken(decoded, pageType, url))) {
         return next();
-      } 
-    } 
+      }
+    }
     return res.send({
       success: true,
       password: true
     });
-    
   } catch (e) {
     console.log("auth error");
     console.log(e);
   }
-
-}
+};
 
 function urlIsInToken(token: IToken, authType: string, uuid: string) {
-  switch(authType) {
-    case 'file':
+  switch (authType) {
+    case "file":
       return token.files.indexOf(uuid) > -1;
-    case 'collection':
+    case "collection":
       return token.collections.indexOf(uuid) > -1;
-    case 'login':
+    case "login":
       return false;
-    default: 
+    default:
       return false;
   }
 }
 
 async function urlDoesNotExist(pageType: string, uuid: string) {
-  switch(pageType) {
-    case 'file':
-      return !await uuidExists(uuid);
-    case 'collection':
-      return !await urlExists(uuid);
-    default: 
+  switch (pageType) {
+    case "file":
+      return !(await uuidExists(uuid));
+    case "collection":
+      return !(await urlExists(uuid));
+    default:
       return false;
   }
 }
 
-async function contentIsPrivate(authType: string, uuid: string): Promise<boolean> {
+async function contentIsPrivate(
+  authType: string,
+  uuid: string
+): Promise<boolean> {
   switch (authType) {
-    case 'user':
+    case "user":
       return true;
-    case 'file':
+    case "file":
       return await codeFileIsPrivate(uuid);
-    case 'collection':
+    case "collection":
       return await collectionIsPrivate(uuid);
     default:
       return true;

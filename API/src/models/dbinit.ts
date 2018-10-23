@@ -2,20 +2,53 @@
  * For now, clears the DB whenever a dev refresh happens. Must be changed for prod
  */
 
-import query from './query';
+import query from "./query";
 
-import { account, accountModel, initialAccountInsert } from './account.model';
-import { collection, collectionModel, initialCollectionInsert } from './collection.model';
-import { collectionAccount, collectionAccountModel, collectionAccountInsert } from './collectionAccount.model';
-import { collectionFile, collectionFileModel, collectionFileInsert } from './collectionFile.model';
-import { codeFile, codeFileModel, intialFileInsert } from './codeFile.model';
-import { fileAccount, fileAccountModel, fileAccountInsert } from './fileAccount.model';
-import { fileTag, fileTagModel, fileTagInsert } from './fileTag.model';
-import { tag, tagModel, initialTagInsert } from './tag.model';
+import { account, accountModel, initialAccountInsert } from "./account.model";
+import { codeFile, codeFileModel, intialFileInsert } from "./codeFile.model";
+import {
+  collection,
+  collectionModel,
+  initialCollectionInsert
+} from "./collection.model";
+import {
+  collectionAccount,
+  collectionAccountInsert,
+  collectionAccountModel
+} from "./collectionAccount.model";
+import {
+  collectionFile,
+  collectionFileInsert,
+  collectionFileModel
+} from "./collectionFile.model";
+import {
+  fileAccount,
+  fileAccountInsert,
+  fileAccountModel
+} from "./fileAccount.model";
+import { fileTag, fileTagInsert, fileTagModel } from "./fileTag.model";
+import { initialTagInsert, tag, tagModel } from "./tag.model";
 
-
-const TABLES = [account, collection, collectionAccount, codeFile, collectionFile, fileAccount, tag, fileTag];
-const MODELS = [accountModel, collectionModel, collectionAccountModel, codeFileModel, collectionFileModel, fileAccountModel, tagModel, fileTagModel];
+const TABLES = [
+  account,
+  collection,
+  collectionAccount,
+  codeFile,
+  collectionFile,
+  fileAccount,
+  tag,
+  fileTag
+];
+const MODELS = [
+  accountModel,
+  collectionModel,
+  collectionAccountModel,
+  codeFileModel,
+  collectionFileModel,
+  fileAccountModel,
+  tagModel,
+  fileTagModel
+];
 
 // replaces tables if they exists
 async function replaceTable(tables: string[], models: string[], callback: any) {
@@ -25,11 +58,10 @@ async function replaceTable(tables: string[], models: string[], callback: any) {
 }
 
 export async function startDB() {
-
   try {
-    await query('SET FOREIGN_KEY_CHECKS=0')
-  } catch(e) {
-    console.log('Could not disable foreign keys');
+    await query("SET FOREIGN_KEY_CHECKS=0");
+  } catch (e) {
+    console.log("Could not disable foreign keys");
   }
 
   await replaceTable(TABLES, MODELS, async (table: string, model: string) => {
@@ -37,15 +69,15 @@ export async function startDB() {
     try {
       await query(template);
       await query(model);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   });
 
   try {
-    await query('SET FOREIGN_KEY_CHECKS=1')
-  } catch(e) {
-    console.log('Could not re-enable foreign keys');
+    await query("SET FOREIGN_KEY_CHECKS=1");
+  } catch (e) {
+    console.log("Could not re-enable foreign keys");
   }
 
   // insert init data
@@ -62,5 +94,4 @@ export async function startDB() {
     console.log("StartDB Insert Error");
     console.log(e);
   }
-
 }

@@ -1,59 +1,70 @@
-import { CollectionAction } from './CollectionAction';
+import { CLOSE_ALERT, SHARE_LINK } from "../constants";
+import { CollectionStoreState } from "../types";
+import { CollectionAction } from "./CollectionAction";
 import {
-  NEW_COLLECTION_REQUEST, NEW_COLLECTION_SUCCESS, NEW_COLLECTION_FAILURE,
-  GET_COLLECTION_REQUEST, GET_COLLECTION_SUCCESS, GET_COLLECTION_FAILURE,
-  AUTH_COLLECTION_REQUEST, AUTH_COLLECTION_SUCCESS, AUTH_COLLECTION_FAILURE,
-  LOCK_COLLECTION_REQUEST, LOCK_COLLECTION_SUCCESS, LOCK_COLLECTION_FAILURE,
-  ADD_FILE_REQUEST, ADD_FILE_SUCCESS, ADD_FILE_FAILURE,
-  REMOVE_FILE_REQUEST, REMOVE_FILE_SUCCESS, REMOVE_FILE_FAILURE,
-} from './constants';
-import {
-  SHARE_LINK, CLOSE_ALERT
-} from '../constants';
-import { CollectionStoreState } from '../types';
+  ADD_FILE_FAILURE,
+  ADD_FILE_REQUEST,
+  ADD_FILE_SUCCESS,
+  AUTH_COLLECTION_FAILURE,
+  AUTH_COLLECTION_REQUEST,
+  AUTH_COLLECTION_SUCCESS,
+  GET_COLLECTION_FAILURE,
+  GET_COLLECTION_REQUEST,
+  GET_COLLECTION_SUCCESS,
+  LOCK_COLLECTION_FAILURE,
+  LOCK_COLLECTION_REQUEST,
+  LOCK_COLLECTION_SUCCESS,
+  NEW_COLLECTION_FAILURE,
+  NEW_COLLECTION_REQUEST,
+  NEW_COLLECTION_SUCCESS,
+  REMOVE_FILE_FAILURE,
+  REMOVE_FILE_REQUEST,
+  REMOVE_FILE_SUCCESS
+} from "./constants";
 
 export const initialState: CollectionStoreState = {
   items: null,
   openAlert: false,
-  alertMessage: '',
+  alertMessage: "",
   isLocked: false,
-  name: 'CollectionTest',
-  createDate: '1-1-1990',
-  users: ['testUser1', 'testUser2'],
+  name: "CollectionTest",
+  createDate: "1-1-1990",
+  users: ["testUser1", "testUser2"],
   collectionPrompt: false
-}
+};
 
-export const collectionReducer = (state: CollectionStoreState = initialState, action: CollectionAction) => {
-
-  switch(action.type) {
-
+export const collectionReducer = (
+  state: CollectionStoreState = initialState,
+  action: CollectionAction
+) => {
+  switch (action.type) {
     case NEW_COLLECTION_REQUEST:
-      return {...state};
+      return { ...state };
     case NEW_COLLECTION_SUCCESS:
-      return {...state};
+      return { ...state };
     case NEW_COLLECTION_FAILURE:
-      return {...state};  
+      return { ...state };
 
     case GET_COLLECTION_REQUEST:
-      return {...state};
+      return { ...state };
     case GET_COLLECTION_SUCCESS:
-      return {...state, items: action.payload && action.payload.items};  
+      return { ...state, items: action.payload && action.payload.items };
     case GET_COLLECTION_FAILURE:
-      return {...state};  
+      return { ...state };
 
     case AUTH_COLLECTION_REQUEST:
-      return {...state};  
+      return { ...state };
     case AUTH_COLLECTION_SUCCESS:
-      return {...state};  
+      return { ...state };
     case AUTH_COLLECTION_FAILURE:
-      return {...state};  
+      return { ...state };
 
     case LOCK_COLLECTION_REQUEST:
-      return {...state};  
+      return { ...state };
     case LOCK_COLLECTION_SUCCESS:
-      return {...state, isLocked: action.payload};      
+      return { ...state, isLocked: action.payload };
     case LOCK_COLLECTION_FAILURE:
-      return {...state};  
+      return { ...state };
 
     case ADD_FILE_REQUEST:
     case ADD_FILE_SUCCESS:
@@ -64,13 +75,11 @@ export const collectionReducer = (state: CollectionStoreState = initialState, ac
     case REMOVE_FILE_FAILURE:
 
     case SHARE_LINK:
-      return {...state, openAlert: true, alertMessage: 'Copied to clipboard'};
+      return { ...state, openAlert: true, alertMessage: "Copied to clipboard" };
     case CLOSE_ALERT:
-      return {...state, openAlert: false};
-    
+      return { ...state, openAlert: false };
+
     default:
       return state;
-
   }
-
-}
+};
