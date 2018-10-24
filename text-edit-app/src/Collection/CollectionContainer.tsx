@@ -6,6 +6,7 @@ import { AuthAction, logIn } from "../Auth/AuthAction";
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import { StoreState } from "../types";
 import {
+  changeCollectionName,
   closeAlert,
   CollectionAction,
   getCollectionFiles,
@@ -32,7 +33,8 @@ export class CollectionContainer extends React.Component<any> {
       createDate,
       users,
       isLocked,
-      collectionPrompt
+      collectionPrompt,
+      onNameChange
     } = this.props;
 
     const files = [
@@ -78,6 +80,7 @@ export class CollectionContainer extends React.Component<any> {
           name={name}
           users={users}
           isLocked={isLocked}
+          onNameChange={onNameChange}
         />
       </div>
     );
@@ -127,8 +130,9 @@ const mapDispatchToProps = (
     onShare: () => dispatch(shareLink()),
     onAlert: () => dispatch(closeAlert()),
     onMount: () => dispatch(getCollectionFiles()),
-    onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass))
+    onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
     // TODO: onAuthCollection: (pass: string) => dispatch(authCollection(pass)),
+    onNameChange: (name: string) => dispatch(changeCollectionName(name))
   };
   // TODO: auth
   // TODO: delete

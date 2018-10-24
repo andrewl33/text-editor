@@ -16,6 +16,9 @@ import {
   AUTH_COLLECTION_FAILURE,
   AUTH_COLLECTION_REQUEST,
   AUTH_COLLECTION_SUCCESS,
+  CHANGE_COLLECTION_NAME_FAILURE,
+  CHANGE_COLLECTION_NAME_REQUEST,
+  CHANGE_COLLECTION_NAME_SUCCESS,
   GET_COLLECTION_FAILURE,
   GET_COLLECTION_REQUEST,
   GET_COLLECTION_SUCCESS,
@@ -46,6 +49,9 @@ export interface GetCollection {
   payload?: {
     success: boolean;
     items?: CollectionComponentProps;
+    createDate?: string;
+    name?: string;
+    isLocked?: boolean;
   };
 }
 
@@ -78,6 +84,14 @@ export interface RemoveFile {
   payload?: boolean;
 }
 
+export interface ChangeCollectionName {
+  type:
+    | CHANGE_COLLECTION_NAME_REQUEST
+    | CHANGE_COLLECTION_NAME_SUCCESS
+    | CHANGE_COLLECTION_NAME_FAILURE;
+  payload?: { success: boolean; name?: string };
+}
+
 export interface ShareLink {
   type: SHARE_LINK;
 }
@@ -93,6 +107,7 @@ export type CollectionAction =
   | LockCollection
   | AddFile
   | RemoveFile
+  | ChangeCollectionName
   | ShareLink
   | CloseAlert;
 
@@ -143,7 +158,13 @@ export const getCollectionFiles = () => {
       if (body.success) {
         dispatch({
           type: GET_COLLECTION_SUCCESS,
-          payload: { success: body.success, items: body.items }
+          payload: {
+            success: body.success,
+            items: body.items,
+            name: body.createDate,
+            createDate: body.createDate,
+            isLocked: body.isLocked
+          }
         });
       } else {
         dispatch({
@@ -195,6 +216,47 @@ export const lockCollection = (password: string) => {
       dispatch({
         type: LOCK_COLLECTION_FAILURE
       });
+    }
+  };
+};
+
+export const changeCollectionName = (newName: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, ChangeCollectionName>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: CHANGE_COLLECTION_NAME_REQUEST });
+
+    try {
+      const data = { name: newName, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/collection/updateName`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: CHANGE_COLLECTION_NAME_SUCCESS,
+          payload: {
+            success: true,
+            name: newName
+          }
+        });
+      } else {
+        dispatch({
+          type: CHANGE_COLLECTION_NAME_SUCCESS,
+          payload: {
+            success: false
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: CHANGE_COLLECTION_NAME_FAILURE });
     }
   };
 };

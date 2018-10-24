@@ -25,6 +25,17 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
   }
 
   public render() {
+    const {
+      name,
+      tags,
+      createDate,
+      isLocked,
+      users,
+      onRemoveTag,
+      onAddTag,
+      onNameChange
+    } = this.props;
+
     return (
       <Grid style={{ marginTop: 0, height: "100%" }}>
         <Grid.Column width={13}>
@@ -54,19 +65,16 @@ class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
         >
           <Container>
             <Sidebar
-              name={this.props.name}
+              name={name}
               pageType="file"
-              tagList={this.props.tags}
-              allTagsList={["woww", "samesame"]}
-              createDate={this.props.createDate}
-              isPrivate={this.props.isLocked}
-              users={this.props.users}
-              // tslint:disable-next-line
-              onRemoveTag={a => {}}
-              // tslint:disable-next-line
-              onAddTag={a => {}}
-              // tslint:disable-next-line
-              onNameChange={a => {}}
+              tagList={tags}
+              allTagsList={["woww", "samesame"]} // TODO:
+              createDate={createDate}
+              isPrivate={isLocked}
+              users={users}
+              onRemoveTag={onRemoveTag}
+              onAddTag={onAddTag}
+              onNameChange={onNameChange}
             />
           </Container>
         </Grid.Column>

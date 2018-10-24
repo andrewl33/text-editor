@@ -21,9 +21,10 @@ router.put("/save", save);
 router.post("/auth", auth);
 router.post("/lock", passwordProtect);
 router.delete("/delete", removeFile);
+// TODO: add change name
 
 // file tag
 router.post("/addTag", addTag);
-router.delete("/deleteTag", removeTag);
+router.delete("/removeTag", removeTag);
 
 export default router;

@@ -28,8 +28,7 @@ export const CollectionComponent = (props: CollectionComponentProps) => {
             createDate={createDate}
             isPrivate={isLocked}
             users={users}
-            // tslint:disable-next-line
-            onNameChange={a => {}}
+            onNameChange={props.onNameChange}
           />
         </Container>
       </Grid.Column>

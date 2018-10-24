@@ -8,6 +8,9 @@ import {
   AUTH_COLLECTION_FAILURE,
   AUTH_COLLECTION_REQUEST,
   AUTH_COLLECTION_SUCCESS,
+  CHANGE_COLLECTION_NAME_FAILURE,
+  CHANGE_COLLECTION_NAME_REQUEST,
+  CHANGE_COLLECTION_NAME_SUCCESS,
   GET_COLLECTION_FAILURE,
   GET_COLLECTION_REQUEST,
   GET_COLLECTION_SUCCESS,
@@ -48,7 +51,11 @@ export const collectionReducer = (
     case GET_COLLECTION_REQUEST:
       return { ...state };
     case GET_COLLECTION_SUCCESS:
-      return { ...state, items: action.payload && action.payload.items };
+      if (action.payload) {
+        const { items, createDate, name, isLocked } = action.payload;
+        return { ...state, items, createDate, name, isLocked };
+      }
+      return state;
     case GET_COLLECTION_FAILURE:
       return { ...state };
 
@@ -64,7 +71,11 @@ export const collectionReducer = (
     case LOCK_COLLECTION_SUCCESS:
       return { ...state, isLocked: action.payload };
     case LOCK_COLLECTION_FAILURE:
-      return { ...state };
+      return {
+        ...state,
+        openAlert: true,
+        alertMessage: "Count not connect to DB"
+      };
 
     case ADD_FILE_REQUEST:
     case ADD_FILE_SUCCESS:
@@ -73,6 +84,17 @@ export const collectionReducer = (
     case REMOVE_FILE_REQUEST:
     case REMOVE_FILE_SUCCESS:
     case REMOVE_FILE_FAILURE:
+
+    case CHANGE_COLLECTION_NAME_REQUEST:
+      return state;
+    case CHANGE_COLLECTION_NAME_SUCCESS:
+      return { ...state, name: action.payload && action.payload.name };
+    case CHANGE_COLLECTION_NAME_FAILURE:
+      return {
+        ...state,
+        openAlert: true,
+        alertMessage: "Could not connect to DB"
+      };
 
     case SHARE_LINK:
       return { ...state, openAlert: true, alertMessage: "Copied to clipboard" };

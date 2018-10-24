@@ -22,13 +22,17 @@ export interface AuthStoreState {
 }
 
 // Collection
-export interface CollectionStoreState extends CollectionComponentProps {
+export interface CollectionStoreState extends CollectionSharedProps {
   openAlert: boolean;
   alertMessage: string;
   collectionPrompt: boolean;
 }
 
-export interface CollectionComponentProps {
+export interface CollectionComponentProps extends CollectionSharedProps {
+  onNameChange: (name: string) => {};
+}
+
+export interface CollectionSharedProps {
   items: Item[] | null;
   name: string;
   createDate: string;

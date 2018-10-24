@@ -5,9 +5,15 @@ import { API_URL as URL } from "../envConstants";
 import { CLOSE_ALERT, LOCK_TEXT, SHARE_LINK } from "../constants";
 import { StoreState } from "../types";
 import {
+  ADD_TAG_FAILURE,
+  ADD_TAG_REQUEST,
+  ADD_TAG_SUCCESS,
   AUTH_FILE_FAILURE,
   AUTH_FILE_REQUEST,
   AUTH_FILE_SUCCESS,
+  CHANGE_FILE_NAME_FAILURE,
+  CHANGE_FILE_NAME_REQUEST,
+  CHANGE_FILE_NAME_SUCCESS,
   CHANGED_CODE,
   GET_TEXT_AUTH,
   GET_TEXT_FAILURE,
@@ -16,6 +22,9 @@ import {
   NEW_TEXT_FAILURE,
   NEW_TEXT_REQUEST,
   NEW_TEXT_SUCCESS,
+  REMOVE_TAG_FAILURE,
+  REMOVE_TAG_REQUEST,
+  REMOVE_TAG_SUCCESS,
   UPDATE_CODE_FAILURE,
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
@@ -35,8 +44,10 @@ export interface GetText {
   payload?: {
     success: boolean;
     body?: {
+      name: string;
       codeText: string;
       tags: string[];
+      createDate: string;
     };
   };
 }
@@ -54,6 +65,24 @@ export interface AuthFile {
   payload?: { success: boolean; message: string };
 }
 
+export interface AddTag {
+  type: ADD_TAG_REQUEST | ADD_TAG_SUCCESS | ADD_TAG_FAILURE;
+  payload?: { success: boolean; name?: string };
+}
+
+export interface RemoveTag {
+  type: REMOVE_TAG_REQUEST | REMOVE_TAG_SUCCESS | REMOVE_TAG_FAILURE;
+  payload?: { success: boolean; name?: string };
+}
+
+export interface ChangeFileName {
+  type:
+    | CHANGE_FILE_NAME_REQUEST
+    | CHANGE_FILE_NAME_SUCCESS
+    | CHANGE_FILE_NAME_FAILURE;
+  payload?: { success: boolean; name?: string };
+}
+
 export interface ShareLink {
   type: SHARE_LINK;
 }
@@ -69,6 +98,9 @@ export type EditorAction =
   | NewText
   | LockText
   | AuthFile
+  | AddTag
+  | RemoveTag
+  | ChangeFileName
   | ShareLink
   | CloseAlert;
 
@@ -158,7 +190,9 @@ export const getText = () => {
               success: true,
               body: {
                 codeText: body.codeText,
-                tags: body.tags
+                tags: body.tags,
+                name: body.name,
+                createDate: body.createDate
               }
             }
           });
@@ -213,11 +247,21 @@ export const newText = () => {
 };
 
 export const authFile = (password: string) => {
-  return async (dispatch: ThunkDispatch<StoreState, void, AuthFile>) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, AuthFile>,
+    getState: () => StoreState
+  ) => {
     dispatch({ type: AUTH_FILE_REQUEST });
 
     try {
-      const response = await fetch(`${URL}/file/auth`);
+      const data = { password, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/file/auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
       const body = await response.json();
       if (body.success) {
         dispatch({
@@ -245,6 +289,129 @@ export const authFile = (password: string) => {
   };
 };
 
+// TODO: find parameters
+export const addTag = (newTag: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, AddTag>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: ADD_TAG_REQUEST });
+
+    try {
+      const data = { newTag, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/file/addTag`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: ADD_TAG_SUCCESS,
+          payload: {
+            success: true,
+            name: newTag
+          }
+        });
+      } else {
+        dispatch({
+          type: ADD_TAG_SUCCESS,
+          payload: {
+            success: false
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: ADD_TAG_FAILURE });
+    }
+  };
+};
+
+export const removeTag = (removedTag: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, RemoveTag>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: REMOVE_TAG_REQUEST });
+
+    try {
+      const data = { removedTag, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/file/removeTag`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: REMOVE_TAG_SUCCESS,
+          payload: {
+            success: true,
+            name: removedTag
+          }
+        });
+      } else {
+        dispatch({
+          type: REMOVE_TAG_SUCCESS,
+          payload: {
+            success: false
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: REMOVE_TAG_FAILURE });
+    }
+  };
+};
+
+export const changeFileName = (newName: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, ChangeFileName>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: CHANGE_FILE_NAME_REQUEST });
+
+    try {
+      const data = { name: newName, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/file/updateName`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: CHANGE_FILE_NAME_SUCCESS,
+          payload: {
+            success: true
+          }
+        });
+      } else {
+        dispatch({
+          type: CHANGE_FILE_NAME_SUCCESS,
+          payload: {
+            success: false
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: CHANGE_FILE_NAME_FAILURE });
+    }
+  };
+};
+
 export const shareLink = (): ShareLink => {
   return {
     type: SHARE_LINK
@@ -258,8 +425,6 @@ export const closeAlert = (): CloseAlert => {
 };
 
 // TODO: Delete
-// TODO: add tag
-// TODO: remove tag
 
 // need to find a way to update spam ShareLink
 // function checkAlertState(dispatch: any, getState: () => StoreState) {

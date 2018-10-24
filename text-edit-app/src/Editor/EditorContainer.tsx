@@ -5,13 +5,16 @@ import { AuthAction, logIn } from "../Auth/AuthAction";
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import { EditorProps, StoreState, UserProps } from "../types";
 import {
+  addTag,
   authFile,
   changedCode,
+  changeFileName,
   closeAlert,
   EditorAction,
   getText,
   lockText,
   newText,
+  removeTag,
   shareLink,
   updateCode
 } from "./EditorAction";
@@ -115,7 +118,10 @@ const mapDispatchToProps = (
     onNew: () => dispatch(newText()),
     onShare: () => dispatch(shareLink()),
     onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
-    onAuthFile: (pass: string) => dispatch(authFile(pass))
+    onAuthFile: (pass: string) => dispatch(authFile(pass)),
+    onAddTag: (tagName: string) => dispatch(addTag(tagName)),
+    onRemoveTag: (tagName: string) => dispatch(removeTag(tagName)),
+    onChangeName: (name: string) => dispatch(changeFileName(name))
   };
 };
 

@@ -20,6 +20,8 @@ router.post("/auth", auth);
 router.post("/lock", passwordProtect);
 router.delete("/delete", deleteCollection);
 
+// TODO: changeName
+
 router.post("/add", addFile);
 router.delete("/remove", removeFile);
 

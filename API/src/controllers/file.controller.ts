@@ -195,6 +195,7 @@ export const changeName = async (
   }
 };
 
+// TODO: add new tag if it does not exist
 export const addTag = async (
   req: Request,
   res: Response,

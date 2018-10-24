@@ -1,9 +1,15 @@
 import { CLOSE_ALERT, LOCK_TEXT, SHARE_LINK } from "../constants";
 import { EditorStoreState } from "../types";
 import {
+  ADD_TAG_FAILURE,
+  ADD_TAG_REQUEST,
+  ADD_TAG_SUCCESS,
   AUTH_FILE_FAILURE,
   AUTH_FILE_REQUEST,
   AUTH_FILE_SUCCESS,
+  CHANGE_FILE_NAME_FAILURE,
+  CHANGE_FILE_NAME_REQUEST,
+  CHANGE_FILE_NAME_SUCCESS,
   CHANGED_CODE,
   GET_TEXT_AUTH,
   GET_TEXT_FAILURE,
@@ -12,6 +18,9 @@ import {
   NEW_TEXT_FAILURE,
   NEW_TEXT_REQUEST,
   NEW_TEXT_SUCCESS,
+  REMOVE_TAG_FAILURE,
+  REMOVE_TAG_REQUEST,
+  REMOVE_TAG_SUCCESS,
   UPDATE_CODE_FAILURE,
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
@@ -129,6 +138,41 @@ export const editorReducer = (
 
     case CHANGED_CODE:
       return state;
+
+    case ADD_TAG_REQUEST:
+      return state;
+    case ADD_TAG_SUCCESS:
+      return {
+        ...state,
+        tags: [...state.tags, action.payload && action.payload.name]
+      };
+    case ADD_TAG_FAILURE:
+      return {
+        ...state,
+        openAlert: true,
+        alertMessage: "Could not connect to DB!"
+      };
+    case REMOVE_TAG_REQUEST:
+      return state;
+    case REMOVE_TAG_SUCCESS:
+      const name = action.payload && action.payload.name && action.payload.name;
+      return {
+        ...state,
+        tag: state.tags.filter(t => t !== name)
+      };
+    case REMOVE_TAG_FAILURE:
+      return {
+        ...state,
+        openAlert: true,
+        alertMessage: "Could not connect to DB"
+      };
+    case CHANGE_FILE_NAME_REQUEST:
+      return state;
+    case CHANGE_FILE_NAME_SUCCESS:
+      return { ...state, name: action.payload && action.payload.name };
+    case CHANGE_FILE_NAME_FAILURE:
+      return { ...state, alertMessage: "Could not connect to DB" };
+
     case LOCK_TEXT:
       return state;
     case SHARE_LINK:
