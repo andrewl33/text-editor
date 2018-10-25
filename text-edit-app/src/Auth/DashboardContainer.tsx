@@ -4,7 +4,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import { StoreState } from "../types";
-import { closeAlert } from "./AuthAction";
+import { closeAlert, logInPrompt, logOut } from "./AuthAction";
 import { DashboardComponent } from "./DashboardComponent";
 
 export class CollectionContainer extends React.Component<any> {
@@ -16,7 +16,9 @@ export class CollectionContainer extends React.Component<any> {
       loggedIn,
       openAlert,
       alertMessage,
-      onAlert
+      onAlert,
+      onLogInPrompt,
+      onLogOut
     } = this.props;
     const header = (
       <HeaderComponent
@@ -28,6 +30,8 @@ export class CollectionContainer extends React.Component<any> {
         pageName={"Dashboard"}
         onAlert={onAlert}
         onPrompt={authPrompt}
+        onLogInPrompt={onLogInPrompt}
+        onLogOut={onLogOut}
       />
     );
 
@@ -137,7 +141,9 @@ const mapStateToProps = (state: StoreState) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, any>) => {
   return {
-    onAlert: () => dispatch(closeAlert())
+    onAlert: () => dispatch(closeAlert()),
+    onLogInPrompt: () => dispatch(logInPrompt()),
+    onLogOut: () => dispatch(logOut())
   };
 };
 

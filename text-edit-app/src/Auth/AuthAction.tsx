@@ -5,10 +5,12 @@ import { API_URL as URL } from "../envConstants";
 import { CLOSE_ALERT } from "../constants";
 import { DashboardProps, StoreState } from "../types";
 import {
+  CLOSE_PROMPT,
   CREATE_ACCOUNT_FAILURE,
   CREATE_ACCOUNT_REQUEST,
   CREATE_ACCOUNT_SUCCESS,
   LOG_IN_FAILURE,
+  LOG_IN_PROMPT,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_OUT_FAILURE,
@@ -33,6 +35,14 @@ export interface LogIn {
   };
 }
 
+export interface LogInPrompt {
+  type: LOG_IN_PROMPT;
+}
+
+export interface ClosePrompt {
+  type: CLOSE_PROMPT;
+}
+
 export interface LogOut {
   type: LOG_OUT_REQUEST | LOG_OUT_SUCCESS | LOG_OUT_FAILURE;
   payload?: { success: boolean };
@@ -42,7 +52,13 @@ export interface CloseAlert {
   type: CLOSE_ALERT;
 }
 
-export type AuthAction = CreateAccount | LogIn | LogOut | CloseAlert;
+export type AuthAction =
+  | CreateAccount
+  | LogIn
+  | LogOut
+  | LogInPrompt
+  | ClosePrompt
+  | CloseAlert;
 
 export const createAccount = (accountName: string, password: string) => {
   return async (dispatch: ThunkDispatch<StoreState, void, CreateAccount>) => {
@@ -114,8 +130,22 @@ export const logIn = (accountName: string, password: string) => {
   };
 };
 
-export const logOut = (accountName: string) => {
+export const logInPrompt = (): LogInPrompt => {
+  return {
+    type: LOG_IN_PROMPT
+  };
+};
+
+export const closePrompt = (): ClosePrompt => {
+  return {
+    type: CLOSE_PROMPT
+  };
+};
+
+// TODO:
+export const logOut = (): LogOut => {
   // clear token somehow
+  // send token to server, change salt, remove token
   return {
     type: LOG_OUT_SUCCESS
   };

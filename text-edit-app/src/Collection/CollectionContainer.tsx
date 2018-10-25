@@ -1,8 +1,9 @@
+import { push, RouterAction } from "connected-react-router";
 import * as React from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { AuthAction, logIn } from "../Auth/AuthAction";
+import { AuthAction, logIn, logInPrompt, logOut } from "../Auth/AuthAction";
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import { StoreState } from "../types";
 import {
@@ -34,7 +35,10 @@ export class CollectionContainer extends React.Component<any> {
       users,
       isLocked,
       collectionPrompt,
-      onNameChange
+      onNameChange,
+      onDashboard,
+      onLogInPrompt,
+      onLogOut
     } = this.props;
 
     const files = [
@@ -73,6 +77,9 @@ export class CollectionContainer extends React.Component<any> {
           alertMessage={alertMessage}
           pageName={"Collection"}
           onPrompt={authPrompt || collectionPrompt}
+          onLogInPrompt={onLogInPrompt}
+          onDashboard={onDashboard}
+          onLogOut={onLogOut}
         />
         <CollectionComponent
           items={files}
@@ -122,7 +129,11 @@ const mapStateToProps = (state: StoreState) => {
 };
 
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<StoreState, void, AuthAction | CollectionAction>
+  dispatch: ThunkDispatch<
+    StoreState,
+    void,
+    AuthAction | CollectionAction | RouterAction
+  >
 ) => {
   return {
     onNew: () => dispatch(newCollection()),
@@ -132,7 +143,10 @@ const mapDispatchToProps = (
     onMount: () => dispatch(getCollectionFiles()),
     onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
     // TODO: onAuthCollection: (pass: string) => dispatch(authCollection(pass)),
-    onNameChange: (name: string) => dispatch(changeCollectionName(name))
+    onNameChange: (name: string) => dispatch(changeCollectionName(name)),
+    onDashboard: () => dispatch(push("/dashboard")),
+    onLogInPrompt: () => dispatch(logInPrompt()),
+    onLogOut: () => dispatch(logOut())
   };
   // TODO: auth
   // TODO: delete

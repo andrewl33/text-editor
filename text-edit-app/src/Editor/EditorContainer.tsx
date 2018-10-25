@@ -1,9 +1,16 @@
+import { push, RouterAction } from "connected-react-router";
 import * as React from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { AuthAction, logIn } from "../Auth/AuthAction";
+import {
+  AuthAction,
+  closePrompt,
+  logIn,
+  logInPrompt,
+  logOut
+} from "../Auth/AuthAction";
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
-import { EditorProps, StoreState, UserProps } from "../types";
+import { EditorContainerProps, StoreState, UserProps } from "../types";
 import {
   addTag,
   authFile,
@@ -20,7 +27,13 @@ import {
 } from "./EditorAction";
 import EditorComponent from "./EditorComponent";
 
-export class EditorContainer extends React.Component<EditorProps & UserProps> {
+/**
+ * The type definition here is split due to
+ * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/17829
+ */
+export class EditorContainer extends React.Component<
+  EditorContainerProps & UserProps
+> {
   public render() {
     const {
       authPrompt,
@@ -34,8 +47,22 @@ export class EditorContainer extends React.Component<EditorProps & UserProps> {
       pathname,
       openAlert,
       alertMessage,
+      onClosePrompt,
       filePrompt,
-      onAuthFile
+      onAuthFile,
+      onLogOut,
+      onLogInPrompt,
+      codeText,
+      tags,
+      name,
+      createDate,
+      users,
+      onBatchUpdate,
+      onCodeChange,
+      onAddTag,
+      onRemoveTag,
+      onNameChange,
+      isLocked
     } = this.props;
 
     return (
@@ -52,18 +79,36 @@ export class EditorContainer extends React.Component<EditorProps & UserProps> {
           openAlert={openAlert}
           alertMessage={alertMessage}
           pageName={"File"}
-          prompt={authPrompt ? "Login" : "Private File"}
+          prompt={authPrompt ? "Login" : "Private File"} // TODO: handle so render isn't funky
           onPrompt={authPrompt || filePrompt}
           getPassword={onAuthFile}
           getAccountCredentials={onAuthAccount}
+          onLogOut={onLogOut}
+          onClosePrompt={onClosePrompt}
+          onLogInPrompt={onLogInPrompt}
         />
-        <EditorComponent {...this.props} />
+        <EditorComponent
+          codeText={codeText}
+          tags={tags}
+          name={name}
+          createDate={createDate}
+          users={users}
+          onBatchUpdate={onBatchUpdate}
+          onCodeChange={onCodeChange}
+          onAddTag={onAddTag}
+          onRemoveTag={onRemoveTag}
+          onNameChange={onNameChange}
+          isLocked={isLocked}
+        />
       </div>
     );
   }
 
   public componentDidMount() {
     this.props.onMount();
+    if (this.props.authPrompt) {
+      this.setState({ prompt: "Login" });
+    }
   }
 }
 
@@ -72,9 +117,8 @@ const mapStateToProps = (state: StoreState) => {
   const {
     codeText,
     tags,
-    isLoading,
+    // isLoading,
     isNewPage,
-    hasAuth,
     isLocked,
     isSaved,
     openAlert,
@@ -91,9 +135,8 @@ const mapStateToProps = (state: StoreState) => {
     authPrompt,
     codeText,
     tags,
-    isLoading,
+    // isLoading,
     isNewPage,
-    hasAuth,
     isLocked,
     isSaved,
     openAlert,
@@ -107,13 +150,17 @@ const mapStateToProps = (state: StoreState) => {
 };
 
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<StoreState, void, EditorAction | AuthAction>
+  dispatch: ThunkDispatch<
+    StoreState,
+    void,
+    EditorAction | AuthAction | RouterAction
+  >
 ) => {
   return {
     onBatchUpdate: (codeText: string) => dispatch(updateCode(codeText)),
     onCodeChange: () => dispatch(changedCode()),
     onAlert: () => dispatch(closeAlert()),
-    onLock: () => dispatch(lockText()), // TODO:add password
+    onLock: (password: string) => dispatch(lockText(password)),
     onMount: () => dispatch(getText()),
     onNew: () => dispatch(newText()),
     onShare: () => dispatch(shareLink()),
@@ -121,7 +168,11 @@ const mapDispatchToProps = (
     onAuthFile: (pass: string) => dispatch(authFile(pass)),
     onAddTag: (tagName: string) => dispatch(addTag(tagName)),
     onRemoveTag: (tagName: string) => dispatch(removeTag(tagName)),
-    onChangeName: (name: string) => dispatch(changeFileName(name))
+    onNameChange: (name: string) => dispatch(changeFileName(name)),
+    onLogInPrompt: () => dispatch(logInPrompt()),
+    onClosePrompt: () => dispatch(closePrompt()),
+    onDashboard: () => dispatch(push("/dashboard")),
+    onLogOut: () => dispatch(logOut())
   };
 };
 

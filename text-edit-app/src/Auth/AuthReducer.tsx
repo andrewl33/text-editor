@@ -3,10 +3,12 @@ import { AuthAction } from "./AuthAction";
 import { CLOSE_ALERT } from "../constants";
 import { AuthStoreState } from "../types";
 import {
+  CLOSE_PROMPT,
   CREATE_ACCOUNT_FAILURE,
   CREATE_ACCOUNT_REQUEST,
   CREATE_ACCOUNT_SUCCESS,
   LOG_IN_FAILURE,
+  LOG_IN_PROMPT,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_OUT_FAILURE,
@@ -46,7 +48,8 @@ export const authReducer = (
         ...state,
         loggedIn: true,
         accountName: action.payload && action.payload.accountName,
-        dashboard: action.payload && action.payload.dashboard
+        dashboard: action.payload && action.payload.dashboard,
+        authPrompt: false
       };
     case LOG_IN_FAILURE:
       return { ...state };
@@ -57,6 +60,12 @@ export const authReducer = (
       return { ...initialState };
     case LOG_OUT_FAILURE:
       return { ...state };
+
+    case LOG_IN_PROMPT:
+      return { ...state, authPrompt: true };
+
+    case CLOSE_PROMPT:
+      return { ...state, authPrompt: false };
 
     case CLOSE_ALERT:
       return { ...state, openAlert: false };

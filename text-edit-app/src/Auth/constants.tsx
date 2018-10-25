@@ -34,3 +34,9 @@ export type LOG_OUT_SUCCESS = typeof LOG_OUT_SUCCESS;
 
 export const LOG_OUT_FAILURE = "LOG_OUT_FAILURE";
 export type LOG_OUT_FAILURE = typeof LOG_OUT_FAILURE;
+
+export const LOG_IN_PROMPT = "LOG_IN_PROMPT";
+export type LOG_IN_PROMPT = typeof LOG_IN_PROMPT;
+
+export const CLOSE_PROMPT = "CLOSE_PROMPT";
+export type CLOSE_PROMPT = typeof CLOSE_PROMPT;

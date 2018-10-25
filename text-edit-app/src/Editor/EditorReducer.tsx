@@ -1,4 +1,4 @@
-import { CLOSE_ALERT, LOCK_TEXT, SHARE_LINK } from "../constants";
+import { CLOSE_ALERT, SHARE_LINK } from "../constants";
 import { EditorStoreState } from "../types";
 import {
   ADD_TAG_FAILURE,
@@ -15,6 +15,9 @@ import {
   GET_TEXT_FAILURE,
   GET_TEXT_REQUEST,
   GET_TEXT_SUCCESS,
+  LOCK_TEXT_FAILURE,
+  LOCK_TEXT_REQUEST,
+  LOCK_TEXT_SUCCESS,
   NEW_TEXT_FAILURE,
   NEW_TEXT_REQUEST,
   NEW_TEXT_SUCCESS,
@@ -42,9 +45,8 @@ export const initialState: EditorStoreState = {
   // to:
   [1,2,3,4].filter(value => value % 2 === 0);`,
   tags: ["tag1", "tag2", "JavaScript"],
-  isLoading: true,
+  // isLoading: true,
   isNewPage: false,
-  hasAuth: false,
   isLocked: false,
   isSaved: true,
   openAlert: false,
@@ -61,11 +63,11 @@ export const editorReducer = (
 ) => {
   switch (action.type) {
     case UPDATE_CODE_REQUEST:
-      return { ...state, isLoading: true };
+      return { ...state /*isLoading: true*/ };
     case UPDATE_CODE_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         isSaved: true,
         openAlert: true,
         alertMessage: "Updated code"
@@ -73,7 +75,7 @@ export const editorReducer = (
     case UPDATE_CODE_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         isSaved: false,
         openAlert: true,
         alertMessage: "Failed to update code"
@@ -82,7 +84,7 @@ export const editorReducer = (
     case GET_TEXT_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        // isLoading: true,
         openAlert: true,
         alertMessage: "Loading code..."
       };
@@ -92,13 +94,13 @@ export const editorReducer = (
         codeText:
           action.payload && action.payload.body && action.payload.body.codeText,
         tags: action.payload && action.payload.body && action.payload.body.tags,
-        isLoading: false,
+        // isLoading: false,
         isSaved: true
       };
     case GET_TEXT_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         isSaved: false,
         openAlert: true,
         alertMessage: "Failed to load saved code"
@@ -107,12 +109,12 @@ export const editorReducer = (
       return { ...state, filePrompt: true, prompt: "Private File" };
 
     case NEW_TEXT_REQUEST:
-      return { ...state, isLoading: true, isNewPage: true };
+      return { ...state, /*isLoading: true,*/ isNewPage: true };
     case NEW_TEXT_SUCCESS:
       return {
         ...initialState,
         isNewPage: true,
-        isLoading: false,
+        /*isLoading: false,*/
         openAlert: true,
         alertMessage: "Created a new page"
       };
@@ -120,7 +122,7 @@ export const editorReducer = (
       return {
         ...state,
         isNewPage: false,
-        isLoading: false,
+        /*isLoading: false,*/
         openAlert: true,
         alertMessage: "Failed to create new page, try again"
       };
@@ -152,6 +154,7 @@ export const editorReducer = (
         openAlert: true,
         alertMessage: "Could not connect to DB!"
       };
+
     case REMOVE_TAG_REQUEST:
       return state;
     case REMOVE_TAG_SUCCESS:
@@ -166,6 +169,7 @@ export const editorReducer = (
         openAlert: true,
         alertMessage: "Could not connect to DB"
       };
+
     case CHANGE_FILE_NAME_REQUEST:
       return state;
     case CHANGE_FILE_NAME_SUCCESS:
@@ -173,8 +177,13 @@ export const editorReducer = (
     case CHANGE_FILE_NAME_FAILURE:
       return { ...state, alertMessage: "Could not connect to DB" };
 
-    case LOCK_TEXT:
+    case LOCK_TEXT_REQUEST:
       return state;
+    case LOCK_TEXT_SUCCESS:
+      return { ...state, isLocked: true };
+    case LOCK_TEXT_FAILURE:
+      return state;
+
     case SHARE_LINK:
       return { ...state, openAlert: true, alertMessage: "Copied to clipboard" };
     case CLOSE_ALERT:

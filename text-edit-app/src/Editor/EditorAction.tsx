@@ -2,7 +2,7 @@ import { push, RouterAction } from "connected-react-router";
 import { ThunkDispatch } from "redux-thunk";
 import { API_URL as URL } from "../envConstants";
 
-import { CLOSE_ALERT, LOCK_TEXT, SHARE_LINK } from "../constants";
+import { CLOSE_ALERT, SHARE_LINK } from "../constants";
 import { StoreState } from "../types";
 import {
   ADD_TAG_FAILURE,
@@ -19,6 +19,9 @@ import {
   GET_TEXT_FAILURE,
   GET_TEXT_REQUEST,
   GET_TEXT_SUCCESS,
+  LOCK_TEXT_FAILURE,
+  LOCK_TEXT_REQUEST,
+  LOCK_TEXT_SUCCESS,
   NEW_TEXT_FAILURE,
   NEW_TEXT_REQUEST,
   NEW_TEXT_SUCCESS,
@@ -32,7 +35,7 @@ import {
 
 export interface UpdateCode {
   type: UPDATE_CODE_REQUEST | UPDATE_CODE_SUCCESS | UPDATE_CODE_FAILURE;
-  payload?: string;
+  payload?: { success: boolean; codeText: string };
 }
 
 export interface ChangedCode {
@@ -57,7 +60,8 @@ export interface NewText {
 }
 
 export interface LockText {
-  type: LOCK_TEXT;
+  type: LOCK_TEXT_FAILURE | LOCK_TEXT_REQUEST | LOCK_TEXT_SUCCESS;
+  payload?: { success: boolean; message: string };
 }
 
 export interface AuthFile {
@@ -132,7 +136,7 @@ export const updateCode = (codeText: string) => {
       if (body.isSaved) {
         dispatch({
           type: UPDATE_CODE_SUCCESS,
-          payload: codeText
+          payload: { success: body.isSaved, codeText }
         });
       } else {
         dispatch({
@@ -146,8 +150,6 @@ export const updateCode = (codeText: string) => {
         type: UPDATE_CODE_FAILURE
       });
     }
-
-    // checkAlertState(dispatch, getState);
   };
 };
 
@@ -215,47 +217,16 @@ export const getText = () => {
   };
 };
 
-// TODO: lock
-export const lockText = (): LockText => {
-  // nothing yet
-  return {
-    type: LOCK_TEXT
-  };
-};
-
-export const newText = () => {
+export const lockText = (password: string) => {
   return async (
-    dispatch: ThunkDispatch<StoreState, void, NewText | RouterAction>
-  ) => {
-    dispatch({ type: NEW_TEXT_REQUEST });
-
-    try {
-      const response = await fetch(`${URL}/generate`);
-      const body = await response.json();
-      if (body.success) {
-        dispatch(push("/file/" + body.url));
-        dispatch({ type: NEW_TEXT_SUCCESS });
-      } else {
-        dispatch({ type: NEW_TEXT_FAILURE });
-      }
-    } catch (e) {
-      // tslint:disable-next-line
-      console.log(e);
-      dispatch({ type: NEW_TEXT_FAILURE });
-    }
-  };
-};
-
-export const authFile = (password: string) => {
-  return async (
-    dispatch: ThunkDispatch<StoreState, void, AuthFile>,
+    dispatch: ThunkDispatch<StoreState, void, LockText>,
     getState: () => StoreState
   ) => {
-    dispatch({ type: AUTH_FILE_REQUEST });
+    dispatch({ type: LOCK_TEXT_REQUEST });
 
     try {
-      const data = { password, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/file/auth`, {
+      const data = { url: getState().router.location.pathname, password };
+      const response = await fetch(`${URL}/file/lock`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8"
@@ -265,18 +236,17 @@ export const authFile = (password: string) => {
       const body = await response.json();
       if (body.success) {
         dispatch({
-          type: AUTH_FILE_SUCCESS,
+          type: LOCK_TEXT_SUCCESS,
           payload: {
-            success: true,
+            success: body.success,
             message: "Authenticated"
           }
         });
-        dispatch(getText());
       } else {
         dispatch({
-          type: AUTH_FILE_SUCCESS,
+          type: LOCK_TEXT_FAILURE,
           payload: {
-            success: false,
+            success: body.success,
             message: "Wrong password"
           }
         });
@@ -284,7 +254,7 @@ export const authFile = (password: string) => {
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);
-      dispatch({ type: AUTH_FILE_FAILURE });
+      dispatch({ type: LOCK_TEXT_FAILURE });
     }
   };
 };
@@ -331,6 +301,29 @@ export const addTag = (newTag: string) => {
   };
 };
 
+export const newText = () => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, NewText | RouterAction>
+  ) => {
+    dispatch({ type: NEW_TEXT_REQUEST });
+
+    try {
+      const response = await fetch(`${URL}/generate`);
+      const body = await response.json();
+      if (body.success) {
+        dispatch(push("/file/" + body.url));
+        dispatch({ type: NEW_TEXT_SUCCESS });
+      } else {
+        dispatch({ type: NEW_TEXT_FAILURE });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: NEW_TEXT_FAILURE });
+    }
+  };
+};
+
 export const removeTag = (removedTag: string) => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, RemoveTag>,
@@ -368,6 +361,52 @@ export const removeTag = (removedTag: string) => {
       // tslint:disable-next-line
       console.log(e);
       dispatch({ type: REMOVE_TAG_FAILURE });
+    }
+  };
+};
+
+export const authFile = (password: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, AuthFile>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: AUTH_FILE_REQUEST });
+
+    try {
+      const data = { url: getState().router.location.pathname, password };
+      const response: Response = await fetch(`${URL}/file/auth`, {
+        method: "PUT",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: AUTH_FILE_SUCCESS,
+          payload: {
+            success: true,
+            message: "Authenticated"
+          }
+        });
+        dispatch(getText());
+      } else {
+        dispatch({
+          type: AUTH_FILE_SUCCESS,
+          payload: {
+            success: false,
+            message: "Wrong password"
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: AUTH_FILE_FAILURE });
     }
   };
 };
@@ -424,7 +463,7 @@ export const closeAlert = (): CloseAlert => {
   };
 };
 
-// TODO: Delete
+// TODO: Delete ??? probably not
 
 // need to find a way to update spam ShareLink
 // function checkAlertState(dispatch: any, getState: () => StoreState) {

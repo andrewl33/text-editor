@@ -44,9 +44,8 @@ export interface CollectionSharedProps {
 export interface EditorStoreState {
   codeText: string;
   tags: string[];
-  isLoading: boolean;
+  // isLoading: boolean;
   isNewPage: boolean;
-  hasAuth: boolean;
   isLocked: boolean;
   isSaved: boolean;
   openAlert: boolean;
@@ -57,9 +56,13 @@ export interface EditorStoreState {
   users: string[];
 }
 
-export interface EditorProps extends EditorStoreState {
-  onBatchUpdate: (codeText: string) => any;
-  onCodeChange: () => any;
+/**
+ * The type definition here is not extended
+ * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/17829
+ */
+export interface EditorContainerProps
+  extends EditorStoreState,
+    EditorComponentProps {
   onAlert: () => any;
   onLock: () => any;
   onMount: () => any;
@@ -67,11 +70,27 @@ export interface EditorProps extends EditorStoreState {
   onShare: () => any;
   onAuthFile?: () => any;
   onAuthAccount?: () => any;
+  onDashboard: () => any;
+  onLogInPrompt: () => any;
+  onLogOut: () => any;
+  onClosePrompt: () => any;
+  pathname: string;
+  authPrompt: boolean;
+}
+
+export interface EditorComponentProps {
+  onBatchUpdate: (codeText: string) => any;
+  onCodeChange: () => any;
   onRemoveTag?: (tagName: string) => any;
   onAddTag?: (tagName: string) => any;
   onNameChange: (name: string) => any;
-  pathname: string;
-  authPrompt: boolean;
+  codeText: string;
+  tags: string[];
+  // isLoading: boolean;
+  name: string;
+  createDate: string;
+  users: string[];
+  isLocked: boolean;
 }
 
 // home
@@ -120,6 +139,9 @@ export interface HeaderProps extends PromptComponentProps {
   onLock?: () => {};
   onShare?: () => {};
   onAlert: () => {};
+  onDashboard?: () => {};
+  onLogOut: () => {};
+  onLogInPrompt: () => {};
   accountName?: string;
   loggedIn: boolean;
   pathname?: string;
@@ -133,6 +155,7 @@ export interface HeaderProps extends PromptComponentProps {
 // header/prompts
 export interface PromptComponentProps {
   getAccountCredentials?: (accountName: string, password: string) => {};
+  onClosePrompt?: () => {};
   getPassword?: (password: string) => {};
   prompt?: "Login" | "Create Account" | "Private Collection" | "Private File";
 }

@@ -39,7 +39,11 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
       getAccountCredentials,
       getPassword,
       prompt,
-      onPrompt
+      onPrompt,
+      onDashboard,
+      onLogOut,
+      onLogInPrompt,
+      onClosePrompt
     } = this.props;
 
     const alert = alertMessage !== undefined && (
@@ -88,12 +92,12 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
         >
           {loggedIn ? (
             <Dropdown.Menu>
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Log out</Dropdown.Item>
+              <Dropdown.Item onCLick={onDashboard}>Dashboard</Dropdown.Item>
+              <Dropdown.Item onClick={onLogOut}>Log out</Dropdown.Item>
             </Dropdown.Menu>
           ) : (
             <Dropdown.Menu>
-              <Dropdown.Item>Log in</Dropdown.Item>
+              <Dropdown.Item onClick={onLogInPrompt}>Log in</Dropdown.Item>
             </Dropdown.Menu>
           )}
         </Dropdown>
@@ -122,6 +126,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
             getAccountCredentials={getAccountCredentials}
             getPassword={getPassword}
             prompt={prompt}
+            onClosePrompt={onClosePrompt}
           />
         </Transition>
         {hiddenShare}
@@ -129,7 +134,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     );
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate = (): void => {
     // copy to clipboard
     // reset copy state
     // if (this.props.isShareable && this.state.copy) {
@@ -144,11 +149,11 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
       clearTimeout(this.notificationDuration);
       this.notificationDuration = window.setTimeout(this.props.onAlert, 1500);
     }
-  }
+  };
 
-  private copyToClipboard(): void {
+  private copyToClipboard = (): void => {
     // shows the textarea so it is selectable
     this.setState({ copy: true });
     // the state is set back to false in componentDidUpdate()
-  }
+  };
 }

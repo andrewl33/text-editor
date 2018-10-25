@@ -4,17 +4,20 @@ import ContentEditable, { RefObject } from "react-sane-contenteditable";
 import { Container, Grid } from "semantic-ui-react";
 import Sidebar from "../generic/Sidebar/SidebarComponent";
 
-import { EditorProps } from "../types";
+import { EditorComponentProps } from "../types";
 // import '../../node_modules/prismjs/themes/prism-okaidia.css';
 
 interface EditorPrivateState {
   text: string;
 }
 
-class EditorComponent extends React.Component<EditorProps, EditorPrivateState> {
+class EditorComponent extends React.Component<
+  EditorComponentProps,
+  EditorPrivateState
+> {
   private delayBeforeUpdate: number;
   private myRef: RefObject<any>;
-  constructor(props: EditorProps) {
+  constructor(props: EditorComponentProps) {
     super(props);
 
     this.myRef = React.createRef();

@@ -39,6 +39,7 @@ Frontend:
   - [ ] Regular errors handle with an alert message
 - [ ] move notifcations into separate reducer
 - [ ] allTagsList
+- [ ] Look through types/index.tsx
 
 Backend:
 

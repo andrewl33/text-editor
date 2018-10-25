@@ -3,5 +3,6 @@
   "prettier.singleQuote": true,
   "prettier.semi": false,
   "prettier.tslintIntegration": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "jsDocCompletion.enabled": true
 }

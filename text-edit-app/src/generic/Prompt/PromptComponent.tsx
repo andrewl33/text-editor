@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Input, Menu } from "semantic-ui-react";
+import { Button, Icon, Input, Menu } from "semantic-ui-react";
 import { PromptComponentProps } from "../../types";
 
 export class PromptComponent extends React.Component<
@@ -16,22 +16,21 @@ export class PromptComponent extends React.Component<
   }
 
   public render() {
-    const { prompt } = this.props;
+    const { prompt, onClosePrompt } = this.props;
 
     return (
       <div>
         <Menu attached={true} inverted={true} primary="true" size="large">
           <Menu.Item name={prompt}>{prompt}</Menu.Item>
-          {prompt === "Login" ||
-            (prompt === "Create Account" && (
-              <Menu.Item>
-                <Input
-                  placeholder="account name"
-                  onChange={this.handleAccountChange}
-                  value={this.state.accountName}
-                />
-              </Menu.Item>
-            ))}
+          {(prompt === "Login" || prompt === "Create Account") && (
+            <Menu.Item>
+              <Input
+                placeholder="account name"
+                onChange={this.handleAccountChange}
+                value={this.state.accountName}
+              />
+            </Menu.Item>
+          )}
           <Menu.Item>
             <Input
               placeholder="password"
@@ -44,6 +43,13 @@ export class PromptComponent extends React.Component<
               Submit
             </Button>
           </Menu.Item>
+          {(prompt === "Login" || prompt === "Create Account") && (
+            <Menu.Item position="right">
+              <Button primary={true} textAlign="center" onClick={onClosePrompt}>
+                <Icon name="close" size="large" style={{ margin: 0 }} />
+              </Button>
+            </Menu.Item>
+          )}
         </Menu>
       </div>
     );
