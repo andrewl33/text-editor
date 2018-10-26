@@ -36,6 +36,8 @@ class EditorComponent extends React.Component<
       users,
       onRemoveTag,
       onAddTag,
+      onAddUser,
+      onRemoveUser,
       onNameChange
     } = this.props;
 
@@ -78,6 +80,8 @@ class EditorComponent extends React.Component<
               onRemoveTag={onRemoveTag}
               onAddTag={onAddTag}
               onNameChange={onNameChange}
+              onAddUser={onAddUser}
+              onRemoveUser={onRemoveUser}
             />
           </Container>
         </Grid.Column>

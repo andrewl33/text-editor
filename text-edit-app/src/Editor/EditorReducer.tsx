@@ -4,6 +4,9 @@ import {
   ADD_TAG_FAILURE,
   ADD_TAG_REQUEST,
   ADD_TAG_SUCCESS,
+  ADD_USER_TO_FILE_FAILURE,
+  ADD_USER_TO_FILE_REQUEST,
+  ADD_USER_TO_FILE_SUCCESS,
   AUTH_FILE_FAILURE,
   AUTH_FILE_REQUEST,
   AUTH_FILE_SUCCESS,
@@ -24,6 +27,9 @@ import {
   REMOVE_TAG_FAILURE,
   REMOVE_TAG_REQUEST,
   REMOVE_TAG_SUCCESS,
+  REMOVE_USER_FROM_FILE_FAILURE,
+  REMOVE_USER_FROM_FILE_REQUEST,
+  REMOVE_USER_FROM_FILE_SUCCESS,
   UPDATE_CODE_FAILURE,
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
@@ -175,6 +181,30 @@ export const editorReducer = (
     case CHANGE_FILE_NAME_SUCCESS:
       return { ...state, name: action.payload && action.payload.name };
     case CHANGE_FILE_NAME_FAILURE:
+      return { ...state, alertMessage: "Could not connect to DB" };
+
+    case ADD_USER_TO_FILE_FAILURE:
+      return state;
+    case ADD_USER_TO_FILE_SUCCESS:
+      return {
+        ...state,
+        users: [...state.users, [action.payload && action.payload.accountName]]
+      };
+    case ADD_USER_TO_FILE_REQUEST:
+      return state;
+
+    case REMOVE_USER_FROM_FILE_FAILURE:
+      return state;
+    case REMOVE_USER_FROM_FILE_SUCCESS:
+      if (action.payload && action.payload.accountName) {
+        return {
+          ...state,
+          users: state.users.filter(u => u !== action.payload!.accountName)
+        };
+      } else {
+        return state;
+      }
+    case REMOVE_USER_FROM_FILE_REQUEST:
       return { ...state, alertMessage: "Could not connect to DB" };
 
     case LOCK_TEXT_REQUEST:

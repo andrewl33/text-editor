@@ -5,12 +5,27 @@ import SidebarComponent from "../generic/Sidebar/SidebarComponent";
 import { CollectionComponentProps } from "../types";
 // TODO: add styling
 export const CollectionComponent = (props: CollectionComponentProps) => {
-  const { name, createDate, isLocked, users } = props;
-
+  const {
+    name,
+    createDate,
+    isLocked,
+    users,
+    onNameChange,
+    onAddUser,
+    onRemoveUser,
+    onAddFile,
+    items,
+    onRemoveFile
+  } = props;
   return (
     <Grid style={{ marginTop: 0, height: "100%" }}>
       <Grid.Column width={13} style={{ paddingRight: 0, paddingTop: 0 }}>
-        <ListComponent header="Files" {...props} />
+        <ListComponent
+          header="Files"
+          items={items}
+          onAdd={onAddFile}
+          onRemove={onRemoveFile}
+        />
       </Grid.Column>
       <Grid.Column
         width={3}
@@ -28,7 +43,9 @@ export const CollectionComponent = (props: CollectionComponentProps) => {
             createDate={createDate}
             isPrivate={isLocked}
             users={users}
-            onNameChange={props.onNameChange}
+            onNameChange={onNameChange}
+            onAddUser={onAddUser}
+            onRemoveUser={onRemoveUser}
           />
         </Container>
       </Grid.Column>

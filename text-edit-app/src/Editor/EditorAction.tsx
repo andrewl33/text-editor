@@ -8,6 +8,9 @@ import {
   ADD_TAG_FAILURE,
   ADD_TAG_REQUEST,
   ADD_TAG_SUCCESS,
+  ADD_USER_TO_FILE_FAILURE,
+  ADD_USER_TO_FILE_REQUEST,
+  ADD_USER_TO_FILE_SUCCESS,
   AUTH_FILE_FAILURE,
   AUTH_FILE_REQUEST,
   AUTH_FILE_SUCCESS,
@@ -28,6 +31,9 @@ import {
   REMOVE_TAG_FAILURE,
   REMOVE_TAG_REQUEST,
   REMOVE_TAG_SUCCESS,
+  REMOVE_USER_FROM_FILE_FAILURE,
+  REMOVE_USER_FROM_FILE_REQUEST,
+  REMOVE_USER_FROM_FILE_SUCCESS,
   UPDATE_CODE_FAILURE,
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
@@ -87,6 +93,28 @@ export interface ChangeFileName {
   payload?: { success: boolean; name?: string };
 }
 
+export interface AddUserToFile {
+  type:
+    | ADD_USER_TO_FILE_FAILURE
+    | ADD_USER_TO_FILE_REQUEST
+    | ADD_USER_TO_FILE_SUCCESS;
+  payload?: {
+    success: boolean;
+    accountName?: string;
+  };
+}
+
+export interface RemoveUserFromFile {
+  type:
+    | REMOVE_USER_FROM_FILE_FAILURE
+    | REMOVE_USER_FROM_FILE_REQUEST
+    | REMOVE_USER_FROM_FILE_SUCCESS;
+  payload?: {
+    success: boolean;
+    accountName?: string;
+  };
+}
+
 export interface ShareLink {
   type: SHARE_LINK;
 }
@@ -105,6 +133,8 @@ export type EditorAction =
   | AddTag
   | RemoveTag
   | ChangeFileName
+  | AddUserToFile
+  | RemoveUserFromFile
   | ShareLink
   | CloseAlert;
 
@@ -447,6 +477,88 @@ export const changeFileName = (newName: string) => {
       // tslint:disable-next-line
       console.log(e);
       dispatch({ type: CHANGE_FILE_NAME_FAILURE });
+    }
+  };
+};
+
+export const addUserToFile = (accountName: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, AddUserToFile>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: ADD_USER_TO_FILE_REQUEST });
+
+    try {
+      const data = { accountName, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/account/addFile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: ADD_USER_TO_FILE_SUCCESS,
+          payload: {
+            success: true,
+            accountName
+          }
+        });
+      } else {
+        dispatch({
+          type: ADD_USER_TO_FILE_SUCCESS,
+          payload: {
+            success: false
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: ADD_USER_TO_FILE_FAILURE });
+    }
+  };
+};
+
+export const removeUserFromFile = (accountName: string) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, RemoveUserFromFile>,
+    getState: () => StoreState
+  ) => {
+    dispatch({ type: REMOVE_USER_FROM_FILE_REQUEST });
+
+    try {
+      const data = { accountName, url: getState().router.location.pathname };
+      const response = await fetch(`${URL}/account/addFile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+      const body = await response.json();
+      if (body.success) {
+        dispatch({
+          type: REMOVE_USER_FROM_FILE_SUCCESS,
+          payload: {
+            success: true,
+            accountName
+          }
+        });
+      } else {
+        dispatch({
+          type: REMOVE_USER_FROM_FILE_SUCCESS,
+          payload: {
+            success: false
+          }
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: REMOVE_USER_FROM_FILE_FAILURE });
     }
   };
 };

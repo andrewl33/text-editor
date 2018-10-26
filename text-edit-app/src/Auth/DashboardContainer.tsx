@@ -7,7 +7,7 @@ import { StoreState } from "../types";
 import { closeAlert, logInPrompt, logOut } from "./AuthAction";
 import { DashboardComponent } from "./DashboardComponent";
 
-export class CollectionContainer extends React.Component<any> {
+export class DashboardContainer extends React.Component<any> {
   public render() {
     // const { accountName, authPrompt, loggedIn, dashboard, openAlert, alertMessage, onAlert } = this.props;
     const {
@@ -58,32 +58,32 @@ export class CollectionContainer extends React.Component<any> {
 
     const collections = [
       {
-        uuid: "1",
+        id: "1",
         name: "My best File",
         date: "1-1-1"
       },
       {
-        uuid: "1",
+        id: "1",
         name: "test",
         date: "1-1-1"
       },
       {
-        uuid: "1",
+        id: "1",
         name: "",
         date: "1-1-1"
       },
       {
-        uuid: "1",
+        id: "1",
         name: "wow",
         date: "1-1-1"
       },
       {
-        uuid: "1",
+        id: "1",
         name: "hello",
         date: "1-1-1"
       },
       {
-        uuid: "1",
+        id: "1",
         name: "world",
         date: "1-1-1"
       }
@@ -91,19 +91,19 @@ export class CollectionContainer extends React.Component<any> {
 
     const files = [
       {
-        uuid: "1",
+        id: "1",
         name: "Hello World",
         tags: ["Snippet", "Rust", "Mission Critical"],
         date: "1-1-1"
       },
       {
-        uuid: "2",
+        id: "2",
         name: "test",
         tags: ["css", "firefox", "mobile"],
         date: "1-1-1"
       },
       {
-        uuid: "3",
+        id: "3",
         name: "",
         tags: ["test", "Google", "jimmy"],
         date: "1-1-1"
@@ -150,4 +150,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, any>) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CollectionContainer);
+)(DashboardContainer);

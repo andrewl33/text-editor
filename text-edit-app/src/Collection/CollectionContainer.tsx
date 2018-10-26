@@ -3,21 +3,34 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { AuthAction, logIn, logInPrompt, logOut } from "../Auth/AuthAction";
-import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
-import { StoreState } from "../types";
 import {
+  AuthAction,
+  closePrompt,
+  logIn,
+  logInPrompt,
+  logOut
+} from "../Auth/AuthAction";
+import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
+import { CollectionContainerProps, HeaderProps, StoreState } from "../types";
+import {
+  addFileToCollection,
+  addUserToCollection,
+  authCollection,
   changeCollectionName,
   closeAlert,
   CollectionAction,
   getCollectionFiles,
   lockCollection,
   newCollection,
+  removeFileFromCollection,
+  removeUserFromCollection,
   shareLink
 } from "./CollectionAction";
 import { CollectionComponent } from "./CollectionComponent";
 
-export class CollectionContainer extends React.Component<any> {
+export class CollectionContainer extends React.Component<
+  CollectionContainerProps & HeaderProps
+> {
   public render() {
     const {
       accountName,
@@ -38,24 +51,31 @@ export class CollectionContainer extends React.Component<any> {
       onNameChange,
       onDashboard,
       onLogInPrompt,
-      onLogOut
+      onLogOut,
+      onAddFile,
+      onRemoveFile,
+      onAddUser,
+      onRemoveUser,
+      onAuthCollection,
+      onAuthAccount,
+      onClosePrompt
     } = this.props;
 
     const files = [
       {
-        uuid: "1",
+        id: "1",
         name: "Hello World",
         tags: ["Snippet", "Rust", "Mission Critical"],
         date: "1-1-1"
       },
       {
-        uuid: "2",
+        id: "2",
         name: "test",
         tags: ["css", "firefox", "mobile"],
         date: "1-1-1"
       },
       {
-        uuid: "3",
+        id: "3",
         name: "",
         tags: ["test", "Google", "jimmy"],
         date: "1-1-1"
@@ -76,10 +96,14 @@ export class CollectionContainer extends React.Component<any> {
           openAlert={openAlert}
           alertMessage={alertMessage}
           pageName={"Collection"}
+          prompt={authPrompt ? "Login" : "Private File"}
+          getAccountCredentials={onAuthAccount}
+          getPassword={onAuthCollection}
           onPrompt={authPrompt || collectionPrompt}
           onLogInPrompt={onLogInPrompt}
           onDashboard={onDashboard}
           onLogOut={onLogOut}
+          onClosePrompt={onClosePrompt}
         />
         <CollectionComponent
           items={files}
@@ -88,6 +112,10 @@ export class CollectionContainer extends React.Component<any> {
           users={users}
           isLocked={isLocked}
           onNameChange={onNameChange}
+          onAddFile={onAddFile}
+          onRemoveFile={onRemoveFile}
+          onAddUser={onAddUser}
+          onRemoveUser={onRemoveUser}
         />
       </div>
     );
@@ -141,12 +169,21 @@ const mapDispatchToProps = (
     onShare: () => dispatch(shareLink()),
     onAlert: () => dispatch(closeAlert()),
     onMount: () => dispatch(getCollectionFiles()),
+    onAddFile: (fileId: string) => dispatch(addFileToCollection(fileId)),
+    onRemoveFile: (fileId: string) =>
+      dispatch(removeFileFromCollection(fileId)),
+    onAddUser: (accountName: string) =>
+      dispatch(addUserToCollection(accountName)),
+    onRemoveUser: (accountName: string) =>
+      dispatch(removeUserFromCollection(accountName)),
+    onAuthCollection: (password: string) => dispatch(authCollection(password)),
     onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
     // TODO: onAuthCollection: (pass: string) => dispatch(authCollection(pass)),
     onNameChange: (name: string) => dispatch(changeCollectionName(name)),
     onDashboard: () => dispatch(push("/dashboard")),
     onLogInPrompt: () => dispatch(logInPrompt()),
-    onLogOut: () => dispatch(logOut())
+    onLogOut: () => dispatch(logOut()),
+    onClosePrompt: () => dispatch(closePrompt())
   };
   // TODO: auth
   // TODO: delete

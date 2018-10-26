@@ -13,6 +13,7 @@ import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import { EditorContainerProps, StoreState, UserProps } from "../types";
 import {
   addTag,
+  addUserToFile,
   authFile,
   changedCode,
   changeFileName,
@@ -22,6 +23,7 @@ import {
   lockText,
   newText,
   removeTag,
+  removeUserFromFile,
   shareLink,
   updateCode
 } from "./EditorAction";
@@ -61,6 +63,8 @@ export class EditorContainer extends React.Component<
       onCodeChange,
       onAddTag,
       onRemoveTag,
+      onAddUser,
+      onRemoveUser,
       onNameChange,
       isLocked
     } = this.props;
@@ -98,6 +102,8 @@ export class EditorContainer extends React.Component<
           onAddTag={onAddTag}
           onRemoveTag={onRemoveTag}
           onNameChange={onNameChange}
+          onAddUser={onAddUser}
+          onRemoveUser={onRemoveUser}
           isLocked={isLocked}
         />
       </div>
@@ -169,6 +175,8 @@ const mapDispatchToProps = (
     onAddTag: (tagName: string) => dispatch(addTag(tagName)),
     onRemoveTag: (tagName: string) => dispatch(removeTag(tagName)),
     onNameChange: (name: string) => dispatch(changeFileName(name)),
+    onAddUser: (name: string) => dispatch(addUserToFile(name)),
+    onRemoveUser: (name: string) => dispatch(removeUserFromFile(name)),
     onLogInPrompt: () => dispatch(logInPrompt()),
     onClosePrompt: () => dispatch(closePrompt()),
     onDashboard: () => dispatch(push("/dashboard")),

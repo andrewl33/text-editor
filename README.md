@@ -30,6 +30,7 @@ Frontend:
   - [ ] isLoading Reducer
   - [ ] center loading indicator
 - [ ] test
+- [ ] handle auth
 - [ ] place cursor at end of contentEditable when clicked
 - [ ] wire up sidebar
 - [ ] Catch tabs and other kb actions

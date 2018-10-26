@@ -28,12 +28,24 @@ export interface CollectionStoreState extends CollectionSharedProps {
   collectionPrompt: boolean;
 }
 
+export interface CollectionContainerProps extends CollectionComponentProps {
+  collectionPrompt: boolean;
+  onMount: () => {};
+  authPrompt: boolean;
+  onAuthCollection: (password: string) => any;
+  onAuthAccount: (accountName: string, password: string) => any;
+}
+
 export interface CollectionComponentProps extends CollectionSharedProps {
   onNameChange: (name: string) => {};
+  onAddUser: (accountName: string) => any;
+  onRemoveUser: (accountName: string) => any;
+  onAddFile: (fileId: string) => any;
+  onRemoveFile: (fileId: string) => any;
 }
 
 export interface CollectionSharedProps {
-  items: Item[] | null;
+  items: Item[];
   name: string;
   createDate: string;
   users: string[];
@@ -83,6 +95,8 @@ export interface EditorComponentProps {
   onCodeChange: () => any;
   onRemoveTag?: (tagName: string) => any;
   onAddTag?: (tagName: string) => any;
+  onAddUser: (name: string) => any;
+  onRemoveUser: (name: string) => any;
   onNameChange: (name: string) => any;
   codeText: string;
   tags: string[];
@@ -113,8 +127,13 @@ export interface UserProps {
 }
 
 export interface DashboardProps {
-  collections: Item[] | null;
-  files: Item[] | null;
+  collections: Item[];
+  files: Item[];
+  // TODO: Add eventually
+  // onAddFile: (fileId: string) => any;
+  // onAddCollection: (collectionId: string) => any;
+  // onRemoveFile: (fileId: string) => any;
+  // onRemoveCollection: (collectionId: string) => any;
 }
 
 // router
@@ -161,7 +180,7 @@ export interface PromptComponentProps {
 }
 
 export interface Item {
-  uuid: string;
+  id: string;
   name: string;
   tags?: string[];
   date: string;
@@ -170,7 +189,9 @@ export interface Item {
 // lists
 export interface ListProps {
   header: "Collections" | "Files";
-  items: Item[] | null;
+  items: Item[];
+  onRemove?: (id: string) => any;
+  onAdd?: (id: string) => any;
 }
 
 // sidebar
@@ -185,4 +206,6 @@ export interface SidebarProps {
   onRemoveTag?: (tagName: string) => any;
   onAddTag?: (tagName: string) => any;
   onNameChange: (name: string) => any;
+  onAddUser: (accountName: string) => any;
+  onRemoveUser: (accountName: string) => any;
 }
