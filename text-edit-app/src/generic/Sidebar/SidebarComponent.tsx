@@ -75,7 +75,7 @@ export default class SidebarComponent extends React.Component<
             <Label
               key={idx}
               link={true}
-              onClick={onRemoveTag && onRemoveTag.bind(tag)}
+              onClick={onRemoveTag && onRemoveTag.bind(null, tag)}
             >
               {tag}
               <Icon name="close" />

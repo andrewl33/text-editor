@@ -15,7 +15,8 @@ export const CollectionComponent = (props: CollectionComponentProps) => {
     onRemoveUser,
     onAddFile,
     items,
-    onRemoveFile
+    onRemoveFile,
+    onFileClick
   } = props;
   return (
     <Grid style={{ marginTop: 0, height: "100%" }}>
@@ -25,6 +26,7 @@ export const CollectionComponent = (props: CollectionComponentProps) => {
           items={items}
           onAdd={onAddFile}
           onRemove={onRemoveFile}
+          onClickToPage={onFileClick}
         />
       </Grid.Column>
       <Grid.Column

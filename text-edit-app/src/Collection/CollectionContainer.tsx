@@ -58,7 +58,8 @@ export class CollectionContainer extends React.Component<
       onRemoveUser,
       onAuthCollection,
       onAuthAccount,
-      onClosePrompt
+      onClosePrompt,
+      onFileClick
     } = this.props;
 
     const files = [
@@ -116,6 +117,7 @@ export class CollectionContainer extends React.Component<
           onRemoveFile={onRemoveFile}
           onAddUser={onAddUser}
           onRemoveUser={onRemoveUser}
+          onFileClick={onFileClick}
         />
       </div>
     );
@@ -183,7 +185,8 @@ const mapDispatchToProps = (
     onDashboard: () => dispatch(push("/dashboard")),
     onLogInPrompt: () => dispatch(logInPrompt()),
     onLogOut: () => dispatch(logOut()),
-    onClosePrompt: () => dispatch(closePrompt())
+    onClosePrompt: () => dispatch(closePrompt()),
+    onFileClick: (id: string) => dispatch(push(`/files/${id}`))
   };
   // TODO: auth
   // TODO: delete

@@ -20,7 +20,12 @@ export class ListComponent extends React.Component<
       this.props.items.map((item, index) => {
         return (
           <Table.Row key={index}>
-            <Table.Cell colSpan="2">
+            <Table.Cell
+              colSpan="2"
+              selectable={true}
+              style={{ padding: ".92857143em .78571429em" }}
+              onClick={this.props.onClickToPage.bind(null, item.id)}
+            >
               {item.name !== "" ? item.name : item.id}
             </Table.Cell>
             {this.props.header === "Files" && (
@@ -34,7 +39,7 @@ export class ListComponent extends React.Component<
             <Table.Cell colSpan={2}>{item.date}</Table.Cell>
             {this.props.onRemove && (
               <Table.Cell colSpan={2}>
-                <Button onClick={this.props.onRemove.bind(item.id)}>
+                <Button onClick={this.props.onRemove.bind(null, item.id)}>
                   <Icon name="close" />
                 </Button>
               </Table.Cell>
@@ -49,8 +54,8 @@ export class ListComponent extends React.Component<
         inverted={true}
         size="large"
         verticalAlign="middle"
-        relaxed={true}
-        divided={true}
+        relaxed="true"
+        divided="true"
         color="blue"
         style={{ color: "rgba(255,255,255,.9)", borderRadius: 0 }}
       >
@@ -68,22 +73,25 @@ export class ListComponent extends React.Component<
         </Table.Header>
         <Table.Body>
           {listItems}
-          <Table.Row>
-            <Input
-              placeholder={
-                this.props.header === "Files" ? "File url..." : "Collection url"
-              }
-              onChange={this.handleInput}
-              value={this.state.itemInput}
-            >
-              <input />
-              {this.props.onAdd && (
+          {this.props.onAdd && (
+            <Table.Row>
+              <Input
+                placeholder={
+                  this.props.header === "Files"
+                    ? "File url..."
+                    : "Collection url..."
+                }
+                onChange={this.handleInput}
+                value={this.state.itemInput}
+              >
+                <input />
+
                 <Button type="submit" onClick={this.handleNewItemInput}>
                   Add
                 </Button>
-              )}
-            </Input>
-          </Table.Row>
+              </Input>
+            </Table.Row>
+          )}
         </Table.Body>
       </Table>
     );

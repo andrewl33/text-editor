@@ -42,6 +42,7 @@ export interface CollectionComponentProps extends CollectionSharedProps {
   onRemoveUser: (accountName: string) => any;
   onAddFile: (fileId: string) => any;
   onRemoveFile: (fileId: string) => any;
+  onFileClick: (fileId: string) => any;
 }
 
 export interface CollectionSharedProps {
@@ -129,6 +130,8 @@ export interface UserProps {
 export interface DashboardProps {
   collections: Item[];
   files: Item[];
+  onCollectionClick?: (id: string) => any;
+  onFileClick: (id: string) => any;
   // TODO: Add eventually
   // onAddFile: (fileId: string) => any;
   // onAddCollection: (collectionId: string) => any;
@@ -192,6 +195,7 @@ export interface ListProps {
   items: Item[];
   onRemove?: (id: string) => any;
   onAdd?: (id: string) => any;
+  onClickToPage: (id: string) => any;
 }
 
 // sidebar

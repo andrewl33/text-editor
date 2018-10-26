@@ -92,7 +92,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
         >
           {loggedIn ? (
             <Dropdown.Menu>
-              <Dropdown.Item onCLick={onDashboard}>Dashboard</Dropdown.Item>
+              <Dropdown.Item onClick={onDashboard}>Dashboard</Dropdown.Item>
               <Dropdown.Item onClick={onLogOut}>Log out</Dropdown.Item>
             </Dropdown.Menu>
           ) : (

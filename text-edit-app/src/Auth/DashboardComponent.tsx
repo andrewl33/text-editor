@@ -7,10 +7,21 @@ export const DashboardComponent = (
 ): React.ReactElement<DashboardProps> => {
   return (
     <div>
-      {props.collections && (
-        <ListComponent header="Collections" items={...props.collections} />
+      {props.collections &&
+        props.onCollectionClick && (
+          <ListComponent
+            header="Collections"
+            items={...props.collections}
+            onClickToPage={props.onCollectionClick}
+          />
+        )}
+      {props.files && (
+        <ListComponent
+          header="Files"
+          items={...props.files}
+          onClickToPage={props.onFileClick}
+        />
       )}
-      {props.files && <ListComponent header="Files" items={...props.files} />}
     </div>
   );
 };

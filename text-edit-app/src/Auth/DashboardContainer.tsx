@@ -1,10 +1,10 @@
+import { push, RouterAction } from "connected-react-router";
 import * as React from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import { StoreState } from "../types";
-import { closeAlert, logInPrompt, logOut } from "./AuthAction";
+import { AuthAction, closeAlert, logInPrompt, logOut } from "./AuthAction";
 import { DashboardComponent } from "./DashboardComponent";
 
 export class DashboardContainer extends React.Component<any> {
@@ -18,12 +18,14 @@ export class DashboardContainer extends React.Component<any> {
       alertMessage,
       onAlert,
       onLogInPrompt,
-      onLogOut
+      onLogOut,
+      onFileClick,
+      onCollectionClick
     } = this.props;
     const header = (
       <HeaderComponent
         accountName={accountName}
-        loggedIn={loggedIn}
+        loggedIn={loggedIn || true} // TODO: remove for true eventually
         isShareable={false}
         openAlert={openAlert}
         alertMessage={alertMessage}
@@ -32,6 +34,7 @@ export class DashboardContainer extends React.Component<any> {
         onPrompt={authPrompt}
         onLogInPrompt={onLogInPrompt}
         onLogOut={onLogOut}
+        prompt={"Login"}
       />
     );
 
@@ -113,7 +116,12 @@ export class DashboardContainer extends React.Component<any> {
     return (
       <div>
         {header}
-        <DashboardComponent files={files} collections={collections} />
+        <DashboardComponent
+          files={files}
+          onFileClick={onFileClick}
+          onCollectionClick={onCollectionClick}
+          collections={collections}
+        />
       </div>
     );
   }
@@ -139,11 +147,15 @@ const mapStateToProps = (state: StoreState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<StoreState, void, any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StoreState, void, AuthAction | RouterAction>
+) => {
   return {
     onAlert: () => dispatch(closeAlert()),
     onLogInPrompt: () => dispatch(logInPrompt()),
-    onLogOut: () => dispatch(logOut())
+    onLogOut: () => dispatch(logOut()),
+    onCollectionClick: (id: string) => dispatch(push(`/collections/${id}`)),
+    onFileClick: (id: string) => dispatch(push(`/files/${id}`))
   };
 };
 
