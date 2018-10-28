@@ -15,7 +15,8 @@ import {
   LOG_IN_SUCCESS,
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
-  LOG_OUT_SUCCESS
+  LOG_OUT_SUCCESS,
+  UPDATE_TOKEN
 } from "./constants";
 
 export interface CreateAccount {
@@ -48,6 +49,10 @@ export interface LogOut {
   payload?: { success: boolean };
 }
 
+export interface UpdateToken {
+  type: UPDATE_TOKEN;
+  payload: { success: boolean; token: string };
+}
 export interface CloseAlert {
   type: CLOSE_ALERT;
 }
@@ -56,6 +61,7 @@ export type AuthAction =
   | CreateAccount
   | LogIn
   | LogOut
+  | UpdateToken
   | LogInPrompt
   | ClosePrompt
   | CloseAlert;
@@ -127,6 +133,13 @@ export const logIn = (accountName: string, password: string) => {
         type: LOG_IN_FAILURE
       });
     }
+  };
+};
+
+export const updateToken = (newToken: string): UpdateToken => {
+  return {
+    type: UPDATE_TOKEN,
+    payload: { success: true, token: newToken }
   };
 };
 

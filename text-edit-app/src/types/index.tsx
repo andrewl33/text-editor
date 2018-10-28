@@ -13,6 +13,7 @@ export interface StoreState {
 
 // authentication
 export interface AuthStoreState {
+  token?: string;
   loggedIn: boolean;
   accountName?: string;
   dashboard?: DashboardProps;

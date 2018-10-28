@@ -13,10 +13,12 @@ import {
   LOG_IN_SUCCESS,
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
-  LOG_OUT_SUCCESS
+  LOG_OUT_SUCCESS,
+  UPDATE_TOKEN
 } from "./constants";
 
 export const initialState: AuthStoreState = {
+  token: undefined,
   loggedIn: false,
   accountName: undefined,
   dashboard: undefined,
@@ -31,7 +33,7 @@ export const authReducer = (
 ) => {
   switch (action.type) {
     case CREATE_ACCOUNT_REQUEST:
-      return { ...state };
+      return state;
     case CREATE_ACCOUNT_SUCCESS:
       return {
         ...state,
@@ -39,10 +41,10 @@ export const authReducer = (
         accountName: action.payload && action.payload.accountName
       };
     case CREATE_ACCOUNT_FAILURE:
-      return { ...state };
+      return state;
 
     case LOG_IN_REQUEST:
-      return { ...state };
+      return state;
     case LOG_IN_SUCCESS:
       return {
         ...state,
@@ -52,14 +54,17 @@ export const authReducer = (
         authPrompt: false
       };
     case LOG_IN_FAILURE:
-      return { ...state };
+      return state;
 
     case LOG_OUT_REQUEST:
-      return { ...state };
+      return state;
     case LOG_OUT_SUCCESS:
-      return { ...initialState };
+      return initialState;
     case LOG_OUT_FAILURE:
-      return { ...state };
+      return state;
+
+    case UPDATE_TOKEN:
+      return { ...state, token: action.payload.token };
 
     case LOG_IN_PROMPT:
       return { ...state, authPrompt: true };

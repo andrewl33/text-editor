@@ -40,3 +40,6 @@ export type LOG_IN_PROMPT = typeof LOG_IN_PROMPT;
 
 export const CLOSE_PROMPT = "CLOSE_PROMPT";
 export type CLOSE_PROMPT = typeof CLOSE_PROMPT;
+
+export const UPDATE_TOKEN = "UPDATE_TOKEN";
+export type UPDATE_TOKEN = typeof UPDATE_TOKEN;
