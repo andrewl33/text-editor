@@ -27,7 +27,7 @@ export const intialFileInsert = async () => {
 
   // set private
   makePrivate("1");
-  updatePassword("1", "password1");
+  updatePassword("1", "123456");
   makePrivate("6");
   updatePassword("6", "hunter2");
 
@@ -86,6 +86,41 @@ export const getTextFromDB = async (
   return { success: true, codeText: code[0][0].code_text };
 };
 
+export const getAllCodeFileInfo = async (
+  url: string
+): Promise<
+  | { success: false }
+  | {
+      success: true;
+      codeText: string;
+      createDate: string;
+      isPrivate: boolean;
+      name: string;
+    }
+> => {
+  try {
+    const res = await query(
+      `SELECT url, updated_date, is_private, code_text, name FROM code_file WHERE url='${url}'`
+    );
+
+    if (res[0] === []) {
+      return { success: false };
+    }
+
+    return {
+      success: true,
+      codeText: res[0][0].code_text,
+      createDate: res[0][0].updated_date,
+      isPrivate: res[0][0].is_private,
+      name: res[0][0].name
+    };
+  } catch (e) {
+    console.log("allCodeFileInfo");
+    console.log(e);
+    return { success: false };
+  }
+};
+
 export const saveToDB = async (
   url: string,
   codeText: string
@@ -128,22 +163,21 @@ export const updateName = async (
   uuid: string,
   name: string
 ): Promise<boolean> => {
-  let success = false;
-
   try {
     const res = await query(
       `UPDATE code_file SET name='${name}' WHERE url='${uuid}'`
     );
 
-    if (res.affectedRows > 0) {
-      success = true;
+    if (res[0].affectedRows > 0) {
+      return true;
     }
+
+    return false;
   } catch (e) {
     console.log("file update name error");
     console.log(e);
+    return false;
   }
-
-  return success;
 };
 
 // update password

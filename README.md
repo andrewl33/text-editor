@@ -31,15 +31,13 @@ Frontend:
   - [ ] center loading indicator
 - [ ] test
 - [ ] handle auth
-- [ ] place cursor at end of contentEditable when clicked
-- [ ] wire up sidebar
+- [ ] handle user add/del
 - [ ] Catch tabs and other kb actions
 - [ ] Create right click menu
 - [ ] Refactor; Create an errors reducer
   - [ ] Errors reducer handles network errors
   - [ ] Regular errors handle with an alert message
 - [ ] move notifcations into separate reducer
-- [ ] allTagsList
 - [ ] Look through types/index.tsx
 
 Backend:
@@ -47,5 +45,6 @@ Backend:
 - [ ] Test API
 - [ ] Change api to send all information on open
 - [ ] create a generic function to handle all queries
+- [ ] handle parameters correctly
 
 * [ ] Deploy

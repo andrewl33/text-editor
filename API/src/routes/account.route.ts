@@ -4,6 +4,7 @@ import {
   addFile,
   getAllCollections,
   getAllFiles,
+  getDashboard,
   removeCollection,
   removeFile
 } from "../controllers/account.controller";
@@ -12,12 +13,35 @@ import { auth } from "../middleware/auth.middleware";
 const router = Router();
 
 router.use(auth);
+
 // file associations
 router.get("/allCollections", getAllCollections);
 router.get("/allFiles", getAllFiles);
+
+// {
+//   success: boolean;
+//   accountName?: string;
+// };
 router.post("/addFile", addFile);
+
+// { success: boolean; accountName?: string }
 router.post("/addCollection", addCollection);
+
+// {
+//   success: boolean;
+//   accountName?: string;
+// };
 router.post("/removeFile", removeFile);
+// { success: boolean; accountName?: string }
 router.post("/removeCollection", removeCollection);
+
+// {
+//   success: boolean,
+//   payload?: {
+//     files : Item[],
+//     collections : Item[]
+//   }
+// }
+router.post("/getDashboard", getDashboard);
 
 export default router;

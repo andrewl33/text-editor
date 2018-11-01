@@ -29,19 +29,28 @@ export const collectionFileInsert = async () => {
   }
 };
 
+interface IFile {
+  id: string;
+  createDate: string;
+  name: string;
+}
+
 // get all files from a collection
 export const getFilesFromCollection = async (
   uuid: string
-): Promise<{ success: boolean; files?: string[] }> => {
+): Promise<{
+  success: boolean;
+  files?: IFile[];
+}> => {
   try {
     const res = await query(
-      `SELECT code_file.url FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id WHERE collection_file.collection_id = '${uuid}'`
+      `SELECT code_file.url, code_file.updated_date, code_file.name FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id INNER JOIN collection ON collection.id=collection_file.collection_id WHERE collection_file.collection_id = '${uuid}'`
     );
-    const files: string[] = [];
+    const files: IFile[] = [];
 
     if (res[0].length > 0) {
-      res[0].forEach((file: { url: string }) => {
-        files.push(file.url);
+      res[0].forEach((file: IFile) => {
+        files.push(file);
       });
     }
 

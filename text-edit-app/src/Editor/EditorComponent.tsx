@@ -11,6 +11,8 @@ interface EditorPrivateState {
   text: string;
 }
 
+// TODO: check https://github.com/ashleyw/react-sane-contenteditable/issues/31
+// right now, the content editable does not listen to content correctly
 class EditorComponent extends React.Component<
   EditorComponentProps,
   EditorPrivateState
@@ -23,7 +25,7 @@ class EditorComponent extends React.Component<
     this.myRef = React.createRef();
 
     this.state = {
-      text: this.props.codeText
+      text: ""
     };
   }
 
@@ -38,7 +40,8 @@ class EditorComponent extends React.Component<
       onAddTag,
       onAddUser,
       onRemoveUser,
-      onNameChange
+      onNameChange,
+      codeText
     } = this.props;
 
     return (
@@ -51,11 +54,11 @@ class EditorComponent extends React.Component<
           >
             <ContentEditable
               className="code-line editor"
-              content={this.state.text}
+              content={codeText}
               editable={true}
               multiLine={true}
               onChange={this.handleChange}
-              style={{ padding: 0 }}
+              style={{ padding: 0, height: "100%" }}
             />
           </div>
         </Grid.Column>

@@ -58,29 +58,29 @@ export class PromptComponent extends React.Component<
   private handleInput = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    const { getAccountCredentials, getPassword, prompt } = this.props;
+    const { getAccountCredentials, getPassword, prompt, lockItem } = this.props;
     const { accountName, password } = this.state;
 
     if (prompt === "Create Account" || prompt === "Login") {
       if (getAccountCredentials) {
         getAccountCredentials(accountName, password);
       }
+    } else if (prompt === "Lock" && lockItem) {
+      lockItem(password);
     } else if (getPassword) {
       getPassword(password);
     }
   };
 
-  private handleAccountChange(e: React.SyntheticEvent) {
+  private handleAccountChange = (e: React.SyntheticEvent) => {
     this.setState({
-      ...this.state,
       accountName: (e.target as HTMLInputElement).value
     });
-  }
+  };
 
-  private handlePasswordChange(e: React.SyntheticEvent) {
+  private handlePasswordChange = (e: React.SyntheticEvent) => {
     this.setState({
-      ...this.state,
       password: (e.target as HTMLInputElement).value
     });
-  }
+  };
 }

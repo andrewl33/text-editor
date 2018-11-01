@@ -51,7 +51,6 @@ export const initialState: EditorStoreState = {
   // to:
   [1,2,3,4].filter(value => value % 2 === 0);`,
   tags: ["tag1", "tag2", "JavaScript"],
-  // isLoading: true,
   isNewPage: false,
   isLocked: false,
   isSaved: true,
@@ -69,11 +68,11 @@ export const editorReducer = (
 ) => {
   switch (action.type) {
     case UPDATE_CODE_REQUEST:
-      return { ...state /*isLoading: true*/ };
+      return { ...state };
     case UPDATE_CODE_SUCCESS:
       return {
         ...state,
-        // isLoading: false,
+
         isSaved: true,
         openAlert: true,
         alertMessage: "Updated code"
@@ -81,7 +80,7 @@ export const editorReducer = (
     case UPDATE_CODE_FAILURE:
       return {
         ...state,
-        // isLoading: false,
+
         isSaved: false,
         openAlert: true,
         alertMessage: "Failed to update code"
@@ -90,23 +89,26 @@ export const editorReducer = (
     case GET_TEXT_REQUEST:
       return {
         ...state,
-        // isLoading: true,
         openAlert: true,
         alertMessage: "Loading code..."
       };
     case GET_TEXT_SUCCESS:
-      return {
-        ...state,
-        codeText:
-          action.payload && action.payload.body && action.payload.body.codeText,
-        tags: action.payload && action.payload.body && action.payload.body.tags,
-        // isLoading: false,
-        isSaved: true
-      };
+      if (action.payload && action.payload.body) {
+        return {
+          ...initialState,
+          codeText: action.payload.body.codeText,
+          tags: action.payload.body.tags,
+          name: action.payload.body.name,
+          isLocked: action.payload.body.isLocked,
+          isSaved: true,
+          users: action.payload.body.users
+        };
+      }
+
     case GET_TEXT_FAILURE:
       return {
         ...state,
-        // isLoading: false,
+
         isSaved: false,
         openAlert: true,
         alertMessage: "Failed to load saved code"
@@ -115,12 +117,11 @@ export const editorReducer = (
       return { ...state, filePrompt: true, prompt: "Private File" };
 
     case NEW_TEXT_REQUEST:
-      return { ...state, /*isLoading: true,*/ isNewPage: true };
+      return { ...state, isNewPage: true };
     case NEW_TEXT_SUCCESS:
       return {
         ...initialState,
         isNewPage: true,
-        /*isLoading: false,*/
         openAlert: true,
         alertMessage: "Created a new page"
       };
@@ -128,7 +129,6 @@ export const editorReducer = (
       return {
         ...state,
         isNewPage: false,
-        /*isLoading: false,*/
         openAlert: true,
         alertMessage: "Failed to create new page, try again"
       };
@@ -167,7 +167,7 @@ export const editorReducer = (
       const name = action.payload && action.payload.name && action.payload.name;
       return {
         ...state,
-        tag: state.tags.filter(t => t !== name)
+        tags: state.tags.filter(t => t !== name)
       };
     case REMOVE_TAG_FAILURE:
       return {
@@ -179,6 +179,8 @@ export const editorReducer = (
     case CHANGE_FILE_NAME_REQUEST:
       return state;
     case CHANGE_FILE_NAME_SUCCESS:
+      // tslint:disable-next-line
+      console.log(action.payload!.name);
       return { ...state, name: action.payload && action.payload.name };
     case CHANGE_FILE_NAME_FAILURE:
       return { ...state, alertMessage: "Could not connect to DB" };

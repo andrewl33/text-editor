@@ -28,28 +28,38 @@ export async function createToken(
       { user, files, collections },
       jwtSecret,
       (err: any, token: string) => {
-        if (err) { rej(err); }
-        else { res(token); }
+        if (err) {
+          rej(err);
+        } else {
+          res(token);
+        }
       }
     );
   });
 }
 
-export async function decodeToken(token: string) {
-  if (token === "" || token === undefined || token === null) {
+export async function decodeToken(token: string | undefined) {
+  if (
+    token === "" ||
+    typeof token === "undefined" ||
+    token === null ||
+    token === "undefined" ||
+    !token
+  ) {
     return null;
-  }
+  } else {
+    try {
+      const decoded = (await jwt.verify(
+        token.split(" ")[1],
+        jwtSecret
+      )) as IToken;
 
-  try {
-    const decoded = (await jwt.verify(
-      token.replace("Bearer ", ""),
-      jwtSecret
-    )) as IToken;
-    return decoded;
-  } catch (e) {
-    console.log("auth verify error:");
-    console.log(e);
+      return decoded;
+    } catch (e) {
+      console.log("auth verify error:");
+      console.log(e);
 
-    return null;
+      return null;
+    }
   }
 }

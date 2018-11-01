@@ -159,7 +159,7 @@ export interface RouterStoreState {
 // header
 export interface HeaderProps extends PromptComponentProps {
   onNew?: () => {};
-  onLock?: () => {};
+  onLock?: (password: string) => void;
   onShare?: () => {};
   onAlert: () => {};
   onDashboard?: () => {};
@@ -180,7 +180,13 @@ export interface PromptComponentProps {
   getAccountCredentials?: (accountName: string, password: string) => {};
   onClosePrompt?: () => {};
   getPassword?: (password: string) => {};
-  prompt?: "Login" | "Create Account" | "Private Collection" | "Private File";
+  lockItem?: (password: string) => void;
+  prompt?:
+    | "Login"
+    | "Create Account"
+    | "Private Collection"
+    | "Private File"
+    | "Lock";
 }
 
 export interface Item {

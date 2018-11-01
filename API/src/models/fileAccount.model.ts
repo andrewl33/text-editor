@@ -38,23 +38,41 @@ export const fileAccountInsert = async () => {
 
 export const findAllFilesForAnAccount = async (
   accountName: string
-): Promise<string[]> => {
+): Promise<
+  | {
+      success: true;
+      files: Array<{ id: string; name: string; createDate: string }>;
+    }
+  | { success: false }
+> => {
   try {
     const resDB = query(
-      `SELECT code_file.url FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
+      `SELECT code_file.url, code_file.name, code_file.updated_date FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
     );
-    const files: string[] = [];
+    const files: Array<{ id: string; name: string; createDate: string }> = [];
 
     if (resDB[0].length > 0) {
-      resDB[0].forEach(({ url }: { url: string }) => {
-        files.push(url);
-      });
+      resDB[0].forEach(
+        ({
+          url,
+          name,
+          updated_date
+        }: {
+          url: string;
+          name: string;
+          updated_date: string;
+        }) => {
+          files.push({ id: url, name, createDate: updated_date });
+        }
+      );
     }
+    // TODO:
+    console.log(files);
 
-    return files;
+    return { success: true, files };
   } catch (e) {
     console.log(e);
-    return [];
+    return { success: false };
   }
 };
 
@@ -91,3 +109,27 @@ export const removeFileFromAccount = async (
 };
 
 // TODO: find all accounts associated with a file
+export const allFileAccounts = async (
+  fileUuid: string
+): Promise<{ success: boolean; accounts: string[] }> => {
+  const fileAccountObj = { success: false, accounts: [] as string[] };
+
+  try {
+    const res = await query(
+      `SELECT account.account_name FROM account INNER JOIN file_account ON account.id = file_account.account_id WHERE file_account.file_id = (SELECT id FROM code_file WHERE url='${fileUuid}')`
+    );
+
+    if (res[0].length > 0) {
+      res[0].forEach(({ account_name }: { account_name: string }) => {
+        fileAccountObj.accounts.push(account_name);
+      });
+    }
+    fileAccountObj.success = true;
+
+    return fileAccountObj;
+  } catch (e) {
+    console.log("allFileAccounts");
+    console.log(e);
+    return fileAccountObj;
+  }
+};

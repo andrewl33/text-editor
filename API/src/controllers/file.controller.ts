@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import {
   createNewCodeRow,
   deleteFile,
+  getAllCodeFileInfo,
   getPassword,
   getTextFromDB,
   isPrivate as selectIsPrivate,
@@ -12,11 +13,13 @@ import {
   updatePassword,
   uuidExists
 } from "../models/codeFile.model";
+import { allFileAccounts } from "../models/fileAccount.model";
 import {
   addTagToFile,
   allFileTags,
   removeTagFromFile
 } from "../models/fileTag.model";
+import { allTags, createNewTag } from "../models/tag.model";
 import { createToken, decodeToken, updateToken } from "./token";
 
 export const generate = async (
@@ -52,6 +55,7 @@ export const generate = async (
   return response.send({ success: true, url: uuid });
 };
 
+// TODO: Test
 export const open = async (
   request: Request,
   response: Response,
@@ -61,14 +65,25 @@ export const open = async (
   let url = request.body.url;
   url = url.replace(/\//g, "");
   try {
-    const code = await getTextFromDB(url);
+    const info = await getAllCodeFileInfo(url);
     const tags = await allFileTags(url);
+    const users = await allFileAccounts(url);
 
-    return response.send({
-      success: true,
-      codeText: code,
-      tags: tags.tags
-    });
+    if (info.success) {
+      return response.send({
+        success: true,
+        codeText: info.codeText,
+        tags: tags.tags,
+        name: info.name,
+        isPrivate: info.isPrivate,
+        createDate: info.createDate,
+        users: users.accounts
+      });
+    } else {
+      return response.send({
+        success: false
+      });
+    }
   } catch (e) {
     console.log("File open");
     console.log(e);
@@ -119,20 +134,23 @@ export const passwordProtect = async (
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   const uuid = req.body.url.replace(/\//g, "");
-
   try {
-    if ((await getPassword(uuid)) === req.body.password) {
+    if ((await getPassword(uuid)).password === req.body.password) {
       const newToken = await updateToken(
         await decodeToken(req.headers.authorization),
         "",
         [],
         [uuid]
       );
-      res.set({ Authorization: "Bearer " + newToken });
+
+      await res.set({ Authorization: "Bearer " + newToken });
+      await res.send({ success: true });
+    } else {
+      res.send({ success: false });
     }
   } catch (e) {
     console.log(e);
-    return false;
+    return res.send({ success: false });
   }
 };
 
@@ -205,7 +223,11 @@ export const addTag = async (
   const { tagName } = req.body;
 
   try {
+    if ((await allTags()).tags.indexOf(tagName) < 0) {
+      await createNewTag(tagName);
+    }
     const resDB = await addTagToFile(uuid, tagName);
+    // TODO: get tag name?
     res.send({ success: resDB });
   } catch (e) {
     console.log("addTag");

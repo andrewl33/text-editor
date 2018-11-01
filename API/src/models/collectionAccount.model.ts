@@ -31,23 +31,40 @@ export const collectionAccountInsert = async () => {
 
 export const findAllCollectionsForAnAccount = async (
   accountName: string
-): Promise<string[]> => {
+): Promise<
+  | { success: true; collections: Array<{ id: string; createDate: string }> }
+  | { success: false }
+> => {
   try {
     const resDB = await query(
-      `SELECT collection.url FROM collection INNER JOIN collection_account ON collection.id = collection_account.collection_id WHERE collection_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
+      `SELECT collection.url, collection.updated_date, collection.name FROM collection INNER JOIN collection_account ON collection.id = collection_account.collection_id WHERE collection_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
     );
-    const collections: string[] = [];
+    const collections: Array<{
+      id: string;
+      createDate: string;
+      name: string;
+    }> = [];
 
     if (resDB[0].length > 0) {
-      resDB[0].forEach(({ url }: { url: string }) => {
-        collections.push(url);
-      });
+      resDB[0].forEach(
+        ({
+          url,
+          updated_date,
+          name
+        }: {
+          url: string;
+          updated_date: string;
+          name: string;
+        }) => {
+          collections.push({ id: url, createDate: updated_date, name });
+        }
+      );
     }
 
-    return collections;
+    return { success: true, collections };
   } catch (e) {
     console.log(e);
-    return [];
+    return { success: false };
   }
 };
 

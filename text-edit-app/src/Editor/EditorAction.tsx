@@ -1,9 +1,10 @@
 import { push, RouterAction } from "connected-react-router";
 import { ThunkDispatch } from "redux-thunk";
-import { API_URL as URL } from "../envConstants";
+// import { API_URL as URL } from "../envConstants";
 
 import { CLOSE_ALERT, SHARE_LINK } from "../constants";
 import { StoreState } from "../types";
+import authFetch from "../util/authFetch";
 import {
   ADD_TAG_FAILURE,
   ADD_TAG_REQUEST,
@@ -38,7 +39,7 @@ import {
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
 } from "./constants";
-
+const URL = "/api";
 export interface UpdateCode {
   type: UPDATE_CODE_REQUEST | UPDATE_CODE_SUCCESS | UPDATE_CODE_FAILURE;
   payload?: { success: boolean; codeText: string };
@@ -57,12 +58,15 @@ export interface GetText {
       codeText: string;
       tags: string[];
       createDate: string;
+      isLocked: boolean;
+      users: string[];
     };
   };
 }
 
 export interface NewText {
   type: NEW_TEXT_REQUEST | NEW_TEXT_SUCCESS | NEW_TEXT_FAILURE;
+  payload?: { success: boolean };
 }
 
 export interface LockText {
@@ -143,25 +147,25 @@ export const updateCode = (codeText: string) => {
     dispatch: ThunkDispatch<StoreState, void, UpdateCode>,
     getState: () => StoreState
   ) => {
-    const data = { url: getState().router.location.pathname, codeText };
-
+    const data = {
+      url: getState()
+        .router.location.pathname.split("/")
+        .pop(),
+      pageType: "file",
+      codeText
+    };
     dispatch({
       type: UPDATE_CODE_REQUEST
     });
 
     try {
-      const response: Response = await fetch(`${URL}/save`, {
-        method: "PUT",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/file/save`,
+        "PUT",
+        getState().authentication.token,
+        data
+      );
 
       if (body.isSaved) {
         dispatch({
@@ -194,41 +198,46 @@ export const getText = () => {
     dispatch: ThunkDispatch<StoreState, void, GetText>,
     getState: () => StoreState
   ) => {
-    const data = { url: getState().router.location.pathname };
+    const data = {
+      url: getState()
+        .router.location.pathname.split("/")
+        .pop(),
+      pageType: "file"
+    };
 
     dispatch({
       type: GET_TEXT_REQUEST
     });
 
     try {
-      const response = await fetch(`${URL}/open`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
-
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/file/open`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+      // tslint:disable-next-line
+      console.log(body);
       if (body.success) {
-        if (body.password) {
-          dispatch({
-            type: GET_TEXT_AUTH
-          });
-        } else {
-          dispatch({
-            type: GET_TEXT_SUCCESS,
-            payload: {
-              success: true,
-              body: {
-                codeText: body.codeText,
-                tags: body.tags,
-                name: body.name,
-                createDate: body.createDate
-              }
+        dispatch({
+          type: GET_TEXT_SUCCESS,
+          payload: {
+            success: true,
+            body: {
+              codeText: body.codeText,
+              tags: body.tags,
+              name: body.name,
+              createDate: body.createDate,
+              isLocked: body.isPrivate,
+              users: body.users
             }
-          });
-        }
+          }
+        });
+      } else if (body.password) {
+        dispatch({
+          type: GET_TEXT_AUTH
+        });
       } else {
         dispatch({
           type: GET_TEXT_SUCCESS,
@@ -255,15 +264,20 @@ export const lockText = (password: string) => {
     dispatch({ type: LOCK_TEXT_REQUEST });
 
     try {
-      const data = { url: getState().router.location.pathname, password };
-      const response = await fetch(`${URL}/file/lock`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "file",
+        password
+      };
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/file/lock`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
       if (body.success) {
         dispatch({
           type: LOCK_TEXT_SUCCESS,
@@ -289,7 +303,6 @@ export const lockText = (password: string) => {
   };
 };
 
-// TODO: find parameters
 export const addTag = (newTag: string) => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, AddTag>,
@@ -298,15 +311,22 @@ export const addTag = (newTag: string) => {
     dispatch({ type: ADD_TAG_REQUEST });
 
     try {
-      const data = { newTag, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/file/addTag`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "file",
+        tagName: newTag
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/file/addTag`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+
       if (body.success) {
         dispatch({
           type: ADD_TAG_SUCCESS,
@@ -338,10 +358,10 @@ export const newText = () => {
     dispatch({ type: NEW_TEXT_REQUEST });
 
     try {
-      const response = await fetch(`${URL}/generate`);
+      const response = await fetch(`${URL}/file/generate`);
       const body = await response.json();
       if (body.success) {
-        dispatch(push("/file/" + body.url));
+        dispatch(push("/files/" + body.url));
         dispatch({ type: NEW_TEXT_SUCCESS });
       } else {
         dispatch({ type: NEW_TEXT_FAILURE });
@@ -362,15 +382,22 @@ export const removeTag = (removedTag: string) => {
     dispatch({ type: REMOVE_TAG_REQUEST });
 
     try {
-      const data = { removedTag, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/file/removeTag`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        tagName: removedTag,
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "file"
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/file/removeTag`,
+        "DELETE",
+        getState().authentication.token,
+        data
+      );
+
       if (body.success) {
         dispatch({
           type: REMOVE_TAG_SUCCESS,
@@ -403,18 +430,21 @@ export const authFile = (password: string) => {
     dispatch({ type: AUTH_FILE_REQUEST });
 
     try {
-      const data = { url: getState().router.location.pathname, password };
-      const response: Response = await fetch(`${URL}/file/auth`, {
-        method: "PUT",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        password,
+        pageType: "file"
+      };
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/auth/authFile`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+
       if (body.success) {
         dispatch({
           type: AUTH_FILE_SUCCESS,
@@ -423,6 +453,7 @@ export const authFile = (password: string) => {
             message: "Authenticated"
           }
         });
+
         dispatch(getText());
       } else {
         dispatch({
@@ -449,28 +480,33 @@ export const changeFileName = (newName: string) => {
     dispatch({ type: CHANGE_FILE_NAME_REQUEST });
 
     try {
-      const data = { name: newName, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/file/updateName`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        name: newName,
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "file"
+      };
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/file/updateName`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+      // tslint:disable-next-line
+      console.log(body);
       if (body.success) {
         dispatch({
           type: CHANGE_FILE_NAME_SUCCESS,
           payload: {
-            success: true
+            success: true,
+            name: newName
           }
         });
       } else {
         dispatch({
-          type: CHANGE_FILE_NAME_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: CHANGE_FILE_NAME_FAILURE
         });
       }
     } catch (e) {
@@ -481,6 +517,7 @@ export const changeFileName = (newName: string) => {
   };
 };
 
+// TODO: add
 export const addUserToFile = (accountName: string) => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, AddUserToFile>,
@@ -489,15 +526,20 @@ export const addUserToFile = (accountName: string) => {
     dispatch({ type: ADD_USER_TO_FILE_REQUEST });
 
     try {
-      const data = { accountName, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/account/addFile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        accountName,
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "file"
+      };
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/account/addFile`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
       if (body.success) {
         dispatch({
           type: ADD_USER_TO_FILE_SUCCESS,
@@ -522,6 +564,7 @@ export const addUserToFile = (accountName: string) => {
   };
 };
 
+// TODO: add
 export const removeUserFromFile = (accountName: string) => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, RemoveUserFromFile>,
@@ -530,15 +573,21 @@ export const removeUserFromFile = (accountName: string) => {
     dispatch({ type: REMOVE_USER_FROM_FILE_REQUEST });
 
     try {
-      const data = { accountName, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/account/addFile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        accountName,
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "file"
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/account/removeFile`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
       if (body.success) {
         dispatch({
           type: REMOVE_USER_FROM_FILE_SUCCESS,

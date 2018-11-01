@@ -1,5 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
+import { decode } from "jsonwebtoken";
 import {
   account,
   accountExists,
@@ -16,6 +17,7 @@ import {
   findAllFilesForAnAccount,
   removeFileFromAccount
 } from "../models/fileAccount.model";
+import { allFileTags } from "../models/fileTag.model";
 import { createToken, decodeToken, updateToken } from "./token";
 
 export const createAccount = async (
@@ -63,12 +65,13 @@ export const createAccount = async (
       res.set({ Authorization: "Bearer " + token });
     }
 
-    return await res.send({ success });
+    return await res.send({ success, accountName });
   } catch (e) {
     return res.send({ success: false });
   }
 };
 
+// TODO: might not work
 export const authenticateAccount = async (
   req: Request,
   res: Response,
@@ -98,9 +101,12 @@ export const authenticateAccount = async (
     if (err) {
       console.log(err);
     }
-    res.send({
+
+    await res.set({ Authorization: await createToken(accountName, [], []) });
+
+    await res.send({
       success: isSame,
-      token: await createToken(accountName, [], [])
+      accountName
     });
   });
 };
@@ -127,7 +133,7 @@ export const addFile = async (
       const token = await updateToken(decoded, "", [], [uuid]);
       res.set({ Authorization: "Bearer " + token });
     }
-    return await res.send({ success: resDB });
+    return await res.send({ success: resDB, accountName: decoded.user });
   } catch (e) {
     console.log("addFile");
     console.log(e);
@@ -147,7 +153,7 @@ export const addCollection = async (
       const token = await updateToken(decoded, "", [uuid], []);
       res.set({ Authorization: "Bearer " + token });
     }
-    return await res.send({ success: resDB });
+    return await res.send({ success: resDB, accountName: decoded.user });
   } catch (e) {
     console.log("addCollection");
     console.log(e);
@@ -176,7 +182,7 @@ export const removeFile = async (
         res.set({ Authorization: "Bearer " + token });
       }
 
-      return await res.send({ success: resDB });
+      return await res.send({ success: resDB, accountName: decoded.user });
     }
 
     res.send({ success: false });
@@ -209,7 +215,7 @@ export const removeCollection = async (
         res.set({ Authorization: "Bearer " + token });
       }
 
-      return await res.send({ success: resDB });
+      return await res.send({ success: resDB, accountName: decoded.user });
     }
 
     res.send({ success: false });
@@ -226,12 +232,12 @@ export const getAllFiles = async (
   next: NextFunction
 ) => {
   try {
-    const decode = await decodeToken(req.headers.authorization);
-    const resDB = await findAllFilesForAnAccount(decode.user);
+    const decoded = await decodeToken(req.headers.authorization);
+    const resDB = await findAllFilesForAnAccount(decoded.user);
 
     res.send({ success: true, files: resDB });
   } catch (e) {
-    console.log("getAllCollections");
+    console.log("getAllFiles");
     console.log(e);
     res.send({ success: false });
   }
@@ -243,14 +249,49 @@ export const getAllCollections = async (
   next: NextFunction
 ) => {
   try {
-    // maybe use the JWT instead?
-
-    const decode = await decodeToken(req.headers.authorization);
-    const resDB = await findAllCollectionsForAnAccount(decode.user);
+    const decoded = await decodeToken(req.headers.authorization);
+    const resDB = await findAllCollectionsForAnAccount(decoded.user);
 
     res.send({ success: true, collections: resDB });
   } catch (e) {
     console.log("getAllCollections");
+    console.log(e);
+    res.send({ success: false });
+  }
+};
+
+export const getDashboard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const decoded = await decodeToken(req.headers.authorization);
+    const resCol = await findAllCollectionsForAnAccount(decoded.user);
+    const resFiles = await findAllFilesForAnAccount(decoded.user);
+    const tags: string[][] = [];
+    const fileInfo: Array<{
+      file: { id: string; createDate: string; name: string };
+      tags: string[];
+    }> = [];
+
+    if (resFiles.success) {
+      for (const file of resFiles.files) {
+        tags.push((await allFileTags(file.id)).tags);
+      }
+
+      for (let i = 0; i < resFiles.files.length; i++) {
+        fileInfo.push({ file: resFiles.files[i], tags: tags[i] });
+      }
+    }
+
+    res.send({
+      success: true,
+      collections: resCol.success && resCol.collections,
+      files: fileInfo
+    });
+  } catch (e) {
+    console.log("getDashboard");
     console.log(e);
     res.send({ success: false });
   }

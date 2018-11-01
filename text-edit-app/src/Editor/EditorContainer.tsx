@@ -123,7 +123,6 @@ const mapStateToProps = (state: StoreState) => {
   const {
     codeText,
     tags,
-    // isLoading,
     isNewPage,
     isLocked,
     isSaved,
@@ -141,7 +140,6 @@ const mapStateToProps = (state: StoreState) => {
     authPrompt,
     codeText,
     tags,
-    // isLoading,
     isNewPage,
     isLocked,
     isSaved,

@@ -74,7 +74,7 @@ export default class SidebarComponent extends React.Component<
           return (
             <Label
               key={idx}
-              link={true}
+              link="true"
               onClick={onRemoveTag && onRemoveTag.bind(null, tag)}
             >
               {tag}
@@ -84,6 +84,7 @@ export default class SidebarComponent extends React.Component<
         });
     }
 
+    // TODO: wire up for add/remove users
     const usersElement =
       users &&
       users.map((user: string, idx: number) => {
@@ -97,7 +98,7 @@ export default class SidebarComponent extends React.Component<
           {nameField}
         </List.Item>
         <List.Item>
-          <List.Header>Date</List.Header>
+          <List.Header>Date Created</List.Header>
           {createDate}
         </List.Item>
         <List.Item>

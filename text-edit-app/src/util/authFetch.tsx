@@ -2,7 +2,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { AuthAction, updateToken } from "src/Auth/AuthAction";
 import { StoreState } from "../types";
 
-export async function handleAuthRequests<T, U>(
+export default async function handleAuthRequests<T, U>(
   dispatch: ThunkDispatch<StoreState, void, AuthAction>,
   url: string,
   method: string,
@@ -12,24 +12,26 @@ export async function handleAuthRequests<T, U>(
   let res;
 
   const headers = new Headers();
-  headers.append("Content-Type", "application/json; charset=utf-8");
+  headers.append("Content-Type", "application/json");
+  // headers.append("Access-Control-Allow-Headers", "Authorization");
   if (auth) {
     headers.append("Authorization", auth);
   }
 
   const options: RequestInit = {
     method,
-    mode: "cors",
-    credentials: "include",
+    mode: "same-origin",
     headers
   };
 
   if (data) {
     options.body = JSON.stringify(data);
   }
+
   try {
-    res = await fetch(url);
-    const newAuth: string | null = res.headers.get("Authorization");
+    res = await fetch(url, options);
+
+    const newAuth: string | null = await res.headers.get("Authorization");
 
     if (newAuth && newAuth !== auth) {
       dispatch(updateToken(newAuth));
@@ -41,5 +43,5 @@ export async function handleAuthRequests<T, U>(
     console.log(e);
   }
 
-  return ({ success: false } as unknown) as U;
+  return (await ({ success: false, message: "authFetch" } as unknown)) as U;
 }

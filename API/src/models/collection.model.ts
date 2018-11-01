@@ -83,9 +83,12 @@ export const updateToPrivate = async (uuid: string): Promise<boolean> => {
 
   return success;
 };
-// update name
 
-const updateName = async (uuid: string, name: string): Promise<boolean> => {
+// update name
+export const updateName = async (
+  uuid: string,
+  name: string
+): Promise<boolean> => {
   let success = false;
 
   try {

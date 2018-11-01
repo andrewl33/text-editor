@@ -8,6 +8,7 @@ import { PromptComponent } from "../Prompt/PromptComponent";
 
 interface HeaderState {
   copy: boolean;
+  onLockPrompt: boolean;
 }
 
 export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
@@ -21,14 +22,14 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     this.copyToClipboard = this.copyToClipboard.bind(this);
 
     this.state = {
-      copy: false
+      copy: false,
+      onLockPrompt: false
     };
   }
 
   public render() {
     const {
       onNew,
-      onLock,
       accountName,
       loggedIn,
       pathname,
@@ -43,7 +44,8 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
       onDashboard,
       onLogOut,
       onLogInPrompt,
-      onClosePrompt
+      onClosePrompt,
+      onLock
     } = this.props;
 
     const alert = alertMessage !== undefined && (
@@ -74,7 +76,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     );
     const lockButton = onLock && (
       <Menu.Item>
-        <Button primary={true} onClick={onLock}>
+        <Button primary={true} onClick={this.handleLockRequest}>
           Lock
         </Button>
       </Menu.Item>
@@ -120,13 +122,14 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
         <Transition
           animation="fade down"
           unmountOnHide={true}
-          visible={onPrompt}
+          visible={onPrompt || this.state.onLockPrompt}
         >
           <PromptComponent
             getAccountCredentials={getAccountCredentials}
             getPassword={getPassword}
-            prompt={prompt}
+            prompt={this.state.onLockPrompt ? "Lock" : prompt}
             onClosePrompt={onClosePrompt}
+            lockItem={this.handleLockSubmit}
           />
         </Transition>
         {hiddenShare}
@@ -155,5 +158,16 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     // shows the textarea so it is selectable
     this.setState({ copy: true });
     // the state is set back to false in componentDidUpdate()
+  };
+
+  private handleLockRequest = (): void => {
+    this.setState({ onLockPrompt: true });
+  };
+
+  private handleLockSubmit = (password: string) => {
+    this.setState({ onLockPrompt: false });
+    if (this.props.onLock) {
+      this.props.onLock(password);
+    }
   };
 }

@@ -12,7 +12,12 @@ import {
 import { IToken } from "../types";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.method === "GET") {
+    return next();
+  }
+
   const { pageType } = req.body;
+
   const url = req.body.url.replace(/\//g, "");
   const token = req.headers.authorization;
 
@@ -42,7 +47,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
     return res.send({
-      success: true,
+      success: false,
       password: true
     });
   } catch (e) {

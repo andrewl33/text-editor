@@ -1,9 +1,11 @@
 import * as crypto from "crypto";
 import { NextFunction, Request, Response } from "express";
+import { getAllCodeFileInfo } from "../models/codeFile.model";
 import {
   deleteCollection as deleteCollectionDB,
   getPasswordCollection,
   insertNewCollection,
+  updateName,
   updatePassword,
   updateToPrivate,
   urlExists
@@ -13,6 +15,7 @@ import {
   getFilesFromCollection,
   removeFileFromCollection
 } from "../models/collectionFile.model";
+import { allFileTags } from "../models/fileTag.model";
 import { createToken, decodeToken, updateToken } from "./token";
 
 export const generate = async (
@@ -41,11 +44,17 @@ export const generate = async (
   }
 
   if (!newRowCreated) {
-    return response.send({ success: false });
+    return response.send({
+      success: false
+    });
   }
 
   response.setHeader("Content-Type", "application/json");
-  return response.send({ success: true, url: uuid });
+  return response.send({
+    success: true,
+    url: uuid,
+    createDate: new Date().toDateString()
+  });
 };
 
 export const sendFileCollection = async (
@@ -56,7 +65,29 @@ export const sendFileCollection = async (
   let url = request.body.url;
   url = url.replace(/\//g, "");
   try {
-    return response.send(await getFilesFromCollection(url));
+    const collectionInfo = await getAllCodeFileInfo(url);
+    const files = await getFilesFromCollection(url);
+    const fileTags: string[][] = [];
+    const fileInfo: Array<{
+      file: { id: string; createDate: string; name: string };
+      tags: string[];
+    }> = [];
+
+    for (const file of files.files) {
+      fileTags.push((await allFileTags(file.id)).tags);
+    }
+
+    for (let i = 0; i < files.files.length; i++) {
+      fileInfo.push({ file: files.files[i], tags: fileTags[i] });
+    }
+
+    const returnObj = {
+      success: true,
+      collectionInfo,
+      fileInfo
+    };
+
+    return response.send(returnObj);
   } catch (e) {
     return response.send({ success: false });
   }
@@ -99,10 +130,11 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         [uuid]
       );
       res.set({ Authorization: "Bearer " + newToken });
+      return res.send({ success: true });
     }
   } catch (e) {
     console.log(e);
-    return false;
+    return res.send({ success: false });
   }
 };
 
@@ -134,16 +166,25 @@ export const deleteCollection = async (
   }
 };
 
-// TODO: update the name
+// TODO: validate
 export const changeName = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  /* */
+  const uuid = req.body.url.replace(/\//g, "");
+
+  try {
+    const resDB = await updateName(uuid, req.body.name);
+
+    res.send({ success: resDB });
+  } catch (e) {
+    console.log("changeName");
+    res.send({ success: false });
+  }
 };
 
-// TODO: need to add authentication to both
+// TODO: validate
 export const addFile = async (
   req: Request,
   res: Response,
@@ -154,7 +195,31 @@ export const addFile = async (
 
   try {
     const resDB = await addFileToCollection(colUrl, fileUrl);
-    res.send(resDB);
+
+    if (resDB.success) {
+      const fileInfo = await getAllCodeFileInfo(fileUrl);
+      const fileTagInfo = await allFileTags(fileUrl);
+      let fileItem: {};
+
+      if (fileInfo.success) {
+        fileItem = {
+          id: fileUrl,
+          name: fileInfo.name,
+          tags: fileTagInfo.success && fileTagInfo,
+          date: fileInfo.createDate,
+          isPrivate: fileInfo.isPrivate,
+          codeText: fileInfo.codeText
+        };
+      }
+
+      return res.send({
+        success: resDB.success,
+        newFileItem: fileItem
+      });
+    }
+    return res.send({
+      success: resDB.success
+    });
   } catch (e) {
     console.log("addFileToCollection");
     console.log(e);
@@ -172,7 +237,7 @@ export const removeFile = async (
 
   try {
     const resDB = await removeFileFromCollection(colUrl, fileUrl);
-    res.send(resDB);
+    res.send({ ...resDB, fileId: fileUrl });
   } catch (e) {
     console.log("removeFile");
     console.log(e);
