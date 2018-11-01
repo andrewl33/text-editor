@@ -217,8 +217,7 @@ export const getText = () => {
         getState().authentication.token,
         data
       );
-      // tslint:disable-next-line
-      console.log(body);
+
       if (body.success) {
         dispatch({
           type: GET_TEXT_SUCCESS,
