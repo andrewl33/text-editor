@@ -47,6 +47,44 @@ export const urlExists = async (uuid: string): Promise<boolean> => {
   return isNotUniqueUuid;
 };
 
+export const getCollectionInfo = async (
+  uuid: string
+): Promise<
+  | {
+      success: true;
+      info: {
+        id: string;
+        createDate: string;
+        name: string;
+        isPrivate: boolean;
+      };
+    }
+  | { success: false }
+> => {
+  try {
+    const collectionInfoRes = await query(
+      `SELECT * FROM collection WHERE url='${uuid}'`
+    );
+
+    if (collectionInfoRes[0] === []) {
+      return { success: false };
+    } else {
+      const colInfo = {
+        id: collectionInfoRes[0][0].url,
+        createDate: collectionInfoRes[0][0].updated_date,
+        name: collectionInfoRes[0][0].name,
+        isPrivate: collectionInfoRes[0][0].is_private === 1 ? true : false
+      };
+
+      return { success: true, info: colInfo };
+    }
+  } catch (e) {
+    console.log("getCollectionInfo");
+    console.log(e);
+    return { success: false };
+  }
+};
+
 // insert new collection
 export const insertNewCollection = async (uuid: string): Promise<boolean> => {
   let success: boolean = true;
@@ -95,8 +133,7 @@ export const updateName = async (
     const res = await query(
       `UPDATE collection SET name='${name}' WHERE url='${uuid}'`
     );
-
-    if (res.affectedRows > 0) {
+    if (res[0].affectedRows > 0) {
       success = true;
     }
   } catch (e) {

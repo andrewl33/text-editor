@@ -44,14 +44,21 @@ export const getFilesFromCollection = async (
 }> => {
   try {
     const res = await query(
-      `SELECT code_file.url, code_file.updated_date, code_file.name FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id INNER JOIN collection ON collection.id=collection_file.collection_id WHERE collection_file.collection_id = '${uuid}'`
+      `SELECT code_file.url, code_file.updated_date, code_file.name FROM code_file INNER JOIN collection_file ON code_file.id = collection_file.file_id INNER JOIN collection ON collection.id=collection_file.collection_id WHERE collection.url = '${uuid}'`
     );
+
     const files: IFile[] = [];
 
     if (res[0].length > 0) {
-      res[0].forEach((file: IFile) => {
-        files.push(file);
-      });
+      res[0].forEach(
+        (file: { url: string; updated_date: string; name: string }) => {
+          files.push({
+            id: file.url,
+            createDate: file.updated_date,
+            name: file.name
+          });
+        }
+      );
     }
 
     return { success: true, files };
@@ -85,7 +92,7 @@ export const removeFileFromCollection = async (
 ) => {
   try {
     const res = await query(
-      `DELETE FROM collection_file WHERE collection_id=(SELECT collection.id from collection where url='${colUuid}') AND file_id = (SELECT id from code_file where url='${fileUuid})'`
+      `DELETE FROM collection_file WHERE collection_id=(SELECT collection.id FROM collection WHERE collection.url='${colUuid}') AND file_id = (SELECT code_file.id FROM code_file WHERE code_file.url='${fileUuid}')`
     );
     return { success: res[0].affectedRows > 0 };
   } catch (e) {

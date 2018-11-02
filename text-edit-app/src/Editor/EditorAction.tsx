@@ -1,10 +1,11 @@
 import { push, RouterAction } from "connected-react-router";
 import { ThunkDispatch } from "redux-thunk";
-// import { API_URL as URL } from "../envConstants";
+import { API_URL as URL } from "../envConstants";
 
 import { CLOSE_ALERT, SHARE_LINK } from "../constants";
 import { StoreState } from "../types";
 import authFetch from "../util/authFetch";
+import modDate from "../util/modDate";
 import {
   ADD_TAG_FAILURE,
   ADD_TAG_REQUEST,
@@ -39,7 +40,7 @@ import {
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
 } from "./constants";
-const URL = "/api";
+
 export interface UpdateCode {
   type: UPDATE_CODE_REQUEST | UPDATE_CODE_SUCCESS | UPDATE_CODE_FAILURE;
   payload?: { success: boolean; codeText: string };
@@ -227,7 +228,7 @@ export const getText = () => {
               codeText: body.codeText,
               tags: body.tags,
               name: body.name,
-              createDate: body.createDate,
+              createDate: modDate(body.createDate),
               isLocked: body.isPrivate,
               users: body.users
             }

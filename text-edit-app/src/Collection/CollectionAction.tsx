@@ -2,10 +2,11 @@
 
 import { push, RouterAction } from "connected-react-router";
 import { ThunkDispatch } from "redux-thunk";
-import { API_URL as URL } from "../envConstants";
-
 import { CLOSE_ALERT, SHARE_LINK } from "../constants";
+import { API_URL as URL } from "../envConstants";
 import { CollectionComponentProps, Item, StoreState } from "../types";
+import authFetch from "../util/authFetch";
+import modDate from "../util/modDate";
 import {
   ADD_FILE_TO_COLLECTION_FAILURE,
   ADD_FILE_TO_COLLECTION_REQUEST,
@@ -19,6 +20,7 @@ import {
   CHANGE_COLLECTION_NAME_FAILURE,
   CHANGE_COLLECTION_NAME_REQUEST,
   CHANGE_COLLECTION_NAME_SUCCESS,
+  GET_COLLECTION_AUTH,
   GET_COLLECTION_FAILURE,
   GET_COLLECTION_REQUEST,
   GET_COLLECTION_SUCCESS,
@@ -48,7 +50,8 @@ export interface GetCollection {
   type:
     | GET_COLLECTION_REQUEST
     | GET_COLLECTION_SUCCESS
-    | GET_COLLECTION_FAILURE;
+    | GET_COLLECTION_FAILURE
+    | GET_COLLECTION_AUTH;
   payload?: {
     success: boolean;
     items?: CollectionComponentProps;
@@ -143,10 +146,10 @@ export const newCollection = () => {
     dispatch({ type: NEW_COLLECTION_REQUEST });
 
     try {
-      const response = await fetch(`${URL}/generate`);
+      const response = await fetch(`${URL}/collection/create`);
       const body = await response.json();
       if (body.success) {
-        dispatch(push("/collection/" + body.url));
+        dispatch(push("/collections/" + body.url));
         dispatch({
           type: NEW_COLLECTION_SUCCESS,
           payload: { success: body.sucess, createDate: body.createDate }
@@ -165,32 +168,47 @@ export const getCollectionFiles = () => {
     dispatch: ThunkDispatch<StoreState, void, GetCollection>,
     getState: () => StoreState
   ) => {
-    const data = { url: getState().router.location.pathname };
+    const data = {
+      url: getState()
+        .router.location.pathname.split("/")
+        .pop(),
+      pageType: "collection"
+    };
 
     dispatch({
       type: GET_COLLECTION_REQUEST
     });
 
     try {
-      const response = await fetch(`${URL}/collection/open`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/collection/open`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
 
       if (body.success) {
+        body.fileInfo.forEach((item: any) => {
+          item.date = modDate(item.file.createDate);
+          item.id = item.file.id;
+          item.name = item.file.name;
+          delete item.file;
+        });
+
         dispatch({
           type: GET_COLLECTION_SUCCESS,
           payload: {
             success: body.success,
-            items: body.items,
-            name: body.createDate,
-            createDate: body.createDate,
-            isLocked: body.isLocked
+            items: body.fileInfo,
+            name: body.collectionInfo.name,
+            createDate: modDate(body.collectionInfo.createDate),
+            isLocked: body.collectionInfo.isPrivate
           }
+        });
+      } else if (body.password) {
+        dispatch({
+          type: GET_COLLECTION_AUTH
         });
       } else {
         dispatch({
@@ -216,8 +234,11 @@ export const addFileToCollection = (fileId: string) => {
     getState: () => StoreState
   ) => {
     const data = {
-      url: getState().router.location.pathname,
-      fileId
+      url: getState()
+        .router.location.pathname.split("/")
+        .pop(),
+      fileId,
+      pageType: "collection"
     };
 
     dispatch({
@@ -225,19 +246,23 @@ export const addFileToCollection = (fileId: string) => {
     });
 
     try {
-      const response = await fetch(`${URL}/collection/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/collection/add`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
 
-      dispatch({
-        type: ADD_FILE_TO_COLLECTION_SUCCESS,
-        payload: { success: body.success, newFileItem: body.fileItem }
-      });
+      if (body.success) {
+        body.newFileItem.date = modDate(body.newFileItem.date);
+        body.newFileItem.tags = body.newFileItem.tags.tags;
+
+        dispatch({
+          type: ADD_FILE_TO_COLLECTION_SUCCESS,
+          payload: { success: body.success, newFileItem: body.newFileItem }
+        });
+      }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);
@@ -254,23 +279,26 @@ export const removeFileFromCollection = (fileId: string) => {
     getState: () => StoreState
   ) => {
     const data = {
-      url: getState().router.location.pathname,
-      fileId
+      url: getState()
+        .router.location.pathname.split("/")
+        .pop(),
+      fileId,
+      pageType: "collection"
     };
-
     dispatch({
       type: REMOVE_FILE_FROM_COLLECTION_REQUEST
     });
 
     try {
-      const response = await fetch(`${URL}/collection/remove`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/collection/remove`,
+        "DELETE",
+        getState().authentication.token,
+        data
+      );
+      // tslint:disable-next-line
+      console.log(body);
 
       dispatch({
         type: REMOVE_FILE_FROM_COLLECTION_SUCCESS,
@@ -292,8 +320,11 @@ export const lockCollection = (password: string) => {
     getState: () => StoreState
   ) => {
     const data = {
-      url: getState().router.location.pathname,
-      password
+      url: getState()
+        .router.location.pathname.split("/")
+        .pop(),
+      password,
+      pageType: "collection"
     };
 
     dispatch({
@@ -301,14 +332,13 @@ export const lockCollection = (password: string) => {
     });
 
     try {
-      const response = await fetch(`${URL}/collection/lock`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/collection/lock`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
 
       dispatch({
         type: LOCK_COLLECTION_SUCCESS,
@@ -332,15 +362,21 @@ export const authCollection = (password: string) => {
     dispatch({ type: AUTH_COLLECTION_REQUEST });
 
     try {
-      const data = { password, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/collection/auth`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        password,
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "collection"
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/auth/authCollection`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
       if (body.success) {
         dispatch({
           type: AUTH_COLLECTION_SUCCESS,
@@ -348,6 +384,8 @@ export const authCollection = (password: string) => {
             success: true
           }
         });
+
+        dispatch(getCollectionFiles());
       } else {
         dispatch({
           type: AUTH_COLLECTION_SUCCESS,
@@ -372,15 +410,22 @@ export const changeCollectionName = (newName: string) => {
     dispatch({ type: CHANGE_COLLECTION_NAME_REQUEST });
 
     try {
-      const data = { name: newName, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/collection/updateName`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        name: newName,
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop(),
+        pageType: "collection"
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/collection/changeName`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+
       if (body.success) {
         dispatch({
           type: CHANGE_COLLECTION_NAME_SUCCESS,
@@ -413,15 +458,22 @@ export const addUserToCollection = (accountName: string) => {
     dispatch({ type: ADD_USER_TO_COLLECTION_REQUEST });
 
     try {
-      const data = { accountName, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/account/addCollection`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        accountName,
+        pageType: "collection",
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop()
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/account/addCollection`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+
       if (body.success) {
         dispatch({
           type: ADD_USER_TO_COLLECTION_SUCCESS,
@@ -454,15 +506,22 @@ export const removeUserFromCollection = (accountName: string) => {
     dispatch({ type: REMOVE_USER_FROM_COLLECTION_REQUEST });
 
     try {
-      const data = { accountName, url: getState().router.location.pathname };
-      const response = await fetch(`${URL}/account/addCollection`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const data = {
+        accountName,
+        pageType: "collection",
+        url: getState()
+          .router.location.pathname.split("/")
+          .pop()
+      };
+
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/account/removeCollection`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
+
       if (body.success) {
         dispatch({
           type: REMOVE_USER_FROM_COLLECTION_SUCCESS,

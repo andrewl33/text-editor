@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { getAllCodeFileInfo } from "../models/codeFile.model";
 import {
   deleteCollection as deleteCollectionDB,
+  getCollectionInfo,
   getPasswordCollection,
   insertNewCollection,
   updateName,
@@ -65,7 +66,7 @@ export const sendFileCollection = async (
   let url = request.body.url;
   url = url.replace(/\//g, "");
   try {
-    const collectionInfo = await getAllCodeFileInfo(url);
+    const collectionInfo = await getCollectionInfo(url);
     const files = await getFilesFromCollection(url);
     const fileTags: string[][] = [];
     const fileInfo: Array<{
@@ -83,12 +84,14 @@ export const sendFileCollection = async (
 
     const returnObj = {
       success: true,
-      collectionInfo,
+      collectionInfo: collectionInfo.success ? collectionInfo.info : {},
       fileInfo
     };
 
     return response.send(returnObj);
   } catch (e) {
+    console.log("sendFileCollection");
+    console.log(e);
     return response.send({ success: false });
   }
 };
@@ -120,14 +123,13 @@ export const passwordProtect = async (
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   const uuid = req.body.url.replace(/\//g, "");
-
   try {
-    if ((await getPasswordCollection(uuid)) === req.body.password) {
+    if ((await getPasswordCollection(uuid)).password === req.body.password) {
       const newToken = await updateToken(
         await decodeToken(req.headers.authorization),
         "",
-        [],
-        [uuid]
+        [uuid],
+        []
       );
       res.set({ Authorization: "Bearer " + newToken });
       return res.send({ success: true });
@@ -173,10 +175,8 @@ export const changeName = async (
   next: NextFunction
 ) => {
   const uuid = req.body.url.replace(/\//g, "");
-
   try {
     const resDB = await updateName(uuid, req.body.name);
-
     res.send({ success: resDB });
   } catch (e) {
     console.log("changeName");
@@ -190,7 +190,7 @@ export const addFile = async (
   res: Response,
   next: NextFunction
 ) => {
-  const fileUrl = req.body.fileUrl.replace(/\//g, "");
+  const fileUrl = req.body.fileId.replace(/\//g, "");
   const colUrl = req.body.url.replace(/\//g, "");
 
   try {
@@ -232,9 +232,8 @@ export const removeFile = async (
   res: Response,
   next: NextFunction
 ) => {
-  const fileUrl = req.body.fileUrl.replace(/\//g, "");
+  const fileUrl = req.body.fileId.replace(/\//g, "");
   const colUrl = req.body.url.replace(/\//g, "");
-
   try {
     const resDB = await removeFileFromCollection(colUrl, fileUrl);
     res.send({ ...resDB, fileId: fileUrl });

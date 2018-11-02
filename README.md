@@ -31,6 +31,7 @@ Frontend:
   - [ ] center loading indicator
 - [ ] test
 - [ ] handle auth
+- [ ] reject password changes
 - [ ] handle user add/del
 - [ ] Catch tabs and other kb actions
 - [ ] Create right click menu

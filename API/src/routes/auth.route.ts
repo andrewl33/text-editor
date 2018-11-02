@@ -4,6 +4,7 @@ import {
   createAccount,
   logout
 } from "../controllers/account.controller";
+import { auth as authCollection } from "../controllers/collection.controller";
 import { auth as authFile } from "../controllers/file.controller";
 const router = Router();
 
@@ -26,5 +27,7 @@ router.post("/login", authenticateAccount);
 router.post("/logout", logout);
 
 router.post("/authFile", authFile);
+
+router.post("/authCollection", authCollection);
 
 export default router;

@@ -32,7 +32,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     if (token !== "" && token !== undefined && token !== null) {
       const decoded: IToken = await decodeToken(token);
-
       if (
         decoded &&
         decoded.user !== "" &&

@@ -14,6 +14,7 @@ import {
   CHANGE_COLLECTION_NAME_FAILURE,
   CHANGE_COLLECTION_NAME_REQUEST,
   CHANGE_COLLECTION_NAME_SUCCESS,
+  GET_COLLECTION_AUTH,
   GET_COLLECTION_FAILURE,
   GET_COLLECTION_REQUEST,
   GET_COLLECTION_SUCCESS,
@@ -72,12 +73,19 @@ export const collectionReducer = (
     case GET_COLLECTION_FAILURE:
       return state;
 
+    case GET_COLLECTION_AUTH:
+      return { ...state, collectionPrompt: true, prompt: "Private Collection" };
+
     case AUTH_COLLECTION_REQUEST:
-      return state;
+      return { ...state, openAlert: true, alertMessage: "Authenticating" };
     case AUTH_COLLECTION_SUCCESS:
-      return state;
+      return { ...state, collectionPrompt: false };
     case AUTH_COLLECTION_FAILURE:
-      return state;
+      return {
+        ...state,
+        openAlert: true,
+        alertMessage: "Authentication Failed"
+      };
 
     case LOCK_COLLECTION_REQUEST:
       return state;

@@ -59,29 +59,30 @@ export class CollectionContainer extends React.Component<
       onAuthCollection,
       onAuthAccount,
       onClosePrompt,
-      onFileClick
+      onFileClick,
+      items
     } = this.props;
 
-    const files = [
-      {
-        id: "1",
-        name: "Hello World",
-        tags: ["Snippet", "Rust", "Mission Critical"],
-        date: "1-1-1"
-      },
-      {
-        id: "2",
-        name: "test",
-        tags: ["css", "firefox", "mobile"],
-        date: "1-1-1"
-      },
-      {
-        id: "3",
-        name: "",
-        tags: ["test", "Google", "jimmy"],
-        date: "1-1-1"
-      }
-    ];
+    // const files = [
+    //   {
+    //     id: "1",
+    //     name: "Hello World",
+    //     tags: ["Snippet", "Rust", "Mission Critical"],
+    //     date: "1-1-1"
+    //   },
+    //   {
+    //     id: "2",
+    //     name: "test",
+    //     tags: ["css", "firefox", "mobile"],
+    //     date: "1-1-1"
+    //   },
+    //   {
+    //     id: "3",
+    //     name: "",
+    //     tags: ["test", "Google", "jimmy"],
+    //     date: "1-1-1"
+    //   }
+    // ];
 
     return (
       <div style={{ height: "100%" }}>
@@ -107,7 +108,7 @@ export class CollectionContainer extends React.Component<
           onClosePrompt={onClosePrompt}
         />
         <CollectionComponent
-          items={files}
+          items={items}
           createDate={createDate}
           name={name}
           users={users}

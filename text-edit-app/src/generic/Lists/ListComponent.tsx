@@ -26,7 +26,7 @@ export class ListComponent extends React.Component<
               style={{ padding: ".92857143em .78571429em" }}
               onClick={this.props.onClickToPage.bind(null, item.id)}
             >
-              {item.name !== "" ? item.name : item.id}
+              {item.name !== "" && item.name ? item.name : item.id}
             </Table.Cell>
             {this.props.header === "Files" && (
               <Table.Cell>
@@ -49,51 +49,51 @@ export class ListComponent extends React.Component<
       });
 
     return (
-      <Table
-        celled={true}
-        inverted={true}
-        size="large"
-        verticalAlign="middle"
-        relaxed="true"
-        divided="true"
-        color="blue"
-        style={{ color: "rgba(255,255,255,.9)", borderRadius: 0 }}
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell colSpan="2">{this.props.header}</Table.HeaderCell>
-            {this.props.header === "Files" && (
-              <Table.HeaderCell>Tags</Table.HeaderCell>
-            )}
-            <Table.HeaderCell colSpan="2">Dates</Table.HeaderCell>
-            {this.props.onRemove && (
-              <Table.HeaderCell colSpan="2">Delete</Table.HeaderCell>
-            )}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {listItems}
-          {this.props.onAdd && (
+      <div>
+        <Table
+          celled={true}
+          inverted={true}
+          size="large"
+          verticalAlign="middle"
+          relaxed="true"
+          divided="true"
+          color="blue"
+          style={{ color: "rgba(255,255,255,.9)", borderRadius: 0 }}
+        >
+          <Table.Header>
             <Table.Row>
-              <Input
-                placeholder={
-                  this.props.header === "Files"
-                    ? "File url..."
-                    : "Collection url..."
-                }
-                onChange={this.handleInput}
-                value={this.state.itemInput}
-              >
-                <input />
-
-                <Button type="submit" onClick={this.handleNewItemInput}>
-                  Add
-                </Button>
-              </Input>
+              <Table.HeaderCell colSpan="2">
+                {this.props.header}
+              </Table.HeaderCell>
+              {this.props.header === "Files" && (
+                <Table.HeaderCell>Tags</Table.HeaderCell>
+              )}
+              <Table.HeaderCell colSpan="2">Dates</Table.HeaderCell>
+              {this.props.onRemove && (
+                <Table.HeaderCell colSpan="2">Delete</Table.HeaderCell>
+              )}
             </Table.Row>
-          )}
-        </Table.Body>
-      </Table>
+          </Table.Header>
+          <Table.Body>{listItems}</Table.Body>
+        </Table>
+        {this.props.onAdd && (
+          <Input
+            placeholder={
+              this.props.header === "Files"
+                ? "File url..."
+                : "Collection url..."
+            }
+            onChange={this.handleInput}
+            value={this.state.itemInput}
+          >
+            <input />
+
+            <Button type="submit" onClick={this.handleNewItemInput}>
+              Add
+            </Button>
+          </Input>
+        )}
+      </div>
     );
   }
 
