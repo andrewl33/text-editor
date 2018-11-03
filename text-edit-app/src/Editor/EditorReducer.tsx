@@ -141,7 +141,7 @@ export const editorReducer = (
       return {
         ...state,
         openAlert: true,
-        alertMessage: "Authentication Failed"
+        alertMessage: "Wrong Password"
       };
 
     case CHANGED_CODE:
@@ -179,8 +179,6 @@ export const editorReducer = (
     case CHANGE_FILE_NAME_REQUEST:
       return state;
     case CHANGE_FILE_NAME_SUCCESS:
-      // tslint:disable-next-line
-      console.log(action.payload!.name);
       return { ...state, name: action.payload && action.payload.name };
     case CHANGE_FILE_NAME_FAILURE:
       return { ...state, alertMessage: "Could not connect to DB" };

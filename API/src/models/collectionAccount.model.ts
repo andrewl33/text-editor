@@ -39,6 +39,7 @@ export const findAllCollectionsForAnAccount = async (
     const resDB = await query(
       `SELECT collection.url, collection.updated_date, collection.name FROM collection INNER JOIN collection_account ON collection.id = collection_account.collection_id WHERE collection_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
     );
+
     const collections: Array<{
       id: string;
       createDate: string;

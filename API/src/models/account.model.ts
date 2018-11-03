@@ -1,3 +1,4 @@
+import * as bcrypt from "bcrypt";
 import query from "./query";
 
 export const account = "account";
@@ -17,6 +18,18 @@ export const initialAccountInsert = async () => {
     ["account4", "pass4"],
     ["account5", "pass5"]
   ];
+
+  for (let i = 0; i < accountData.length; i++) {
+    accountData[i][1] = (await new Promise((resolve, reject) => {
+      bcrypt.hash(accountData[i][1], 10, (err: any, hash: string) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(hash);
+        }
+      });
+    })) as string;
+  }
 
   for (let i = 0; i < accountData.length; i++) {
     await insertNewAccount(accountData[i][0], accountData[i][1]);

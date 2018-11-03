@@ -31,6 +31,7 @@ Frontend:
   - [ ] center loading indicator
 - [ ] test
 - [ ] handle auth
+- [ ] handle wrong account info in home
 - [ ] reject password changes
 - [ ] handle user add/del
 - [ ] Catch tabs and other kb actions
@@ -38,14 +39,14 @@ Frontend:
 - [ ] Refactor; Create an errors reducer
   - [ ] Errors reducer handles network errors
   - [ ] Regular errors handle with an alert message
-- [ ] move notifcations into separate reducer
+- [ ] move notifications into separate reducer
 - [ ] Look through types/index.tsx
+- [ ] createAccount route to home
 
 Backend:
 
 - [ ] Test API
-- [ ] Change api to send all information on open
-- [ ] create a generic function to handle all queries
 - [ ] handle parameters correctly
+- [ ] curry pageType
 
 * [ ] Deploy

@@ -456,13 +456,7 @@ export const authFile = (password: string) => {
 
         dispatch(getText());
       } else {
-        dispatch({
-          type: AUTH_FILE_SUCCESS,
-          payload: {
-            success: false,
-            message: "Wrong password"
-          }
-        });
+        dispatch({ type: AUTH_FILE_FAILURE });
       }
     } catch (e) {
       // tslint:disable-next-line

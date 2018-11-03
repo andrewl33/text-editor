@@ -181,7 +181,6 @@ const mapDispatchToProps = (
       dispatch(removeUserFromCollection(accountName)),
     onAuthCollection: (password: string) => dispatch(authCollection(password)),
     onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
-    // TODO: onAuthCollection: (pass: string) => dispatch(authCollection(pass)),
     onNameChange: (name: string) => dispatch(changeCollectionName(name)),
     onDashboard: () => dispatch(push("/dashboard")),
     onLogInPrompt: () => dispatch(logInPrompt()),
@@ -189,10 +188,7 @@ const mapDispatchToProps = (
     onClosePrompt: () => dispatch(closePrompt()),
     onFileClick: (id: string) => dispatch(push(`/files/${id}`))
   };
-  // TODO: auth
   // TODO: delete
-  // TODO: addfile
-  // TODO: remove file
 };
 
 export default connect(

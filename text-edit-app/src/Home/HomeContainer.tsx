@@ -2,7 +2,7 @@ import { push, RouterAction } from "connected-react-router";
 import * as React from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { AuthAction, logIn } from "../Auth/AuthAction";
+import { AuthAction, createAccount, logIn } from "../Auth/AuthAction";
 import {
   CollectionAction,
   newCollection
@@ -32,7 +32,9 @@ const mapDispatchToProps = (
     onLogin: (name: string, pass: string) => dispatch(logIn(name, pass)),
     onNewFile: () => dispatch(newText()),
     onNewCollection: () => dispatch(newCollection()),
-    toDashboard: () => dispatch(push("/dashboard"))
+    toDashboard: () => dispatch(push("/dashboard")),
+    onCreateAccount: (name: string, pass: string) =>
+      dispatch(createAccount(name, pass))
   };
 };
 

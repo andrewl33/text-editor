@@ -41,14 +41,20 @@ export const findAllFilesForAnAccount = async (
 ): Promise<
   | {
       success: true;
-      files: Array<{ id: string; name: string; createDate: string }>;
+      files: Array<{
+        id: string;
+        name: string;
+        createDate: string;
+        tags?: string[];
+      }>;
     }
   | { success: false }
 > => {
   try {
-    const resDB = query(
+    const resDB = await query(
       `SELECT code_file.url, code_file.name, code_file.updated_date FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
     );
+
     const files: Array<{ id: string; name: string; createDate: string }> = [];
 
     if (resDB[0].length > 0) {
@@ -66,9 +72,6 @@ export const findAllFilesForAnAccount = async (
         }
       );
     }
-    // TODO:
-    console.log(files);
-
     return { success: true, files };
   } catch (e) {
     console.log(e);

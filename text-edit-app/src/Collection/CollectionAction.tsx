@@ -297,8 +297,6 @@ export const removeFileFromCollection = (fileId: string) => {
         getState().authentication.token,
         data
       );
-      // tslint:disable-next-line
-      console.log(body);
 
       dispatch({
         type: REMOVE_FILE_FROM_COLLECTION_SUCCESS,

@@ -1,14 +1,17 @@
 import { ThunkDispatch } from "redux-thunk";
-// import { push, RouterAction } from 'connected-react-router';
-import { API_URL as URL } from "../envConstants";
-
 import { CLOSE_ALERT } from "../constants";
+import { API_URL as URL } from "../envConstants";
 import { DashboardProps, StoreState } from "../types";
+import authFetch from "../util/authFetch";
+import modDate from "../util/modDate";
 import {
   CLOSE_PROMPT,
   CREATE_ACCOUNT_FAILURE,
   CREATE_ACCOUNT_REQUEST,
   CREATE_ACCOUNT_SUCCESS,
+  GET_DASHBOARD_FAILURE,
+  GET_DASHBOARD_REQUEST,
+  GET_DASHBOARD_SUCCESS,
   LOG_IN_FAILURE,
   LOG_IN_PROMPT,
   LOG_IN_REQUEST,
@@ -32,6 +35,13 @@ export interface LogIn {
   payload?: {
     success: boolean;
     accountName: string;
+  };
+}
+
+export interface GetDashboard {
+  type: GET_DASHBOARD_FAILURE | GET_DASHBOARD_REQUEST | GET_DASHBOARD_SUCCESS;
+  payload?: {
+    success: boolean;
     dashboard?: DashboardProps;
   };
 }
@@ -60,6 +70,7 @@ export interface CloseAlert {
 export type AuthAction =
   | CreateAccount
   | LogIn
+  | GetDashboard
   | LogOut
   | UpdateToken
   | LogInPrompt
@@ -67,7 +78,10 @@ export type AuthAction =
   | CloseAlert;
 
 export const createAccount = (accountName: string, password: string) => {
-  return async (dispatch: ThunkDispatch<StoreState, void, CreateAccount>) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, CreateAccount>,
+    getState: () => StoreState
+  ) => {
     const data = {
       accountName,
       password
@@ -78,14 +92,13 @@ export const createAccount = (accountName: string, password: string) => {
     });
 
     try {
-      const response = await fetch(`${URL}/auth/createAccount`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/auth/create`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
 
       dispatch({
         type: CREATE_ACCOUNT_SUCCESS,
@@ -101,8 +114,57 @@ export const createAccount = (accountName: string, password: string) => {
   };
 };
 
+export const getDashboard = () => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, GetDashboard>,
+    getState: () => StoreState
+  ) => {
+    dispatch({
+      type: GET_DASHBOARD_REQUEST
+    });
+
+    try {
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/account/dashboard`,
+        "GET",
+        getState().authentication.token
+      );
+
+      if (body.success) {
+        body.dashboard.collections.forEach((collection: any) => {
+          collection.date = modDate(collection.createDate);
+          delete collection.createDate;
+        });
+        body.dashboard.files.forEach((file: any) => {
+          file.date = modDate(file.createDate);
+          delete file.createDate;
+        });
+
+        dispatch({
+          type: GET_DASHBOARD_SUCCESS,
+          payload: { success: true, dashboard: body.dashboard }
+        });
+      } else {
+        dispatch({
+          type: GET_DASHBOARD_FAILURE
+        });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({
+        type: GET_DASHBOARD_FAILURE
+      });
+    }
+  };
+};
+
 export const logIn = (accountName: string, password: string) => {
-  return async (dispatch: ThunkDispatch<StoreState, void, LogIn>) => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, LogIn>,
+    getState: () => StoreState
+  ) => {
     const data = {
       accountName,
       password
@@ -113,19 +175,25 @@ export const logIn = (accountName: string, password: string) => {
     });
 
     try {
-      const response = await fetch(`${URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      });
-      const body = await response.json();
+      const body = await authFetch<any, any>(
+        dispatch,
+        `${URL}/auth/login`,
+        "POST",
+        getState().authentication.token,
+        data
+      );
 
-      dispatch({
-        type: LOG_IN_SUCCESS,
-        payload: { success: body.success, accountName }
-      });
+      if (body.success) {
+        dispatch({
+          type: LOG_IN_SUCCESS,
+          payload: { success: true, accountName }
+        });
+        dispatch(getDashboard());
+      } else {
+        dispatch({
+          type: LOG_IN_FAILURE
+        });
+      }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);

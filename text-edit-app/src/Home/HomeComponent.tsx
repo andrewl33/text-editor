@@ -1,3 +1,4 @@
+// TODO: handle wrong account info
 import * as React from "react";
 import {
   Button,
@@ -18,6 +19,7 @@ interface HomeComponentState {
   throttle: boolean;
   textLoading: boolean;
   collectionLoading: boolean;
+  createAccountLoading: boolean;
   logInLoading: boolean;
   accountName: string;
   password: string;
@@ -35,6 +37,7 @@ export default class HomeComponent extends React.Component<
       textLoading: false,
       collectionLoading: false,
       logInLoading: false,
+      createAccountLoading: false,
       accountName: "",
       password: ""
     };
@@ -45,6 +48,7 @@ export default class HomeComponent extends React.Component<
       textLoading,
       collectionLoading,
       logInLoading,
+      createAccountLoading,
       accountName,
       password
     } = this.state;
@@ -90,6 +94,20 @@ export default class HomeComponent extends React.Component<
           />
           Log in
         </Button>
+        <br />
+        <Button
+          fluid={true}
+          primary={true}
+          type="submit"
+          size="huge"
+          onClick={this.onCreateAccount}
+        >
+          <Icon
+            name={!createAccountLoading ? "user outline" : "circle notch"}
+            loading={createAccountLoading}
+          />
+          Create Account
+        </Button>
       </Form>
     );
 
@@ -100,10 +118,11 @@ export default class HomeComponent extends React.Component<
           verticalAlign="middle"
           centered={true}
           style={{ height: "100%" }}
+          columns={2}
         >
           <Grid.Column
             textAlign="center"
-            centered={true}
+            centered="true"
             style={{ maxWidth: 450 }}
           >
             <Header as="h1" content="TextEdit" inverted={true} />
@@ -112,6 +131,15 @@ export default class HomeComponent extends React.Component<
               as="h2"
               content="A way to share text files, that may be highlighted one day."
             />
+            <a href="https://github.com/andrewl33/text-editor">
+              <img src={gitLogo} alt="github" />
+            </a>
+          </Grid.Column>
+          <Grid.Column
+            textAlign="center"
+            centered="true"
+            style={{ maxWidth: 450 }}
+          >
             <Segment
               inverted={true}
               textAlign="center"
@@ -146,9 +174,6 @@ export default class HomeComponent extends React.Component<
               <br />
               {loggedInComponent}
             </Segment>
-            <a href="https://github.com/andrewl33/text-editor">
-              <img src={gitLogo} alt="github" />
-            </a>
           </Grid.Column>
         </Grid>
       </Container>
@@ -167,15 +192,23 @@ export default class HomeComponent extends React.Component<
     e.preventDefault();
     if (!this.state.collectionLoading && !this.state.throttle) {
       this.setState({ collectionLoading: true, throttle: false });
-      this.props.onNewFile();
+      this.props.onNewCollection();
     }
   };
 
   private onLogIn = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!this.state.logInLoading && !this.state.throttle) {
-      this.setState({ logInLoading: true, throttle: false });
       this.props.onLogin(this.state.accountName, this.state.password);
+      this.setState({ logInLoading: true, throttle: false });
+    }
+  };
+
+  private onCreateAccount = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!this.state.logInLoading && !this.state.throttle) {
+      this.props.onCreateAccount(this.state.accountName, this.state.password);
+      this.setState({ createAccountLoading: true, throttle: false });
     }
   };
 

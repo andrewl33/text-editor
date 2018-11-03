@@ -102,7 +102,6 @@ export interface EditorComponentProps {
   onNameChange: (name: string) => any;
   codeText: string;
   tags: string[];
-  // isLoading: boolean;
   name: string;
   createDate: string;
   users: string[];
@@ -115,6 +114,7 @@ export interface HomeProps {
   onNewCollection: () => {};
   onLogin: (name: string, pass: string) => {};
   toDashboard: () => {};
+  onCreateAccount: (name: string, pass: string) => {};
   loggedIn: boolean;
 }
 

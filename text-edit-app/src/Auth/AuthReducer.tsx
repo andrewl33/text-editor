@@ -7,6 +7,9 @@ import {
   CREATE_ACCOUNT_FAILURE,
   CREATE_ACCOUNT_REQUEST,
   CREATE_ACCOUNT_SUCCESS,
+  GET_DASHBOARD_FAILURE,
+  GET_DASHBOARD_REQUEST,
+  GET_DASHBOARD_SUCCESS,
   LOG_IN_FAILURE,
   LOG_IN_PROMPT,
   LOG_IN_REQUEST,
@@ -50,11 +53,20 @@ export const authReducer = (
         ...state,
         loggedIn: true,
         accountName: action.payload && action.payload.accountName,
-        dashboard: action.payload && action.payload.dashboard,
         authPrompt: false
       };
     case LOG_IN_FAILURE:
+      return { ...state, openAlert: true, alertMessage: "Wrong account info" };
+
+    case GET_DASHBOARD_REQUEST:
       return state;
+    case GET_DASHBOARD_SUCCESS:
+      return {
+        ...state,
+        dashboard: action.payload && action.payload.dashboard
+      };
+    case GET_DASHBOARD_FAILURE:
+      return { ...state, openAlert: true, alertMessage: "Not logged in" };
 
     case LOG_OUT_REQUEST:
       return state;

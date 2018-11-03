@@ -45,7 +45,7 @@ export class PromptComponent extends React.Component<
           </Menu.Item>
           {(prompt === "Login" || prompt === "Create Account") && (
             <Menu.Item position="right">
-              <Button primary={true} textAlign="center" onClick={onClosePrompt}>
+              <Button primary={true} onClick={onClosePrompt}>
                 <Icon name="close" size="large" style={{ margin: 0 }} />
               </Button>
             </Menu.Item>
@@ -70,6 +70,10 @@ export class PromptComponent extends React.Component<
     } else if (getPassword) {
       getPassword(password);
     }
+    this.setState({
+      accountName: "",
+      password: ""
+    });
   };
 
   private handleAccountChange = (e: React.SyntheticEvent) => {

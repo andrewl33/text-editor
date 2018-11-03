@@ -1,8 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
-import { decode } from "jsonwebtoken";
 import {
-  account,
   accountExists,
   getHashFromAccount,
   insertNewAccount
@@ -71,7 +69,42 @@ export const createAccount = async (
   }
 };
 
-// TODO: might not work
+export const fillDashboard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const decodedToken = await decodeToken(req.headers.authorization);
+    if (!decodedToken.user && decodedToken.user === "") {
+      res.send({ success: false });
+    }
+
+    const resColList = await findAllCollectionsForAnAccount(decodedToken.user);
+    const resFileList = await findAllFilesForAnAccount(decodedToken.user);
+
+    if (resFileList.success) {
+      for (const file of resFileList.files) {
+        const { tags } = await allFileTags(file.id);
+        file.tags = tags;
+      }
+    }
+    const dashboard = {
+      files: resFileList.success ? resFileList.files : [],
+      collections: resColList.success ? resColList.collections : []
+    };
+
+    return res.send({
+      success: true,
+      dashboard
+    });
+  } catch (e) {
+    console.log("fillDashboard");
+    console.log(e);
+    res.send({ success: false });
+  }
+};
+
 export const authenticateAccount = async (
   req: Request,
   res: Response,
@@ -80,16 +113,18 @@ export const authenticateAccount = async (
   const { accountName, password } = req.body;
 
   if (!accountName || !password) {
-    return res.status(422).send({ error: "Account name or password needed." });
+    return res
+      .status(422)
+      .send({ success: false, error: "Account name or password needed." });
   }
 
   let hashObj: { hash: string; success: boolean };
 
   try {
-    // probably should remove this
-    // they shouldn't be able to check accounts
     if (!(await accountExists(accountName))) {
-      return res.status(422).send({ error: "Account does not exist" });
+      return res
+        .status(422)
+        .send({ success: false, error: "Account does not exist" });
     }
 
     hashObj = await getHashFromAccount(accountName);
@@ -101,10 +136,11 @@ export const authenticateAccount = async (
     if (err) {
       console.log(err);
     }
+    await res.set({
+      Authorization: "Bearer " + (await createToken(accountName, [], []))
+    });
 
-    await res.set({ Authorization: await createToken(accountName, [], []) });
-
-    await res.send({
+    return res.send({
       success: isSame,
       accountName
     });

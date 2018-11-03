@@ -36,7 +36,9 @@ export default async function handleAuthRequests<T, U>(
     if (newAuth && newAuth !== auth) {
       dispatch(updateToken(newAuth));
     }
-
+    if (res.status === 422) {
+      return (await ({ success: false, message: "authFetch" } as unknown)) as U;
+    }
     return await res.json();
   } catch (e) {
     // tslint:disable-next-line

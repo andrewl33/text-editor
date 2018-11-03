@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addCollection,
   addFile,
+  fillDashboard,
   getAllCollections,
   getAllFiles,
   getDashboard,
@@ -17,7 +18,7 @@ router.use(auth);
 // file associations
 router.get("/allCollections", getAllCollections);
 router.get("/allFiles", getAllFiles);
-
+router.get("/dashboard", fillDashboard);
 // {
 //   success: boolean;
 //   accountName?: string;

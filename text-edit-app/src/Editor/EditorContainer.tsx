@@ -104,7 +104,7 @@ export class EditorContainer extends React.Component<
           onNameChange={onNameChange}
           onAddUser={onAddUser}
           onRemoveUser={onRemoveUser}
-          isLocked={isLocked}
+          isLocked={isLocked || filePrompt}
         />
       </div>
     );
