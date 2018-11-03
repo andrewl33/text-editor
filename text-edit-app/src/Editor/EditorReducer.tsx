@@ -38,29 +38,17 @@ import {
 import { EditorAction } from "./EditorAction";
 
 export const initialState: EditorStoreState = {
-  codeText: `// we could write the above example as:
-  var anon = (a, b) => a + b;
-  // or
-  var anon = (a, b) => { return a + b };
-  // if we only have one parameter we can loose the parentheses
-  var anon = a => a;
-  // and without parameters
-  var () => {} // noop
-  
-  // this looks pretty nice when you change something like:
-  [1,2,3,4].filter(function (value) {return value % 2 === 0});
-  // to:
-  [1,2,3,4].filter(value => value % 2 === 0);`,
-  tags: ["tag1", "tag2", "JavaScript"],
+  codeText: "",
+  tags: [],
   isNewPage: false,
   isLocked: false,
   isSaved: true,
   openAlert: false,
   alertMessage: "",
   filePrompt: false,
-  createDate: "1-1-1990",
-  users: ["jimmy", "joy"],
-  name: "Example Lambdas"
+  createDate: "",
+  users: [],
+  name: ""
 };
 
 export const editorReducer = (
@@ -104,7 +92,8 @@ export const editorReducer = (
           name: action.payload.body.name,
           isLocked: action.payload.body.isLocked,
           isSaved: true,
-          users: action.payload.body.users
+          users: action.payload.body.users,
+          createDate: action.payload.body.createDate
         };
       }
 

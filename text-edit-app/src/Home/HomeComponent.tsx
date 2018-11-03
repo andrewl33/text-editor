@@ -129,7 +129,7 @@ export default class HomeComponent extends React.Component<
             <Header
               inverted={true}
               as="h2"
-              content="A way to share text files, that may be highlighted one day."
+              content="A way to share text files, that may be highlighted one day. Also, only works on the OSU network."
             />
             <a href="https://github.com/andrewl33/text-editor">
               <img src={gitLogo} alt="github" />

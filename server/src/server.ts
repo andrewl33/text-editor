@@ -1,6 +1,7 @@
 import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as express from "express";
+import * as path from "path";
 
 import { startDB } from "./models/dbinit";
 
@@ -21,7 +22,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(setToken);
 
-// routes
+// frontend
+const frontendPaths = ["/", "/dashboard", "/files/*", "/collections/*"];
+app.use(express.static(path.join(__dirname, "../../text-edit-app/build")));
+app.get(frontendPaths, (req, res) => {
+  console.log(
+    path.join(__dirname, "..", "..", "text-edit-app", "build", "index.html")
+  );
+  res.sendFile(
+    path.join(__dirname, "..", "..", "text-edit-app", "build", "index.html")
+  );
+});
+
+// api routes
 app.use("/api/auth", authRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/file", fileRouter);

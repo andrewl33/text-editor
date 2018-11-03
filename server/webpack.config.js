@@ -1,25 +1,25 @@
-var fs = require('fs');
-const NodemonPlugin = require('nodemon-webpack-plugin');
+var fs = require('fs')
+const NodemonPlugin = require('nodemon-webpack-plugin')
 
-var nodeModules = {};
+var nodeModules = {}
 fs.readdirSync('node_modules')
   .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
+    return ['.bin'].indexOf(x) === -1
   })
   .forEach(function(mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
-  });
+    nodeModules[mod] = 'commonjs ' + mod
+  })
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: './src/server.ts',
   output: {
     path: __dirname + '/dist',
-    filename: 'server.js',
+    filename: 'server.js'
   },
   resolve: {
     // Add '.ts' and '.tsx' as a resolvable extension.
-    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
   },
   module: {
     rules: [
@@ -27,13 +27,14 @@ module.exports = {
       // extension will be handled by 'ts-loader'
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-      },
-    ],
+        loader: 'ts-loader'
+      }
+    ]
   },
-  plugins: [
-    new NodemonPlugin()
-  ],
+  plugins: [new NodemonPlugin()],
   target: 'node',
+  node: {
+    __dirname: false
+  },
   externals: nodeModules
-};
+}
