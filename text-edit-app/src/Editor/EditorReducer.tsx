@@ -18,6 +18,7 @@ import {
   GET_TEXT_FAILURE,
   GET_TEXT_REQUEST,
   GET_TEXT_SUCCESS,
+  LOCAL_UPDATE_CODE,
   LOCK_TEXT_FAILURE,
   LOCK_TEXT_REQUEST,
   LOCK_TEXT_SUCCESS,
@@ -67,12 +68,14 @@ export const editorReducer = (
   action: EditorAction
 ) => {
   switch (action.type) {
+    case LOCAL_UPDATE_CODE:
+      return { ...state, codeText: action.payload.codeText };
+
     case UPDATE_CODE_REQUEST:
       return { ...state };
     case UPDATE_CODE_SUCCESS:
       return {
         ...state,
-
         isSaved: true,
         openAlert: true,
         alertMessage: "Updated code"

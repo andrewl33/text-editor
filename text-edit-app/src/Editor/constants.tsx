@@ -1,4 +1,7 @@
 // editor
+export const LOCAL_UPDATE_CODE = "LOCAL_UPDATE_CODE";
+export type LOCAL_UPDATE_CODE = typeof LOCAL_UPDATE_CODE;
+
 export const UPDATE_CODE_REQUEST = "UPDATE_CODE_REQUEST";
 export type UPDATE_CODE_REQUEST = typeof UPDATE_CODE_REQUEST;
 

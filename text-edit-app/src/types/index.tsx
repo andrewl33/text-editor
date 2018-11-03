@@ -93,7 +93,8 @@ export interface EditorContainerProps
 }
 
 export interface EditorComponentProps {
-  onBatchUpdate: (codeText: string) => any;
+  onLocalUpdate: (codeText: string) => any;
+  onBatchUpdate: () => any;
   onCodeChange: () => any;
   onRemoveTag?: (tagName: string) => any;
   onAddTag?: (tagName: string) => any;

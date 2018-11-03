@@ -13,6 +13,8 @@ interface EditorPrivateState {
 
 // TODO: check https://github.com/ashleyw/react-sane-contenteditable/issues/31
 // right now, the content editable does not listen to content correctly
+
+// TODO: Update typings for react-sane-contenteditable
 class EditorComponent extends React.Component<
   EditorComponentProps,
   EditorPrivateState
@@ -23,10 +25,6 @@ class EditorComponent extends React.Component<
     super(props);
 
     this.myRef = React.createRef();
-
-    this.state = {
-      text: ""
-    };
   }
 
   public render() {
@@ -57,7 +55,7 @@ class EditorComponent extends React.Component<
               content={codeText}
               editable={true}
               multiLine={true}
-              onChange={this.handleChange}
+              onKeyDown={this.handleChange}
               style={{ padding: 0, height: "100%" }}
             />
           </div>
@@ -92,8 +90,9 @@ class EditorComponent extends React.Component<
     );
   }
 
-  private handleChange = (e: React.SyntheticEvent, val: string) => {
-    this.setState({ text: val });
+  private handleChange = (e: React.SyntheticEvent, value: string) => {
+    this.setState({ text: value });
+    this.props.onLocalUpdate(value);
     clearTimeout(this.delayBeforeUpdate);
     this.delay();
   };
@@ -101,7 +100,7 @@ class EditorComponent extends React.Component<
   private delay = () => {
     // uses browser's setTimeout instead of node
     this.delayBeforeUpdate = window.setTimeout(() => {
-      this.props.onBatchUpdate(this.state.text);
+      this.props.onBatchUpdate();
     }, 2500);
   };
 }

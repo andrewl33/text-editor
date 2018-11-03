@@ -24,6 +24,7 @@ import {
   GET_TEXT_FAILURE,
   GET_TEXT_REQUEST,
   GET_TEXT_SUCCESS,
+  LOCAL_UPDATE_CODE,
   LOCK_TEXT_FAILURE,
   LOCK_TEXT_REQUEST,
   LOCK_TEXT_SUCCESS,
@@ -41,9 +42,13 @@ import {
   UPDATE_CODE_SUCCESS
 } from "./constants";
 
+export interface LocalUpdateCode {
+  type: LOCAL_UPDATE_CODE;
+  payload: { codeText: string };
+}
 export interface UpdateCode {
   type: UPDATE_CODE_REQUEST | UPDATE_CODE_SUCCESS | UPDATE_CODE_FAILURE;
-  payload?: { success: boolean; codeText: string };
+  payload?: { success: boolean };
 }
 
 export interface ChangedCode {
@@ -129,6 +134,7 @@ export interface CloseAlert {
 }
 
 export type EditorAction =
+  | LocalUpdateCode
   | UpdateCode
   | ChangedCode
   | GetText
@@ -143,7 +149,14 @@ export type EditorAction =
   | ShareLink
   | CloseAlert;
 
-export const updateCode = (codeText: string) => {
+export const localUpdateCode = (codeText: string): LocalUpdateCode => {
+  return {
+    type: LOCAL_UPDATE_CODE,
+    payload: { codeText }
+  };
+};
+
+export const updateCode = () => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, UpdateCode>,
     getState: () => StoreState
@@ -153,7 +166,7 @@ export const updateCode = (codeText: string) => {
         .router.location.pathname.split("/")
         .pop(),
       pageType: "file",
-      codeText
+      codeText: getState().editor.codeText
     };
     dispatch({
       type: UPDATE_CODE_REQUEST
@@ -171,7 +184,7 @@ export const updateCode = (codeText: string) => {
       if (body.isSaved) {
         dispatch({
           type: UPDATE_CODE_SUCCESS,
-          payload: { success: body.isSaved, codeText }
+          payload: { success: body.isSaved }
         });
       } else {
         dispatch({

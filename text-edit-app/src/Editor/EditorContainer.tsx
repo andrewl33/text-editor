@@ -20,6 +20,7 @@ import {
   closeAlert,
   EditorAction,
   getText,
+  localUpdateCode,
   lockText,
   newText,
   removeTag,
@@ -66,7 +67,8 @@ export class EditorContainer extends React.Component<
       onAddUser,
       onRemoveUser,
       onNameChange,
-      isLocked
+      isLocked,
+      onLocalUpdate
     } = this.props;
 
     return (
@@ -105,6 +107,7 @@ export class EditorContainer extends React.Component<
           onAddUser={onAddUser}
           onRemoveUser={onRemoveUser}
           isLocked={isLocked || filePrompt}
+          onLocalUpdate={onLocalUpdate}
         />
       </div>
     );
@@ -161,7 +164,8 @@ const mapDispatchToProps = (
   >
 ) => {
   return {
-    onBatchUpdate: (codeText: string) => dispatch(updateCode(codeText)),
+    onLocalUpdate: (codeText: string) => dispatch(localUpdateCode(codeText)),
+    onBatchUpdate: () => dispatch(updateCode()),
     onCodeChange: () => dispatch(changedCode()),
     onAlert: () => dispatch(closeAlert()),
     onLock: (password: string) => dispatch(lockText(password)),
