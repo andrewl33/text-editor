@@ -59,7 +59,8 @@ export const createNewCodeRow = async (uuid: string): Promise<boolean> => {
 
   try {
     await query(
-      `INSERT INTO code_file (url, updated_date, is_private, is_editable, code_text) VALUES ('${uuid}', now(), FALSE, TRUE, ' ')`
+      `INSERT INTO code_file (url, updated_date, is_private, is_editable, code_text) VALUES (?, now(), FALSE, TRUE, ' ')`,
+      [uuid]
     );
   } catch (err) {
     console.log("creatNewCodeRow Error:");
@@ -76,7 +77,7 @@ export const getTextFromDB = async (
   let code;
 
   try {
-    code = await query(`SELECT code_text FROM code_file WHERE url='${url}'`);
+    code = await query(`SELECT code_text FROM code_file WHERE url=?`, [url]);
   } catch (err) {
     console.log("Open err:");
     console.log(err);
@@ -100,7 +101,8 @@ export const getAllCodeFileInfo = async (
 > => {
   try {
     const res = await query(
-      `SELECT url, updated_date, is_private, code_text, name FROM code_file WHERE url='${url}'`
+      `SELECT url, updated_date, is_private, code_text, name FROM code_file WHERE url=?`,
+      [url]
     );
 
     if (res[0] === []) {
@@ -127,7 +129,8 @@ export const saveToDB = async (
 ): Promise<boolean> => {
   try {
     await query(
-      `UPDATE code_file SET updated_date = now(), code_text = '${codeText}' WHERE url = '${url}'`
+      `UPDATE code_file SET updated_date = now(), code_text = ? WHERE url = ?`,
+      [codeText, url]
     );
   } catch (err) {
     console.log("Save err:");
@@ -144,7 +147,8 @@ export const makePrivate = async (uuid: string): Promise<boolean> => {
 
   try {
     const res = await query(
-      `UPDATE code_file SET is_private=TRUE WHERE url='${uuid}'`
+      `UPDATE code_file SET is_private=TRUE WHERE url=?`,
+      [uuid]
     );
 
     if (res.affectedRows > 0) {
@@ -164,9 +168,10 @@ export const updateName = async (
   name: string
 ): Promise<boolean> => {
   try {
-    const res = await query(
-      `UPDATE code_file SET name='${name}' WHERE url='${uuid}'`
-    );
+    const res = await query(`UPDATE code_file SET name=? WHERE url=?`, [
+      name,
+      uuid
+    ]);
 
     if (res[0].affectedRows > 0) {
       return true;
@@ -188,9 +193,10 @@ export const updatePassword = async (
   let success = false;
 
   try {
-    const res = await query(
-      `UPDATE code_file SET password='${password}' WHERE url='${uuid}'`
-    );
+    const res = await query(`UPDATE code_file SET password=? WHERE url=?`, [
+      password,
+      uuid
+    ]);
 
     if (res.affectedRows > 0) {
       success = true;
@@ -210,9 +216,9 @@ export const getPassword = async (
   const passObj = { success: false, password: "" };
 
   try {
-    const res = await query(
-      `SELECT password FROM code_file WHERE url='${uuid}'`
-    );
+    const res = await query(`SELECT password FROM code_file WHERE url=?`, [
+      uuid
+    ]);
     passObj.success = true;
     passObj.password = res[0][0].password;
   } catch (e) {
@@ -227,7 +233,7 @@ export const deleteFile = async (uuid: string): Promise<boolean> => {
   let success = false;
 
   try {
-    const res = await query(`DELETE FROM code_file WHERE url='${uuid}'`);
+    const res = await query(`DELETE FROM code_file WHERE url=?`, [uuid]);
     if (res[0].affectedRows > 0) {
       success = true;
     }
@@ -241,9 +247,9 @@ export const deleteFile = async (uuid: string): Promise<boolean> => {
 // check if file is password protected
 export const isPrivate = async (uuid: string): Promise<boolean> => {
   try {
-    const res = await query(
-      `SELECT is_private FROM code_file WHERE url='${uuid}'`
-    );
+    const res = await query(`SELECT is_private FROM code_file WHERE url=?`, [
+      uuid
+    ]);
     return res[0][0].is_private === 1 ? true : false;
   } catch (e) {
     console.log(e);

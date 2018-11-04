@@ -9,11 +9,11 @@ import {
   removeCollection,
   removeFile
 } from "../controllers/account.controller";
-import { auth } from "../middleware/auth.middleware";
+import { auth as authMiddleware } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.use(auth);
+router.use(authMiddleware("user"));
 
 // file associations
 router.get("/allCollections", getAllCollections);

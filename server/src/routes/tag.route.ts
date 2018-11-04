@@ -4,7 +4,7 @@ import { auth as authMiddleware } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.use(authMiddleware);
+router.use(authMiddleware("file"));
 
 // TODO: check all
 router.post("/add", addTag);

@@ -40,9 +40,9 @@ export const accountExists = async (accountName: string): Promise<boolean> => {
   let isValidAccount = false;
 
   try {
-    const dbRes = await query(
-      `SELECT * FROM account WHERE account_name='${accountName}'`
-    );
+    const dbRes = await query(`SELECT * FROM account WHERE account_name=?`, [
+      accountName
+    ]);
 
     if (dbRes[0].length > 0) {
       isValidAccount = true;
@@ -63,7 +63,8 @@ export const insertNewAccount = async (
 
   try {
     const dbRes = await query(
-      `INSERT INTO account (account_name,  password) VALUES ('${accountName}', '${hashPass}')`
+      `INSERT INTO account (account_name,  password) VALUES (?, ?)`,
+      [accountName, hashPass]
     );
     didInsertAccount = true;
   } catch (e) {
@@ -81,7 +82,8 @@ export const getHashFromAccount = async (
 
   try {
     const hashedPass = await query(
-      `SELECT password FROM account WHERE account_name='${accountName}'`
+      `SELECT password FROM account WHERE account_name=?`,
+      [accountName]
     );
     payload.hash = hashedPass[0][0].password;
     payload.success = true;
@@ -101,7 +103,8 @@ export const deleteAccountDB = async (
 
   try {
     const deletedAccount = await query(
-      `DELETE FROM account WHERE account_name='${accountName}'`
+      `DELETE FROM account WHERE account_name=?`,
+      [accountName]
     );
 
     if (deletedAccount.affectedRows > 0) {

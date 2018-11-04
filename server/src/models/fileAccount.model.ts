@@ -52,7 +52,8 @@ export const findAllFilesForAnAccount = async (
 > => {
   try {
     const resDB = await query(
-      `SELECT code_file.url, code_file.name, code_file.updated_date FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
+      `SELECT code_file.url, code_file.name, code_file.updated_date FROM code_file INNER JOIN file_account ON code_file.id = file_account.file_id WHERE file_account.account_id = (SELECT id FROM account WHERE account_name=?)`,
+      [accountName]
     );
 
     const files: Array<{ id: string; name: string; createDate: string }> = [];
@@ -85,7 +86,8 @@ export const addFileToAccount = async (
 ) => {
   try {
     const res = await query(
-      `INSERT INTO file_account (account_id, file_id) VALUES ((SELECT id FROM account WHERE account_name='${accountName}'), (SELECT id FROM code_file WHERE url='${fileUuid}'))`
+      `INSERT INTO file_account (account_id, file_id) VALUES ((SELECT id FROM account WHERE account_name=?), (SELECT id FROM code_file WHERE url=?))`,
+      [accountName, fileUuid]
     );
     return res[0].affectedRows > 0;
   } catch (e) {
@@ -101,7 +103,8 @@ export const removeFileFromAccount = async (
 ) => {
   try {
     const res = await query(
-      `DELETE FROM file_account WHERE account_id=(SELECT id FROM account WHERE account_name='${accountName}') AND file_id=(SELECT id FROM code_file WHERE url='${fileUuid}')`
+      `DELETE FROM file_account WHERE account_id=(SELECT id FROM account WHERE account_name=?) AND file_id=(SELECT id FROM code_file WHERE url=?)`,
+      [accountName, fileUuid]
     );
     return res[0].affectedRows > 0;
   } catch (e) {
@@ -111,7 +114,6 @@ export const removeFileFromAccount = async (
   }
 };
 
-// TODO: find all accounts associated with a file
 export const allFileAccounts = async (
   fileUuid: string
 ): Promise<{ success: boolean; accounts: string[] }> => {
@@ -119,7 +121,8 @@ export const allFileAccounts = async (
 
   try {
     const res = await query(
-      `SELECT account.account_name FROM account INNER JOIN file_account ON account.id = file_account.account_id WHERE file_account.file_id = (SELECT id FROM code_file WHERE url='${fileUuid}')`
+      `SELECT account.account_name FROM account INNER JOIN file_account ON account.id = file_account.account_id WHERE file_account.file_id = (SELECT id FROM code_file WHERE url=?)`,
+      [fileUuid]
     );
 
     if (res[0].length > 0) {

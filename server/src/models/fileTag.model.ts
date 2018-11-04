@@ -21,11 +21,10 @@ export const fileTagInsert = async () => {
   const data = [["1", "1"], ["1", "3"]];
 
   for (let i = 0; i < data.length; i++) {
-    await query(
-      `INSERT INTO file_tag (file_id, tag_id) VALUES ('${data[i][0]}', '${
-        data[i][1]
-      }')`
-    );
+    await query(`INSERT INTO file_tag (file_id, tag_id) VALUES (?, ?)`, [
+      data[i][0],
+      data[i][1]
+    ]);
   }
 };
 
@@ -36,7 +35,8 @@ export const addTagToFile = async (
 ): Promise<boolean> => {
   try {
     const res = await query(
-      `INSERT INTO file_tag (file_id, tag_id) VALUES ((SELECT id FROM code_file WHERE url='${fileUuid}'), (SELECT id FROM tag WHERE name='${tagName}'))`
+      `INSERT INTO file_tag (file_id, tag_id) VALUES ((SELECT id FROM code_file WHERE url=?), (SELECT id FROM tag WHERE name=?))`,
+      [fileUuid, tagName]
     );
     return res[0].affectedRows > 0;
   } catch (e) {
@@ -53,7 +53,8 @@ export const removeTagFromFile = async (
 ): Promise<boolean> => {
   try {
     const res = await query(
-      `DELETE FROM file_tag WHERE tag_id = (SELECT id FROM tag WHERE name='${tagName}') and file_id=(SELECT id FROM code_file WHERE url='${fileUuid}')`
+      `DELETE FROM file_tag WHERE tag_id = (SELECT id FROM tag WHERE name=?) and file_id=(SELECT id FROM code_file WHERE url=?)`,
+      [tagName, fileUuid]
     );
     return res[0].affectedRows > 0;
   } catch (e) {
@@ -70,7 +71,8 @@ export const allFileTags = async (
 
   try {
     const res = await query(
-      `SELECT tag.name FROM tag INNER JOIN file_tag ON tag.id = file_tag.tag_id WHERE file_tag.file_id = (SELECT id FROM code_file WHERE url='${fileUuid}')`
+      `SELECT tag.name FROM tag INNER JOIN file_tag ON tag.id = file_tag.tag_id WHERE file_tag.file_id = (SELECT id FROM code_file WHERE url=?)`,
+      [fileUuid]
     );
 
     if (res[0].length > 0) {

@@ -20,7 +20,7 @@ export const initialTagInsert = async () => {
 // insert tag
 export const createNewTag = async (name: string): Promise<boolean> => {
   try {
-    const res = await query(`INSERT INTO tag (name) VALUES ('${name}')`);
+    const res = await query(`INSERT INTO tag (name) VALUES (?)`, [name]);
     return res[0].affectedRows > 0;
   } catch (e) {
     console.log("create new tag err");

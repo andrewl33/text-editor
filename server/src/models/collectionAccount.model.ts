@@ -37,7 +37,8 @@ export const findAllCollectionsForAnAccount = async (
 > => {
   try {
     const resDB = await query(
-      `SELECT collection.url, collection.updated_date, collection.name FROM collection INNER JOIN collection_account ON collection.id = collection_account.collection_id WHERE collection_account.account_id = (SELECT id FROM account WHERE account_name='${accountName}')`
+      `SELECT collection.url, collection.updated_date, collection.name FROM collection INNER JOIN collection_account ON collection.id = collection_account.collection_id WHERE collection_account.account_id = (SELECT id FROM account WHERE account_name=?)`,
+      [accountName]
     );
 
     const collections: Array<{
@@ -75,7 +76,8 @@ export const addCollectionToAccount = async (
 ) => {
   try {
     const res = await query(
-      `INSERT INTO collection_account (account_id, collection_id) VALUES ((SELECT id FROM account WHERE account_name='${accountName}'), (SELECT id FROM collection WHERE url='${collectionUuid}'))`
+      `INSERT INTO collection_account (account_id, collection_id) VALUES ((SELECT id FROM account WHERE account_name=?), (SELECT id FROM collection WHERE url=?))`,
+      [accountName, collectionUuid]
     );
     return res[0].affectedRows > 0;
   } catch (e) {
@@ -91,7 +93,8 @@ export const removeCollectionFromAccount = async (
 ) => {
   try {
     const res = await query(
-      `DELETE FROM collection_account WHERE account_id=(SELECT id FROM account WHERE account_name='${accountName}') AND collection_id=(SELECT id FROM collection WHERE url='${collectionUuid}')`
+      `DELETE FROM collection_account WHERE account_id=(SELECT id FROM account WHERE account_name=?) AND collection_id=(SELECT id FROM collection WHERE url=?)`,
+      [accountName, collectionUuid]
     );
     return res[0].affectedRows > 0;
   } catch (e) {
