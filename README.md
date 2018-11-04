@@ -30,7 +30,6 @@ Frontend:
   - [ ] isLoading Reducer
   - [ ] center loading indicator
 - [ ] test
-- [ ] handle auth
 - [ ] handle wrong account info in home
 - [ ] reject password changes
 - [ ] handle user add/del
@@ -42,11 +41,11 @@ Frontend:
 - [ ] move notifications into separate reducer
 - [ ] Look through types/index.tsx
 - [ ] createAccount route to home
+- [ ] verify react-sane-contenteditable.d.ts
+- [ ] update react-sane-contenteditable when it is avail
 
 Backend:
 
 - [ ] Test API
-- [ ] handle parameters correctly
-- [ ] curry pageType
 
 * [ ] Deploy

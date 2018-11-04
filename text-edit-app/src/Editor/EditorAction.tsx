@@ -1,11 +1,5 @@
 import { push, RouterAction } from "connected-react-router";
 import { ThunkDispatch } from "redux-thunk";
-import { API_URL as URL } from "../envConstants";
-
-import { CLOSE_ALERT, SHARE_LINK } from "../constants";
-import { StoreState } from "../types";
-import authFetch from "../util/authFetch";
-import modDate from "../util/modDate";
 import {
   ADD_TAG_FAILURE,
   ADD_TAG_REQUEST,
@@ -20,6 +14,7 @@ import {
   CHANGE_FILE_NAME_REQUEST,
   CHANGE_FILE_NAME_SUCCESS,
   CHANGED_CODE,
+  CLOSE_ALERT,
   GET_TEXT_AUTH,
   GET_TEXT_FAILURE,
   GET_TEXT_REQUEST,
@@ -37,10 +32,15 @@ import {
   REMOVE_USER_FROM_FILE_FAILURE,
   REMOVE_USER_FROM_FILE_REQUEST,
   REMOVE_USER_FROM_FILE_SUCCESS,
+  SHARE_LINK,
   UPDATE_CODE_FAILURE,
   UPDATE_CODE_REQUEST,
   UPDATE_CODE_SUCCESS
-} from "./constants";
+} from "../constants";
+import { API_URL as URL } from "../envConstants";
+import { StoreState } from "../types";
+import authFetch from "../util/authFetch";
+import modDate from "../util/modDate";
 
 export interface LocalUpdateCode {
   type: LOCAL_UPDATE_CODE;

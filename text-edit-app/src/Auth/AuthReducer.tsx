@@ -1,8 +1,5 @@
-import { AuthAction } from "./AuthAction";
-
-import { CLOSE_ALERT } from "../constants";
-import { AuthStoreState } from "../types";
 import {
+  CLOSE_ALERT,
   CLOSE_PROMPT,
   CREATE_ACCOUNT_FAILURE,
   CREATE_ACCOUNT_REQUEST,
@@ -18,7 +15,9 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
   UPDATE_TOKEN
-} from "./constants";
+} from "../constants";
+import { AuthStoreState } from "../types";
+import { AuthAction } from "./AuthAction";
 
 export const initialState: AuthStoreState = {
   token: undefined,

@@ -16,7 +16,10 @@ export interface AuthStoreState {
   token?: string;
   loggedIn: boolean;
   accountName?: string;
-  dashboard?: DashboardProps;
+  dashboard?: {
+    collections: Item[];
+    files: Item[];
+  };
   openAlert: boolean;
   alertMessage?: string;
   authPrompt: boolean;
@@ -58,7 +61,6 @@ export interface CollectionSharedProps {
 export interface EditorStoreState {
   codeText: string;
   tags: string[];
-  // isLoading: boolean;
   isNewPage: boolean;
   isLocked: boolean;
   isSaved: boolean;
@@ -129,16 +131,18 @@ export interface UserProps {
   accountName?: string;
 }
 
+export interface DashboardContainerProps extends DashboardProps {
+  authPrompt: boolean;
+  onAuthAccount: (name: string, pass: string) => {};
+}
+
 export interface DashboardProps {
-  collections: Item[];
-  files: Item[];
-  onCollectionClick?: (id: string) => any;
+  dashboard?: {
+    collections: Item[];
+    files: Item[];
+  };
+  onCollectionClick: (id: string) => any;
   onFileClick: (id: string) => any;
-  // TODO: Add eventually
-  // onAddFile: (fileId: string) => any;
-  // onAddCollection: (collectionId: string) => any;
-  // onRemoveFile: (fileId: string) => any;
-  // onRemoveCollection: (collectionId: string) => any;
 }
 
 // router
@@ -166,6 +170,7 @@ export interface HeaderProps extends PromptComponentProps {
   onDashboard?: () => {};
   onLogOut: () => {};
   onLogInPrompt: () => {};
+  onHomeClick: () => {};
   accountName?: string;
   loggedIn: boolean;
   pathname?: string;

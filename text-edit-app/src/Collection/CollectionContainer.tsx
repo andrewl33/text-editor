@@ -60,29 +60,9 @@ export class CollectionContainer extends React.Component<
       onAuthAccount,
       onClosePrompt,
       onFileClick,
-      items
+      items,
+      onHomeClick
     } = this.props;
-
-    // const files = [
-    //   {
-    //     id: "1",
-    //     name: "Hello World",
-    //     tags: ["Snippet", "Rust", "Mission Critical"],
-    //     date: "1-1-1"
-    //   },
-    //   {
-    //     id: "2",
-    //     name: "test",
-    //     tags: ["css", "firefox", "mobile"],
-    //     date: "1-1-1"
-    //   },
-    //   {
-    //     id: "3",
-    //     name: "",
-    //     tags: ["test", "Google", "jimmy"],
-    //     date: "1-1-1"
-    //   }
-    // ];
 
     return (
       <div style={{ height: "100%" }}>
@@ -91,6 +71,7 @@ export class CollectionContainer extends React.Component<
           onLock={onLock}
           onShare={onShare}
           onAlert={onAlert}
+          onHomeClick={onHomeClick}
           accountName={accountName}
           loggedIn={loggedIn}
           pathname={pathname}
@@ -186,9 +167,9 @@ const mapDispatchToProps = (
     onLogInPrompt: () => dispatch(logInPrompt()),
     onLogOut: () => dispatch(logOut()),
     onClosePrompt: () => dispatch(closePrompt()),
-    onFileClick: (id: string) => dispatch(push(`/files/${id}`))
+    onFileClick: (id: string) => dispatch(push(`/files/${id}`)),
+    onHomeClick: () => dispatch(push("/"))
   };
-  // TODO: delete
 };
 
 export default connect(

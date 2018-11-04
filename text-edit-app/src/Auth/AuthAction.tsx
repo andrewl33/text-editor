@@ -1,10 +1,6 @@
 import { ThunkDispatch } from "redux-thunk";
-import { CLOSE_ALERT } from "../constants";
-import { API_URL as URL } from "../envConstants";
-import { DashboardProps, StoreState } from "../types";
-import authFetch from "../util/authFetch";
-import modDate from "../util/modDate";
 import {
+  CLOSE_ALERT,
   CLOSE_PROMPT,
   CREATE_ACCOUNT_FAILURE,
   CREATE_ACCOUNT_REQUEST,
@@ -20,7 +16,11 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
   UPDATE_TOKEN
-} from "./constants";
+} from "../constants";
+import { API_URL as URL } from "../envConstants";
+import { DashboardProps, StoreState } from "../types";
+import authFetch from "../util/authFetch";
+import modDate from "../util/modDate";
 
 export interface CreateAccount {
   type:

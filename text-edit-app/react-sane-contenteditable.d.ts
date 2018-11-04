@@ -1,9 +1,9 @@
+// TODO: get this right, and contribute this
 import * as React from "react";
 
+// check if this is right
 export type TagNameFunc<T> = () => T;
-export interface RefObject<T> {
-  current: T | null;
-}
+export interface RefObject<T> {}
 export interface ContentEditableProps {
   content?: string;
   editable?: boolean;
@@ -14,7 +14,7 @@ export interface ContentEditableProps {
   caretPosition?: "start" | "end";
   tagName?: string | TagNameFunc<string>; // The element to make contenteditable. Takes an element string ('div', 'span', 'h1') or a styled component
   styled?: boolean;
-  innerRef?<T>(): RefObject<T>;
+  innerRef?: <T>(el: RefObject<T>) => void;
   onBlur?(e: React.SyntheticEvent): void;
   onKeyDown?(e: React.SyntheticEvent, value: string): void;
   onPaste?(e: React.SyntheticEvent): void;

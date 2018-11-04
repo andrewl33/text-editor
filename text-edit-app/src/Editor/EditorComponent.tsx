@@ -1,6 +1,6 @@
 import * as React from "react";
 // import * as Prism from 'prismjs';
-import ContentEditable, { RefObject } from "react-sane-contenteditable";
+import ContentEditable from "react-sane-contenteditable";
 import { Container, Grid } from "semantic-ui-react";
 import Sidebar from "../generic/Sidebar/SidebarComponent";
 
@@ -20,7 +20,7 @@ class EditorComponent extends React.Component<
   EditorPrivateState
 > {
   private delayBeforeUpdate: number;
-  private myRef: RefObject<any>;
+  private myRef: React.RefObject<any>;
   constructor(props: EditorComponentProps) {
     super(props);
 

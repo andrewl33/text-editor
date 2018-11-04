@@ -1,5 +1,4 @@
 import * as React from "react";
-import { RefObject } from "react-sane-contenteditable";
 import { Button, Dropdown, Menu, Transition } from "semantic-ui-react";
 import { ROOT_URL } from "../../envConstants";
 import { HeaderProps } from "../../types";
@@ -12,7 +11,7 @@ interface HeaderState {
 }
 
 export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
-  private urlHolder: RefObject<any>;
+  private urlHolder: React.RefObject<HTMLTextAreaElement>;
   private notificationDuration: number;
 
   constructor(props: HeaderProps) {
@@ -45,7 +44,8 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
       onLogOut,
       onLogInPrompt,
       onClosePrompt,
-      onLock
+      onLock,
+      onHomeClick
     } = this.props;
 
     const alert = alertMessage !== undefined && (
@@ -110,7 +110,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
       <header>
         {alert}
         <Menu attached={true} inverted={true} primary="true" size="huge">
-          <Menu.Item name="TextEdit" />
+          <Menu.Item name="TextEdit" onClick={onHomeClick} />
           <Menu.Item name={pageName} />
           <Menu.Menu position="right">
             {newButton}
@@ -142,7 +142,7 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     // reset copy state
     // if (this.props.isShareable && this.state.copy) {
     if (true && this.state.copy) {
-      this.urlHolder.current.select();
+      this.urlHolder.current!.select();
       window.document.execCommand("copy");
       this.setState({ copy: false });
       // this.props.onShare();

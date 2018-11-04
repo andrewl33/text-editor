@@ -2,11 +2,6 @@
 
 import { push, RouterAction } from "connected-react-router";
 import { ThunkDispatch } from "redux-thunk";
-import { CLOSE_ALERT, SHARE_LINK } from "../constants";
-import { API_URL as URL } from "../envConstants";
-import { CollectionComponentProps, Item, StoreState } from "../types";
-import authFetch from "../util/authFetch";
-import modDate from "../util/modDate";
 import {
   ADD_FILE_TO_COLLECTION_FAILURE,
   ADD_FILE_TO_COLLECTION_REQUEST,
@@ -20,6 +15,7 @@ import {
   CHANGE_COLLECTION_NAME_FAILURE,
   CHANGE_COLLECTION_NAME_REQUEST,
   CHANGE_COLLECTION_NAME_SUCCESS,
+  CLOSE_ALERT,
   GET_COLLECTION_AUTH,
   GET_COLLECTION_FAILURE,
   GET_COLLECTION_REQUEST,
@@ -35,8 +31,13 @@ import {
   REMOVE_FILE_FROM_COLLECTION_SUCCESS,
   REMOVE_USER_FROM_COLLECTION_FAILURE,
   REMOVE_USER_FROM_COLLECTION_REQUEST,
-  REMOVE_USER_FROM_COLLECTION_SUCCESS
-} from "./constants";
+  REMOVE_USER_FROM_COLLECTION_SUCCESS,
+  SHARE_LINK
+} from "../constants";
+import { API_URL as URL } from "../envConstants";
+import { CollectionComponentProps, Item, StoreState } from "../types";
+import authFetch from "../util/authFetch";
+import modDate from "../util/modDate";
 
 export interface NewCollection {
   type:
