@@ -57,6 +57,7 @@ export const getCollectionInfo = async (
         createDate: string;
         name: string;
         isPrivate: boolean;
+        users?: string[];
       };
     }
   | { success: false }
@@ -74,7 +75,8 @@ export const getCollectionInfo = async (
         id: collectionInfoRes[0][0].url,
         createDate: collectionInfoRes[0][0].updated_date,
         name: collectionInfoRes[0][0].name,
-        isPrivate: collectionInfoRes[0][0].is_private === 1 ? true : false
+        isPrivate: collectionInfoRes[0][0].is_private === 1 ? true : false,
+        users: [] as string[]
       };
 
       return { success: true, info: colInfo };

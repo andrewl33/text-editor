@@ -14,7 +14,7 @@ export async function updateToken(
     const c = [...new Set(oldToken.collections.concat(collections))];
     const f = [...new Set(oldToken.files.concat(files))];
 
-    return await createToken(oldToken.user, c, f);
+    return await createToken(user !== "" && user ? user : oldToken.user, c, f);
   }
 }
 

@@ -115,6 +115,7 @@ export class EditorContainer extends React.Component<
           onRemoveUser={onRemoveUser}
           isLocked={isLocked || filePrompt}
           onLocalUpdate={onLocalUpdate}
+          accountName={accountName}
         />
       </div>
     );

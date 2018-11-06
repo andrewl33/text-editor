@@ -30,6 +30,7 @@ export const auth = (pageType: string) => {
 
       if (token !== "" && token !== undefined && token !== null) {
         const decoded: IToken = await decodeToken(token);
+
         if (
           decoded &&
           decoded.user !== "" &&

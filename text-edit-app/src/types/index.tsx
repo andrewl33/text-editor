@@ -47,6 +47,7 @@ export interface CollectionComponentProps extends CollectionSharedProps {
   onAddFile: (fileId: string) => any;
   onRemoveFile: (fileId: string) => any;
   onFileClick: (fileId: string) => any;
+  accountName?: string;
 }
 
 export interface CollectionSharedProps {
@@ -109,6 +110,7 @@ export interface EditorComponentProps {
   createDate: string;
   users: string[];
   isLocked: boolean;
+  accountName?: string;
 }
 
 // home
@@ -134,6 +136,7 @@ export interface UserProps {
 export interface DashboardContainerProps extends DashboardProps {
   authPrompt: boolean;
   onAuthAccount: (name: string, pass: string) => {};
+  onMount: () => {};
 }
 
 export interface DashboardProps {
@@ -220,6 +223,7 @@ export interface SidebarProps {
   createDate: string;
   isPrivate: boolean;
   users: string[];
+  accountName?: string;
   onRemoveTag?: (tagName: string) => any;
   onAddTag?: (tagName: string) => any;
   onNameChange: (name: string) => any;

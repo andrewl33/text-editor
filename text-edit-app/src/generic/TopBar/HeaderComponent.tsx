@@ -84,13 +84,17 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
     const accountDropDown = (
       <div>
         <Dropdown
-          text={loggedIn ? accountName : ""}
+          text={loggedIn ? accountName : "Account"}
           icon="user"
           floating={true}
           labeled={true}
           button={true}
-          className="account-btn"
-          style={{ color: "#fff" }}
+          className="icon"
+          style={{
+            color: "#fff",
+            backgroundColor: "#2185d0",
+            fontSize: 17
+          }}
         >
           {loggedIn ? (
             <Dropdown.Menu>

@@ -8,6 +8,7 @@ import {
   AuthAction,
   closeAlert,
   closePrompt,
+  getDashboard,
   logIn,
   logInPrompt,
   logOut
@@ -73,6 +74,10 @@ export class DashboardContainer extends React.Component<
       );
     }
   }
+
+  public componentDidMount() {
+    this.props.onMount();
+  }
 }
 
 const mapStateToProps = (state: StoreState) => {
@@ -106,7 +111,8 @@ const mapDispatchToProps = (
     onAuthAccount: (name: string, pass: string) => dispatch(logIn(name, pass)),
     onCollectionClick: (id: string) => dispatch(push(`/collections/${id}`)),
     onFileClick: (id: string) => dispatch(push(`/files/${id}`)),
-    onHomeClick: () => dispatch(push("/"))
+    onHomeClick: () => dispatch(push("/")),
+    onMount: () => dispatch(getDashboard())
   };
 };
 

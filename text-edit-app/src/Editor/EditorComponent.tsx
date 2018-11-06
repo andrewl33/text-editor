@@ -39,7 +39,8 @@ class EditorComponent extends React.Component<
       onAddUser,
       onRemoveUser,
       onNameChange,
-      codeText
+      codeText,
+      accountName
     } = this.props;
 
     return (
@@ -83,6 +84,7 @@ class EditorComponent extends React.Component<
               onNameChange={onNameChange}
               onAddUser={onAddUser}
               onRemoveUser={onRemoveUser}
+              accountName={accountName}
             />
           </Container>
         </Grid.Column>

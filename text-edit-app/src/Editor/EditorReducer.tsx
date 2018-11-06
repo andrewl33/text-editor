@@ -181,7 +181,7 @@ export const editorReducer = (
     case ADD_USER_TO_FILE_SUCCESS:
       return {
         ...state,
-        users: [...state.users, [action.payload && action.payload.accountName]]
+        users: [...state.users, action.payload && action.payload.accountName]
       };
     case ADD_USER_TO_FILE_REQUEST:
       return state;

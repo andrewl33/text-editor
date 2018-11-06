@@ -11,6 +11,7 @@ import {
   updateToPrivate,
   urlExists
 } from "../models/collection.model";
+import { allAccountForCollection } from "../models/collectionAccount.model";
 import {
   addFileToCollection,
   getFilesFromCollection,
@@ -68,6 +69,7 @@ export const sendFileCollection = async (
   try {
     const collectionInfo = await getCollectionInfo(url);
     const files = await getFilesFromCollection(url);
+    const users = await allAccountForCollection(url);
     const fileTags: string[][] = [];
     const fileInfo: Array<{
       file: { id: string; createDate: string; name: string };
@@ -80,6 +82,12 @@ export const sendFileCollection = async (
 
     for (let i = 0; i < files.files.length; i++) {
       fileInfo.push({ file: files.files[i], tags: fileTags[i] });
+    }
+
+    if (collectionInfo.success) {
+      for (const account of users) {
+        collectionInfo.info.users.push(account.account_name);
+      }
     }
 
     const returnObj = {

@@ -32,7 +32,6 @@ Frontend:
 - [ ] test
 - [ ] handle wrong account info in home
 - [ ] reject password changes
-- [ ] handle user add/del
 - [ ] Catch tabs and other kb actions
 - [ ] Create right click menu
 - [ ] Refactor; Create an errors reducer
@@ -40,7 +39,6 @@ Frontend:
   - [ ] Regular errors handle with an alert message
 - [ ] move notifications into separate reducer
 - [ ] Look through types/index.tsx
-- [ ] createAccount route to home
 - [ ] verify react-sane-contenteditable.d.ts
 - [ ] update react-sane-contenteditable when it is avail
 

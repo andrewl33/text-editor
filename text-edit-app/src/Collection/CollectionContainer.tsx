@@ -100,6 +100,7 @@ export class CollectionContainer extends React.Component<
           onAddUser={onAddUser}
           onRemoveUser={onRemoveUser}
           onFileClick={onFileClick}
+          accountName={accountName}
         />
       </div>
     );

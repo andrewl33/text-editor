@@ -59,6 +59,7 @@ export interface GetCollection {
     createDate?: string;
     name?: string;
     isLocked?: boolean;
+    users?: string[];
   };
 }
 
@@ -204,7 +205,8 @@ export const getCollectionFiles = () => {
             items: body.fileInfo,
             name: body.collectionInfo.name,
             createDate: modDate(body.collectionInfo.createDate),
-            isLocked: body.collectionInfo.isPrivate
+            isLocked: body.collectionInfo.isPrivate,
+            users: body.collectionInfo.users
           }
         });
       } else if (body.password) {
@@ -467,7 +469,7 @@ export const addUserToCollection = (accountName: string) => {
 
       const body = await authFetch<any, any>(
         dispatch,
-        `${URL}/account/addCollection`,
+        `${URL}/collection/addUser`,
         "POST",
         getState().authentication.token,
         data
@@ -515,7 +517,7 @@ export const removeUserFromCollection = (accountName: string) => {
 
       const body = await authFetch<any, any>(
         dispatch,
-        `${URL}/account/removeCollection`,
+        `${URL}/collection/removeUser`,
         "POST",
         getState().authentication.token,
         data
@@ -531,10 +533,7 @@ export const removeUserFromCollection = (accountName: string) => {
         });
       } else {
         dispatch({
-          type: REMOVE_USER_FROM_COLLECTION_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: REMOVE_USER_FROM_COLLECTION_FAILURE
         });
       }
     } catch (e) {

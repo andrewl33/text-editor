@@ -32,7 +32,8 @@ export default class SidebarComponent extends React.Component<
       createDate,
       users,
       isPrivate,
-      onRemoveTag
+      onRemoveTag,
+      accountName
     } = this.props;
     const nameField = !nameEdit ? (
       <span>
@@ -84,12 +85,18 @@ export default class SidebarComponent extends React.Component<
         });
     }
 
-    // TODO: wire up for add/remove users
     const usersElement =
       users &&
-      users.map((user: string, idx: number) => {
-        return <Label key={idx}>{user}</Label>;
-      });
+      users
+        .filter((user: string) => {
+          if (user === accountName) {
+            return false;
+          }
+          return true;
+        })
+        .map((user: string, idx: number) => {
+          return <Label key={idx}>{user}</Label>;
+        });
 
     return (
       <List style={{ height: "100%" }}>
@@ -108,6 +115,23 @@ export default class SidebarComponent extends React.Component<
         <List.Item>
           <List.Header>Users</List.Header>
           {usersElement}
+          {accountName &&
+            accountName !== "" && (
+              <span>
+                {users.indexOf(accountName) > -1 ? (
+                  <Label key={users.length}>
+                    {accountName}
+                    <Icon
+                      link={true}
+                      name="close"
+                      onClick={this.onRemoveUser}
+                    />
+                  </Label>
+                ) : (
+                  <Icon link={true} name="add" onClick={this.onAddUser} />
+                )}
+              </span>
+            )}
         </List.Item>
         {pageType === "file" && (
           <List.Item>
@@ -156,5 +180,17 @@ export default class SidebarComponent extends React.Component<
 
   private onTagClose = () => {
     this.setState({ tagEdit: false });
+  };
+
+  private onRemoveUser = () => {
+    if (this.props.accountName !== undefined) {
+      this.props.onRemoveUser(this.props.accountName);
+    }
+  };
+
+  private onAddUser = () => {
+    if (this.props.accountName !== undefined) {
+      this.props.onAddUser(this.props.accountName);
+    }
   };
 }

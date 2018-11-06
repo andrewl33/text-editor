@@ -1,5 +1,9 @@
 import { Router } from "express";
 import {
+  addFile as addUser,
+  removeFile as removeUser
+} from "../controllers/account.controller";
+import {
   addTag,
   changeName,
   generate,
@@ -40,8 +44,6 @@ router.put("/save", save);
 // { success: boolean; message: string }
 router.post("/lock", passwordProtect);
 router.delete("/delete", removeFile);
-// TODO: add change name
-// { success: boolean; name?: string }
 
 // file tag
 
@@ -52,4 +54,15 @@ router.post("/addTag", addTag);
 router.post("/updateName", changeName);
 router.delete("/removeTag", removeTag);
 
+// {
+//   success: boolean;
+//   accountName?: string;
+// };
+router.post("/addUser", addUser);
+
+// {
+//   success: boolean;
+//   accountName?: string;
+// };
+router.post("/removeUser", removeUser);
 export default router;

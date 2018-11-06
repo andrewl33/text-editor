@@ -105,3 +105,16 @@ export const removeCollectionFromAccount = async (
 };
 
 // TODO: find all accounts from a single collection
+export const allAccountForCollection = async (collectionUuid: string) => {
+  try {
+    const res = await query(
+      `SELECT account.account_name FROM collection INNER JOIN collection_account ON collection.id = collection_account.collection_id INNER JOIN account ON collection_account.account_id = account.id WHERE collection.url=?`,
+      [collectionUuid]
+    );
+
+    return res[0];
+  } catch (e) {
+    console.log("allAccountForCollection");
+    console.log(e);
+  }
+};

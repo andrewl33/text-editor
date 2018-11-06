@@ -1,5 +1,9 @@
 import { Router } from "express";
 import {
+  addCollection as addUser,
+  removeCollection as removeUser
+} from "../controllers/account.controller";
+import {
   addFile,
   auth,
   changeName,
@@ -42,5 +46,11 @@ router.post("/changeName", changeName);
 router.post("/add", addFile);
 // { success: boolean; fileId: string }
 router.delete("/remove", removeFile);
+
+// { success: boolean; accountName?: string }
+router.post("/addUser", addUser);
+
+// { success: boolean; accountName?: string }
+router.post("/removeUser", removeUser);
 
 export default router;

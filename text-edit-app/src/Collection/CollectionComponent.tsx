@@ -16,7 +16,8 @@ export const CollectionComponent = (props: CollectionComponentProps) => {
     onAddFile,
     items,
     onRemoveFile,
-    onFileClick
+    onFileClick,
+    accountName
   } = props;
   return (
     <Grid style={{ marginTop: 0, height: "100%" }}>
@@ -48,6 +49,7 @@ export const CollectionComponent = (props: CollectionComponentProps) => {
             onNameChange={onNameChange}
             onAddUser={onAddUser}
             onRemoveUser={onRemoveUser}
+            accountName={accountName}
           />
         </Container>
       </Grid.Column>

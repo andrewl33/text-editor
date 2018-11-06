@@ -76,8 +76,8 @@ export const fillDashboard = async (
 ) => {
   try {
     const decodedToken = await decodeToken(req.headers.authorization);
-    if (!decodedToken.user && decodedToken.user === "") {
-      res.send({ success: false });
+    if (!decodedToken || !decodedToken.user || decodedToken.user === "") {
+      return res.send({ success: false });
     }
 
     const resColList = await findAllCollectionsForAnAccount(decodedToken.user);
@@ -136,8 +136,16 @@ export const authenticateAccount = async (
     if (err) {
       console.log(err);
     }
+
+    const newToken = await updateToken(
+      await decodeToken(req.headers.authorization),
+      accountName,
+      [],
+      []
+    );
+
     await res.set({
-      Authorization: "Bearer " + (await createToken(accountName, [], []))
+      Authorization: "Bearer " + newToken
     });
 
     return res.send({
@@ -161,7 +169,7 @@ export const addFile = async (
   res: Response,
   next: NextFunction
 ) => {
-  const uuid = req.body.addUuid.replace("/", "");
+  const uuid = req.body.url.replace("/", "");
   const decoded = await decodeToken(req.headers.authorization);
   try {
     const resDB = await addFileToAccount(decoded.user, uuid);
@@ -181,7 +189,7 @@ export const addCollection = async (
   res: Response,
   next: NextFunction
 ) => {
-  const uuid = req.body.addUuid.replace("/", "");
+  const uuid = req.body.url.replace("/", "");
   const decoded = await decodeToken(req.headers.authorization);
   try {
     const resDB = await addCollectionToAccount(decoded.user, uuid);
@@ -201,8 +209,7 @@ export const removeFile = async (
   res: Response,
   next: NextFunction
 ) => {
-  const uuid = req.body.removeUuid.replace("/", "");
-
+  const uuid = req.body.url.replace("/", "");
   try {
     const decoded = await decodeToken(req.headers.authorization);
     const fileIdx = decoded.files.indexOf(uuid);
@@ -234,7 +241,7 @@ export const removeCollection = async (
   res: Response,
   next: NextFunction
 ) => {
-  const uuid = req.body.removeUuid.replace("/", "");
+  const uuid = req.body.url.replace("/", "");
 
   try {
     const decoded = await decodeToken(req.headers.authorization);

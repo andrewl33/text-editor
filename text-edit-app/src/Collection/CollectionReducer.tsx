@@ -67,8 +67,8 @@ export const collectionReducer = (
       return state;
     case GET_COLLECTION_SUCCESS:
       if (action.payload) {
-        const { items, createDate, name, isLocked } = action.payload;
-        return { ...state, items, createDate, name, isLocked };
+        const { items, createDate, name, isLocked, users } = action.payload;
+        return { ...state, items, createDate, name, isLocked, users };
       }
       return state;
     case GET_COLLECTION_FAILURE:
@@ -118,7 +118,12 @@ export const collectionReducer = (
     case REMOVE_USER_FROM_COLLECTION_REQUEST:
       return state;
     case REMOVE_USER_FROM_COLLECTION_SUCCESS:
-      return state;
+      if (action.payload) {
+        return {
+          ...state,
+          users: state.users.filter(u => u !== action.payload!.accountName)
+        };
+      }
 
     case ADD_FILE_TO_COLLECTION_REQUEST:
       return state;

@@ -542,7 +542,7 @@ export const addUserToFile = (accountName: string) => {
       };
       const body = await authFetch<any, any>(
         dispatch,
-        `${URL}/account/addFile`,
+        `${URL}/file/addUser`,
         "POST",
         getState().authentication.token,
         data
@@ -557,10 +557,7 @@ export const addUserToFile = (accountName: string) => {
         });
       } else {
         dispatch({
-          type: ADD_USER_TO_FILE_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: ADD_USER_TO_FILE_FAILURE
         });
       }
     } catch (e) {
@@ -590,7 +587,7 @@ export const removeUserFromFile = (accountName: string) => {
 
       const body = await authFetch<any, any>(
         dispatch,
-        `${URL}/account/removeFile`,
+        `${URL}/file/removeUser`,
         "POST",
         getState().authentication.token,
         data
