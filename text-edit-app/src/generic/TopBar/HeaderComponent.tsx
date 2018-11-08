@@ -149,7 +149,6 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
       this.urlHolder.current!.select();
       window.document.execCommand("copy");
       this.setState({ copy: false });
-      // this.props.onShare();
     }
 
     if (this.props.openAlert) {

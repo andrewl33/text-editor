@@ -36,12 +36,12 @@ export default class SidebarComponent extends React.Component<
       accountName
     } = this.props;
     const nameField = !nameEdit ? (
-      <span>
+      <span className="name">
         {name}
         <Icon link={true} name="edit" onClick={this.openNameEdit} />
       </span>
     ) : (
-      <span>
+      <span className="name">
         <Input
           placeholder="New name"
           value={nameInput}
@@ -87,6 +87,7 @@ export default class SidebarComponent extends React.Component<
 
     const usersElement =
       users &&
+      users.length > 0 &&
       users
         .filter((user: string) => {
           if (user === accountName) {
@@ -112,32 +113,27 @@ export default class SidebarComponent extends React.Component<
           <List.Header>Private</List.Header>
           {isPrivate ? "Yes" : "No"}
         </List.Item>
-        <List.Item>
+        <List.Item className="users">
           <List.Header>Users</List.Header>
-          {usersElement}
-          {accountName &&
-            accountName !== "" && (
-              <span>
-                {users.indexOf(accountName) > -1 ? (
-                  <Label key={users.length}>
-                    {accountName}
-                    <Icon
-                      link={true}
-                      name="close"
-                      onClick={this.onRemoveUser}
-                    />
-                  </Label>
-                ) : (
-                  <Icon link={true} name="add" onClick={this.onAddUser} />
-                )}
-              </span>
-            )}
+          {usersElement ? usersElement : <span>No Users</span>}
+          {accountName && accountName !== "" && (
+            <span>
+              {users.indexOf(accountName) > -1 ? (
+                <Label key={users.length}>
+                  {accountName}
+                  <Icon link={true} name="close" onClick={this.onRemoveUser} />
+                </Label>
+              ) : (
+                <Icon link={true} name="add" onClick={this.onAddUser} />
+              )}
+            </span>
+          )}
         </List.Item>
         {pageType === "file" && (
-          <List.Item>
+          <List.Item className="tags">
             <List.Header>Tags</List.Header>
             <span>
-              {tags}
+              {tags ? tags : "No Tags"}
               {tagField}
             </span>
           </List.Item>
@@ -152,7 +148,9 @@ export default class SidebarComponent extends React.Component<
 
   private onNameChange = () => {
     this.setState({ nameEdit: false });
-    this.props.onNameChange(this.state.nameInput);
+    if (this.props.name !== this.state.nameInput) {
+      this.props.onNameChange(this.state.nameInput);
+    }
   };
 
   private onNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
