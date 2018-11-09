@@ -1,0 +1,453 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorReducer add tag it should handle ADD_TAG_FAILURE 1`] = `
+Object {
+  "alertMessage": "Could not connect to DB!",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer add tag it should handle ADD_TAG_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer add tag it should handle ADD_TAG_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [
+    "newTag",
+  ],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer add user to file it should handle ADD_USER_TO_FILE_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer add user to file it should handle ADD_USER_TO_FILE_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer add user to file it should handle ADD_USER_TO_FILE_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [
+    "newName",
+  ],
+}
+`;
+
+exports[`EditorReducer auth file it should handle AUTH_FILE_FAILURE 1`] = `
+Object {
+  "alertMessage": "Wrong Password",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer auth file it should handle AUTH_FILE_REQUEST 1`] = `
+Object {
+  "alertMessage": "Authenticating",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer auth file it should handle AUTH_FILE_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer change file name it should handle CHANGE_FILE_NAME_FAILURE 1`] = `
+Object {
+  "alertMessage": "Could not connect to DB",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer change file name it should handle CHANGE_FILE_NAME_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer change file name it should handle CHANGE_FILE_NAME_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "newName",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer get text it should handle GET_TEXT_FAILURE 1`] = `
+Object {
+  "alertMessage": "Failed to load saved code",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": false,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer get text it should handle GET_TEXT_REQUEST 1`] = `
+Object {
+  "alertMessage": "Loading code...",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer get text it should handle GET_TEXT_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "test string",
+  "createDate": "1-1-2001",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer it should return inital state 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer lock text it should handle LOCK_TEXT_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer lock text it should handle LOCK_TEXT_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer lock text it should handle LOCK_TEXT_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": true,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer remove tag it should handle REMOVE_TAG_FAILURE 1`] = `
+Object {
+  "alertMessage": "Could not connect to DB",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer remove tag it should handle REMOVE_TAG_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer remove tag it should handle REMOVE_TAG_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer remove user from file it should handle REMOVE_USER_FROM_FILE_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer remove user from file it should handle REMOVE_USER_FROM_FILE_REQUEST 1`] = `
+Object {
+  "alertMessage": "Could not connect to DB",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer remove user from file it should handle REMOVE_USER_FROM_FILE_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer updateCode it should handle UPDATE_CODE_FAILURE 1`] = `
+Object {
+  "alertMessage": "Failed to update code",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": false,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer updateCode it should handle UPDATE_CODE_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": false,
+  "tags": Array [],
+  "users": Array [],
+}
+`;
+
+exports[`EditorReducer updateCode it should handle UPDATE_CODE_SUCCESS 1`] = `
+Object {
+  "alertMessage": "Updated code",
+  "codeText": "",
+  "createDate": "",
+  "filePrompt": false,
+  "isLocked": false,
+  "isNewPage": false,
+  "isSaved": true,
+  "name": "",
+  "openAlert": true,
+  "tags": Array [],
+  "users": Array [],
+}
+`;

@@ -1,5 +1,5 @@
 import { ThunkDispatch } from "redux-thunk";
-import { AuthAction, updateToken } from "src/Auth/AuthAction";
+import { AuthAction, updateToken } from "../Auth/AuthAction";
 import { StoreState } from "../types";
 
 export default async function handleAuthRequests<T, U>(

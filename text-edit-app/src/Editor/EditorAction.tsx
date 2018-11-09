@@ -253,10 +253,7 @@ export const getText = () => {
         });
       } else {
         dispatch({
-          type: GET_TEXT_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: GET_TEXT_FAILURE
         });
       }
     } catch (e) {
@@ -350,39 +347,13 @@ export const addTag = (newTag: string) => {
         });
       } else {
         dispatch({
-          type: ADD_TAG_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: ADD_TAG_FAILURE
         });
       }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);
       dispatch({ type: ADD_TAG_FAILURE });
-    }
-  };
-};
-
-export const newText = () => {
-  return async (
-    dispatch: ThunkDispatch<StoreState, void, NewText | RouterAction>
-  ) => {
-    dispatch({ type: NEW_TEXT_REQUEST });
-
-    try {
-      const response = await fetch(`${URL}/file/generate`);
-      const body = await response.json();
-      if (body.success) {
-        dispatch(push("/files/" + body.url));
-        dispatch({ type: NEW_TEXT_SUCCESS });
-      } else {
-        dispatch({ type: NEW_TEXT_FAILURE });
-      }
-    } catch (e) {
-      // tslint:disable-next-line
-      console.log(e);
-      dispatch({ type: NEW_TEXT_FAILURE });
     }
   };
 };
@@ -421,16 +392,36 @@ export const removeTag = (removedTag: string) => {
         });
       } else {
         dispatch({
-          type: REMOVE_TAG_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: REMOVE_TAG_FAILURE
         });
       }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);
       dispatch({ type: REMOVE_TAG_FAILURE });
+    }
+  };
+};
+
+export const newText = () => {
+  return async (
+    dispatch: ThunkDispatch<StoreState, void, NewText | RouterAction>
+  ) => {
+    dispatch({ type: NEW_TEXT_REQUEST });
+
+    try {
+      const response = await fetch(`${URL}/file/generate`);
+      const body = await response.json();
+      if (body.success) {
+        dispatch(push("/files/" + body.url));
+        dispatch({ type: NEW_TEXT_SUCCESS });
+      } else {
+        dispatch({ type: NEW_TEXT_FAILURE });
+      }
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log(e);
+      dispatch({ type: NEW_TEXT_FAILURE });
     }
   };
 };
@@ -524,7 +515,6 @@ export const changeFileName = (newName: string) => {
   };
 };
 
-// TODO: add
 export const addUserToFile = (accountName: string) => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, AddUserToFile>,
@@ -568,7 +558,6 @@ export const addUserToFile = (accountName: string) => {
   };
 };
 
-// TODO: add
 export const removeUserFromFile = (accountName: string) => {
   return async (
     dispatch: ThunkDispatch<StoreState, void, RemoveUserFromFile>,
@@ -602,10 +591,7 @@ export const removeUserFromFile = (accountName: string) => {
         });
       } else {
         dispatch({
-          type: REMOVE_USER_FROM_FILE_SUCCESS,
-          payload: {
-            success: false
-          }
+          type: REMOVE_USER_FROM_FILE_FAILURE
         });
       }
     } catch (e) {
@@ -627,12 +613,3 @@ export const closeAlert = (): CloseAlert => {
     type: CLOSE_ALERT
   };
 };
-
-// TODO: Delete ??? probably not
-
-// need to find a way to update spam ShareLink
-// function checkAlertState(dispatch: any, getState: () => StoreState) {
-//   if (getState().editor.openAlert) {
-//     dispatch(closeAlert);
-//   }
-// }

@@ -1,0 +1,305 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorContainer renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
+  <header>
+    <div
+      className="ui huge inverted attached menu"
+      primary="true"
+    >
+      <a
+        className="item"
+        onClick={[Function]}
+      >
+        Text Edit
+      </a>
+      <div
+        className="item"
+        onClick={[Function]}
+      >
+        File
+      </div>
+      <div
+        className="right menu"
+      >
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            New
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            Lock
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            Share
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <div>
+            <div
+              aria-expanded={false}
+              className="ui button floating labeled dropdown icon"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              role="listbox"
+              style={
+                Object {
+                  "backgroundColor": "#2185d0",
+                  "color": "#fff",
+                  "fontSize": 17,
+                }
+              }
+              tabIndex={0}
+            >
+              <div
+                aria-live="polite"
+                className="text"
+                role="alert"
+              >
+                accountName
+              </div>
+              <i
+                aria-hidden="true"
+                className="user icon"
+                onClick={[Function]}
+              />
+              <div
+                className="menu transition"
+              >
+                <div
+                  className="item"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  Dashboard
+                </div>
+                <div
+                  className="item"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  Log out
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    className="ui grid"
+    style={
+      Object {
+        "height": "100%",
+        "marginTop": 0,
+      }
+    }
+  >
+    <div
+      className="thirteen wide column"
+    >
+      <div
+        className="editor language-javascript"
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          className="code-line editor"
+          contentEditable={true}
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "test",
+            }
+          }
+          onBlur={[Function]}
+          onInput={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onPaste={[Function]}
+          style={
+            Object {
+              "height": "100%",
+              "padding": 0,
+              "whiteSpace": "pre-wrap",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="center aligned three wide column"
+      style={
+        Object {
+          "backgroundColor": "#3180d4",
+          "height": "100%",
+          "paddingRight": "2em",
+        }
+      }
+    >
+      <div
+        className="ui container"
+      >
+        <div
+          className="ui list"
+          role="list"
+          style={
+            Object {
+              "height": "100%",
+            }
+          }
+        >
+          <div
+            className="item"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Name
+            </div>
+            <span
+              className="name"
+            >
+              name1
+              <i
+                aria-hidden="true"
+                className="edit link icon"
+                onClick={[Function]}
+              />
+            </span>
+          </div>
+          <div
+            className="item"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Date Created
+            </div>
+            1-1-1
+          </div>
+          <div
+            className="item"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Private
+            </div>
+            No
+          </div>
+          <div
+            className="item users"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Users
+            </div>
+            <div
+              className="ui label"
+              onClick={[Function]}
+            >
+              user1
+            </div>
+            <span>
+              <i
+                aria-hidden="true"
+                className="add link icon"
+                onClick={[Function]}
+              />
+            </span>
+          </div>
+          <div
+            className="item tags"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Tags
+            </div>
+            <span>
+              <div
+                className="ui label"
+                link="true"
+                onClick={[Function]}
+              >
+                tag1
+                <i
+                  aria-hidden="true"
+                  className="close icon"
+                />
+              </div>
+              <div
+                className="ui label"
+                link="true"
+                onClick={[Function]}
+              >
+                tag2
+                <i
+                  aria-hidden="true"
+                  className="close icon"
+                />
+              </div>
+              <i
+                aria-hidden="true"
+                className="add link icon"
+                onClick={[Function]}
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
