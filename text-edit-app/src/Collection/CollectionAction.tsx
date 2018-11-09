@@ -44,7 +44,9 @@ export interface NewCollection {
     | NEW_COLLECTION_REQUEST
     | NEW_COLLECTION_SUCCESS
     | NEW_COLLECTION_FAILURE;
-  payload?: { success: boolean; createDate: string };
+  payload?: {
+    createDate: string;
+  };
 }
 
 export interface GetCollection {
@@ -55,7 +57,7 @@ export interface GetCollection {
     | GET_COLLECTION_AUTH;
   payload?: {
     success: boolean;
-    items?: CollectionComponentProps;
+    items?: CollectionComponentProps[];
     createDate?: string;
     name?: string;
     isLocked?: boolean;
@@ -154,8 +156,10 @@ export const newCollection = () => {
         dispatch(push("/collections/" + body.url));
         dispatch({
           type: NEW_COLLECTION_SUCCESS,
-          payload: { success: body.sucess, createDate: body.createDate }
+          payload: { success: body.success, createDate: body.createDate }
         });
+      } else {
+        dispatch({ type: NEW_COLLECTION_FAILURE });
       }
     } catch (e) {
       // tslint:disable-next-line
@@ -191,12 +195,14 @@ export const getCollectionFiles = () => {
       );
 
       if (body.success) {
-        body.fileInfo.forEach((item: any) => {
-          item.date = modDate(item.file.createDate);
-          item.id = item.file.id;
-          item.name = item.file.name;
-          delete item.file;
-        });
+        if (body.fileInfo && body.fileInfo.length > 0) {
+          body.fileInfo.forEach((item: any) => {
+            item.date = modDate(item.file.createDate);
+            item.id = item.file.id;
+            item.name = item.file.name;
+            delete item.file;
+          });
+        }
 
         dispatch({
           type: GET_COLLECTION_SUCCESS,
@@ -215,10 +221,7 @@ export const getCollectionFiles = () => {
         });
       } else {
         dispatch({
-          type: GET_COLLECTION_SUCCESS,
-          payload: {
-            success: body.success
-          }
+          type: GET_COLLECTION_FAILURE
         });
       }
     } catch (e) {
@@ -263,7 +266,11 @@ export const addFileToCollection = (fileId: string) => {
 
         dispatch({
           type: ADD_FILE_TO_COLLECTION_SUCCESS,
-          payload: { success: body.success, newFileItem: body.newFileItem }
+          payload: { success: true, newFileItem: body.newFileItem }
+        });
+      } else {
+        dispatch({
+          type: ADD_FILE_TO_COLLECTION_FAILURE
         });
       }
     } catch (e) {
@@ -301,10 +308,16 @@ export const removeFileFromCollection = (fileId: string) => {
         data
       );
 
-      dispatch({
-        type: REMOVE_FILE_FROM_COLLECTION_SUCCESS,
-        payload: { success: body.success, fileId }
-      });
+      if (body.success) {
+        dispatch({
+          type: REMOVE_FILE_FROM_COLLECTION_SUCCESS,
+          payload: { success: body.success, fileId }
+        });
+      } else {
+        dispatch({
+          type: REMOVE_FILE_FROM_COLLECTION_FAILURE
+        });
+      }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);
@@ -341,10 +354,16 @@ export const lockCollection = (password: string) => {
         data
       );
 
-      dispatch({
-        type: LOCK_COLLECTION_SUCCESS,
-        payload: body.success
-      });
+      if (body.success) {
+        dispatch({
+          type: LOCK_COLLECTION_SUCCESS,
+          payload: body.success
+        });
+      } else {
+        dispatch({
+          type: LOCK_COLLECTION_FAILURE
+        });
+      }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);
@@ -388,12 +407,7 @@ export const authCollection = (password: string) => {
 
         dispatch(getCollectionFiles());
       } else {
-        dispatch({
-          type: AUTH_COLLECTION_SUCCESS,
-          payload: {
-            success: false
-          }
-        });
+        dispatch({ type: AUTH_COLLECTION_FAILURE });
       }
     } catch (e) {
       // tslint:disable-next-line
@@ -436,12 +450,7 @@ export const changeCollectionName = (newName: string) => {
           }
         });
       } else {
-        dispatch({
-          type: CHANGE_COLLECTION_NAME_SUCCESS,
-          payload: {
-            success: false
-          }
-        });
+        dispatch({ type: CHANGE_COLLECTION_NAME_FAILURE });
       }
     } catch (e) {
       // tslint:disable-next-line
@@ -484,12 +493,7 @@ export const addUserToCollection = (accountName: string) => {
           }
         });
       } else {
-        dispatch({
-          type: ADD_USER_TO_COLLECTION_SUCCESS,
-          payload: {
-            success: false
-          }
-        });
+        dispatch({ type: ADD_USER_TO_COLLECTION_FAILURE });
       }
     } catch (e) {
       // tslint:disable-next-line

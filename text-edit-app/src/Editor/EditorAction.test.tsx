@@ -51,7 +51,7 @@ describe("EditorAction", () => {
       expect(actions.localUpdateCode(codeText)).toEqual(expectedAction);
     });
 
-    it("updateCode calls request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ isSaved: true }))
@@ -71,7 +71,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("updateCode calls failure when not saved", () => {
+    it("dispatches failure when not saved", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ isSaved: false }))
@@ -92,7 +92,7 @@ describe("EditorAction", () => {
   });
 
   describe("getText", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -134,7 +134,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when not downloaded", () => {
+    it("dispatches failure when not downloaded", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -155,7 +155,7 @@ describe("EditorAction", () => {
   });
 
   describe("lockText", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -184,7 +184,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when not authenticated", () => {
+    it("dispatches failure when not authenticated", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -209,7 +209,7 @@ describe("EditorAction", () => {
   });
 
   describe("addTag", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -238,7 +238,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when addTag fails", () => {
+    it("dispatches failure when addTag fails", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -259,7 +259,7 @@ describe("EditorAction", () => {
   });
 
   describe("removeTag", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -288,7 +288,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when removeTag fails", () => {
+    it("dispatches failure when removeTag fails", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -309,7 +309,7 @@ describe("EditorAction", () => {
   });
 
   describe("newText", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -334,7 +334,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when url not created", () => {
+    it("dispatches failure when url not created", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -355,7 +355,7 @@ describe("EditorAction", () => {
   });
 
   describe("authFile", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -387,7 +387,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when authFile fails", () => {
+    it("dispatches failure when authFile fails", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -408,7 +408,7 @@ describe("EditorAction", () => {
   });
 
   describe("changeFileName", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -437,7 +437,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when changeFileName fails", () => {
+    it("dispatches failure when changeFileName fails", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -458,7 +458,7 @@ describe("EditorAction", () => {
   });
 
   describe("addUserToFile", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -487,7 +487,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when user add fails", () => {
+    it("dispatches failure when user add fails", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))
@@ -508,7 +508,7 @@ describe("EditorAction", () => {
   });
 
   describe("removeUserFromFile", () => {
-    it("returns request and success", () => {
+    it("dispatches request and success", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(
@@ -537,7 +537,7 @@ describe("EditorAction", () => {
       });
     });
 
-    it("returns failure when user remove fails", () => {
+    it("dispatches failure when user remove fails", () => {
       (window as any).fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve(
           mockResponse(200, null, JSON.stringify({ success: false }))

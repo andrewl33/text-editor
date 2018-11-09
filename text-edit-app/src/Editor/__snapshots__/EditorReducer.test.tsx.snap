@@ -244,7 +244,7 @@ Object {
 }
 `;
 
-exports[`EditorReducer it should return inital state 1`] = `
+exports[`EditorReducer it should return initial state 1`] = `
 Object {
   "alertMessage": "",
   "codeText": "",

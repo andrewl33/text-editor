@@ -2,7 +2,7 @@ import * as constants from "../constants";
 import { editorReducer, initialState } from "./EditorReducer";
 
 describe("EditorReducer", () => {
-  test("it should return inital state", () => {
+  test("it should return initial state", () => {
     expect(editorReducer(undefined, {} as any)).toMatchSnapshot();
   });
 

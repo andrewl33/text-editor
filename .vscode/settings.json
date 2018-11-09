@@ -4,5 +4,8 @@
   "prettier.semi": false,
   "prettier.tslintIntegration": true,
   "editor.formatOnSave": true,
-  "jsDocCompletion.enabled": true
+  "jsDocCompletion.enabled": true,
+  "cSpell.words": [
+    "middlewares"
+  ]
 }

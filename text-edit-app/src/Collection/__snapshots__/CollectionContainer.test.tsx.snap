@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollectionContainer renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
+  <header>
+    <div
+      className="ui huge inverted attached menu"
+      primary="true"
+    >
+      <a
+        className="item"
+        onClick={[Function]}
+      >
+        Text Edit
+      </a>
+      <div
+        className="item"
+        onClick={[Function]}
+      >
+        Collection
+      </div>
+      <div
+        className="right menu"
+      >
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            New
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            Lock
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            Share
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <div>
+            <div
+              aria-expanded={false}
+              className="ui button floating labeled dropdown icon"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              role="listbox"
+              style={
+                Object {
+                  "backgroundColor": "#2185d0",
+                  "color": "#fff",
+                  "fontSize": 17,
+                }
+              }
+              tabIndex={0}
+            >
+              <div
+                aria-live="polite"
+                className="text"
+                role="alert"
+              >
+                Account
+              </div>
+              <i
+                aria-hidden="true"
+                className="user icon"
+                onClick={[Function]}
+              />
+              <div
+                className="menu transition"
+              >
+                <div
+                  className="item"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  Log in
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    className="ui grid"
+    style={
+      Object {
+        "height": "100%",
+        "marginTop": 0,
+      }
+    }
+  >
+    <div
+      className="thirteen wide column"
+      style={
+        Object {
+          "paddingRight": 0,
+          "paddingTop": 0,
+        }
+      }
+    >
+      <div>
+        <table
+          className="ui blue large celled inverted middle aligned table"
+          divided="true"
+          relaxed="true"
+          style={
+            Object {
+              "borderRadius": 0,
+              "color": "rgba(255,255,255,.9)",
+            }
+          }
+        >
+          <thead
+            className=""
+          >
+            <tr
+              className=""
+            >
+              <th
+                className=""
+                colSpan="2"
+              >
+                Files
+              </th>
+              <th
+                className=""
+              >
+                Tags
+              </th>
+              <th
+                className=""
+                colSpan="2"
+              >
+                Dates
+              </th>
+              <th
+                className=""
+                colSpan="2"
+              >
+                Delete
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            className=""
+          />
+        </table>
+        <div
+          className="ui input"
+        >
+          <input
+            onChange={[Function]}
+            placeholder="File url..."
+            type="text"
+            value=""
+          />
+          <button
+            className="ui button"
+            onClick={[Function]}
+            role="button"
+            type="submit"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="center aligned three wide column"
+      style={
+        Object {
+          "backgroundColor": "#3180d4",
+          "height": "100%",
+          "paddingRight": "2em",
+        }
+      }
+    >
+      <div
+        className="ui container"
+      >
+        <div
+          className="ui list"
+          role="list"
+          style={
+            Object {
+              "height": "100%",
+            }
+          }
+        >
+          <div
+            className="item"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Name
+            </div>
+            <span
+              className="name"
+            >
+              name
+              <i
+                aria-hidden="true"
+                className="edit link icon"
+                onClick={[Function]}
+              />
+            </span>
+          </div>
+          <div
+            className="item"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Date Created
+            </div>
+            1-1-2001
+          </div>
+          <div
+            className="item"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Private
+            </div>
+            No
+          </div>
+          <div
+            className="item users"
+            onClick={[Function]}
+            role="listitem"
+          >
+            <div
+              className="header"
+            >
+              Users
+            </div>
+            <span>
+              No Users
+            </span>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

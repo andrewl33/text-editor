@@ -13,7 +13,7 @@ export default async function handleAuthRequests<T, U>(
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
-  // headers.append("Access-Control-Allow-Headers", "Authorization");
+
   if (auth) {
     headers.append("Authorization", auth);
   }

@@ -1,0 +1,388 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollectionReducer addFileToCollection it should handle ADD_FILE_TO_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer addFileToCollection it should handle ADD_FILE_TO_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer addFileToCollection it should handle ADD_FILE_TO_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [
+    Object {
+      "date": "1-1-2001",
+      "id": "1",
+      "name": "test",
+      "tags": Array [],
+    },
+  ],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer addUserToCollection it should handle ADD_USER_TO_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer addUserToCollection it should handle ADD_USER_TO_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer addUserToCollection it should handle ADD_USER_TO_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [
+    "newAccount",
+  ],
+}
+`;
+
+exports[`CollectionReducer authCollection it should handle AUTH_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "Authentication Failed",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": true,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer authCollection it should handle AUTH_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "Authenticating",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": true,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer authCollection it should handle AUTH_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer changeCollectionName it should handle CHANGE_COLLECTION_NAME_FAILURE 1`] = `
+Object {
+  "alertMessage": "Could not connect to DB",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": true,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer changeCollectionName it should handle CHANGE_COLLECTION_NAME_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer changeCollectionName it should handle CHANGE_COLLECTION_NAME_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "newName",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer getCollection it should handle GET_COLLECTION_AUTH 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": true,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "prompt": "Private Collection",
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer getCollection it should handle GET_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer getCollection it should handle GET_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer getCollection it should handle GET_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "1-1-2001",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer it should return initial state 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer lockCollection it should handle LOCK_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "Count not connect to DB",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": true,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer lockCollection it should handle LOCK_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer lockCollection it should handle LOCK_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": undefined,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer newCollection it should handle NEW_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer newCollection it should handle NEW_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer newCollection it should handle NEW_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "1-1-2001",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer removeFileFromCollection it should handle REMOVE_FILE_FROM_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer removeFileFromCollection it should handle REMOVE_FILE_FROM_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer removeFileFromCollection it should handle REMOVE_FILE_FROM_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer removeUserFromCollection it should handle REMOVE_USER_FROM_COLLECTION_FAILURE 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer removeUserFromCollection it should handle REMOVE_USER_FROM_COLLECTION_REQUEST 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;
+
+exports[`CollectionReducer removeUserFromCollection it should handle REMOVE_USER_FROM_COLLECTION_SUCCESS 1`] = `
+Object {
+  "alertMessage": "",
+  "collectionPrompt": false,
+  "createDate": "",
+  "isLocked": false,
+  "items": Array [],
+  "name": "",
+  "openAlert": false,
+  "users": Array [],
+}
+`;

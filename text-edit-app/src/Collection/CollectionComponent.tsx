@@ -3,7 +3,7 @@ import { Container, Grid } from "semantic-ui-react";
 import { ListComponent } from "../generic/Lists/ListComponent";
 import SidebarComponent from "../generic/Sidebar/SidebarComponent";
 import { CollectionComponentProps } from "../types";
-// TODO: add styling
+
 export const CollectionComponent = (props: CollectionComponentProps) => {
   const {
     name,

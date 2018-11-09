@@ -113,8 +113,6 @@ export const collectionReducer = (
     case ADD_USER_TO_COLLECTION_FAILURE:
       return state;
 
-    case REMOVE_USER_FROM_COLLECTION_FAILURE:
-      return state;
     case REMOVE_USER_FROM_COLLECTION_REQUEST:
       return state;
     case REMOVE_USER_FROM_COLLECTION_SUCCESS:
@@ -124,6 +122,8 @@ export const collectionReducer = (
           users: state.users.filter(u => u !== action.payload!.accountName)
         };
       }
+    case REMOVE_USER_FROM_COLLECTION_FAILURE:
+      return state;
 
     case ADD_FILE_TO_COLLECTION_REQUEST:
       return state;
@@ -166,6 +166,7 @@ export const collectionReducer = (
         alertMessage: "Could not connect to DB"
       };
 
+    // TODO: remove
     case SHARE_LINK:
       return { ...state, openAlert: true, alertMessage: "Copied to clipboard" };
     case CLOSE_ALERT:

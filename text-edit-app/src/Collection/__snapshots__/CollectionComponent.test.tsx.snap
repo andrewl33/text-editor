@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollectionComponent renders correctly 1`] = `
+<div
+  className="ui grid"
+  style={
+    Object {
+      "height": "100%",
+      "marginTop": 0,
+    }
+  }
+>
+  <div
+    className="thirteen wide column"
+    style={
+      Object {
+        "paddingRight": 0,
+        "paddingTop": 0,
+      }
+    }
+  >
+    <div>
+      <table
+        className="ui blue large celled inverted middle aligned table"
+        divided="true"
+        relaxed="true"
+        style={
+          Object {
+            "borderRadius": 0,
+            "color": "rgba(255,255,255,.9)",
+          }
+        }
+      >
+        <thead
+          className=""
+        >
+          <tr
+            className=""
+          >
+            <th
+              className=""
+              colSpan="2"
+            >
+              Files
+            </th>
+            <th
+              className=""
+            >
+              Tags
+            </th>
+            <th
+              className=""
+              colSpan="2"
+            >
+              Dates
+            </th>
+            <th
+              className=""
+              colSpan="2"
+            >
+              Delete
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className=""
+        >
+          <tr
+            className=""
+          >
+            <td
+              className="selectable"
+              colSpan="2"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": ".92857143em .78571429em",
+                }
+              }
+            >
+              name1
+            </td>
+            <td
+              className=""
+            />
+            <td
+              className=""
+              colSpan={2}
+            >
+              1-1-2001
+            </td>
+            <td
+              className=""
+              colSpan={2}
+            >
+              <button
+                className="ui button"
+                onClick={[Function]}
+                role="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="close icon"
+                />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        className="ui input"
+      >
+        <input
+          onChange={[Function]}
+          placeholder="File url..."
+          type="text"
+          value=""
+        />
+        <button
+          className="ui button"
+          onClick={[Function]}
+          role="button"
+          type="submit"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="center aligned three wide column"
+    style={
+      Object {
+        "backgroundColor": "#3180d4",
+        "height": "100%",
+        "paddingRight": "2em",
+      }
+    }
+  >
+    <div
+      className="ui container"
+    >
+      <div
+        className="ui list"
+        role="list"
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          className="item"
+          onClick={[Function]}
+          role="listitem"
+        >
+          <div
+            className="header"
+          >
+            Name
+          </div>
+          <span
+            className="name"
+          >
+            test
+            <i
+              aria-hidden="true"
+              className="edit link icon"
+              onClick={[Function]}
+            />
+          </span>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+          role="listitem"
+        >
+          <div
+            className="header"
+          >
+            Date Created
+          </div>
+          1-1-2001
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+          role="listitem"
+        >
+          <div
+            className="header"
+          >
+            Private
+          </div>
+          No
+        </div>
+        <div
+          className="item users"
+          onClick={[Function]}
+          role="listitem"
+        >
+          <div
+            className="header"
+          >
+            Users
+          </div>
+          <div
+            className="ui label"
+            onClick={[Function]}
+          >
+            user1
+          </div>
+          <div
+            className="ui label"
+            onClick={[Function]}
+          >
+            user2
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
