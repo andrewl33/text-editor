@@ -49,7 +49,8 @@ export const initialState: EditorStoreState = {
   filePrompt: false,
   createDate: "",
   users: [],
-  name: ""
+  name: "",
+  remountContentEditable: 0
 };
 
 export const editorReducer = (
@@ -67,7 +68,8 @@ export const editorReducer = (
         ...state,
         isSaved: true,
         openAlert: true,
-        alertMessage: "Updated code"
+        alertMessage: "Updated code",
+        remountContentEditable: state.remountContentEditable + 1
       };
     case UPDATE_CODE_FAILURE:
       return {
@@ -94,7 +96,8 @@ export const editorReducer = (
           isLocked: action.payload.body.isLocked,
           isSaved: true,
           users: action.payload.body.users,
-          createDate: action.payload.body.createDate
+          createDate: action.payload.body.createDate,
+          remountContentEditable: state.remountContentEditable + 1
         };
       }
 

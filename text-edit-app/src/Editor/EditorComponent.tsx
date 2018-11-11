@@ -58,6 +58,7 @@ class EditorComponent extends React.Component<
               multiLine={true}
               onKeyDown={this.handleChange}
               style={{ padding: 0, height: "100%" }}
+              key={this.props.remountContentEditable}
             />
           </div>
         </Grid.Column>

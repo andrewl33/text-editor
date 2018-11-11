@@ -71,6 +71,7 @@ export interface EditorStoreState {
   name: string;
   createDate: string;
   users: string[];
+  remountContentEditable: number; // TODO: remove when contentEditable is fixed
 }
 
 /**
@@ -111,6 +112,7 @@ export interface EditorComponentProps {
   users: string[];
   isLocked: boolean;
   accountName?: string;
+  remountContentEditable: number; // TODO: remove when contentEditable is fixed
 }
 
 // home

@@ -138,36 +138,22 @@ describe("EditorReducer", () => {
   });
 
   describe("new text", () => {
-    const request = { ...initialState, isNewPage: true };
-    const success = {
-      ...initialState,
-      isNewPage: true,
-      openAlert: true,
-      alertMessage: "Created a new page"
-    };
-    const failure = {
-      ...initialState,
-      isNewPage: false,
-      openAlert: true,
-      alertMessage: "Failed to create new page, try again"
-    };
-
     test("it should handle NEW_TEXT_REQUEST", () => {
       expect(
         editorReducer(undefined, { type: constants.NEW_TEXT_REQUEST })
-      ).toEqual(request);
+      ).toMatchSnapshot();
     });
 
     test("it should handle NEW_TEXT_SUCCESS", () => {
       expect(
         editorReducer(undefined, { type: constants.NEW_TEXT_SUCCESS })
-      ).toEqual(success);
+      ).toMatchSnapshot();
     });
 
     test("it should handle NEW_TEXT_FAILURE", () => {
       expect(
         editorReducer(undefined, { type: constants.NEW_TEXT_FAILURE })
-      ).toEqual(failure);
+      ).toMatchSnapshot();
     });
   });
 

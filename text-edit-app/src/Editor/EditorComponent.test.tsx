@@ -20,7 +20,8 @@ const props = {
   createDate: "1-1-1",
   users: ["user1", "user2"],
   isLocked: false,
-  accountName: "accountName1"
+  accountName: "accountName1",
+  remountContentEditable: 0
 };
 
 const wrapper = mount(<EditorComponent {...props} />);

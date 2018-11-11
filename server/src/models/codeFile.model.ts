@@ -41,7 +41,7 @@ export const uuidExists = async (uuid: string): Promise<boolean> => {
   let isNotUniqueUuid: boolean = true;
 
   try {
-    const dbRes = await query(`SELECT * FROM code_file WHERE url='${uuid}'`);
+    const dbRes = await query(`SELECT * FROM code_file WHERE url=?`, [uuid]);
     if (dbRes[0].length === 0) {
       isNotUniqueUuid = false;
     }

@@ -50,7 +50,8 @@ const editorStateProps = {
   filePrompt: false,
   name: "name1",
   createDate: "1-1-1",
-  users: ["user1"]
+  users: ["user1"],
+  remountContentEditable: 0
 };
 
 const staticProps = {

@@ -6,6 +6,9 @@
   "editor.formatOnSave": true,
   "jsDocCompletion.enabled": true,
   "cSpell.words": [
-    "middlewares"
+    "db",
+    "inno",
+    "middlewares",
+    "varchar"
   ]
 }
