@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthReducer authPrompt it should handle CLOSE_PROMPT 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer authPrompt it should handle LOG_IN_PROMPT 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": true,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer createAccount it should handle CREATE_ACCOUNT_FAILURE 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer createAccount it should handle CREATE_ACCOUNT_REQUEST 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer createAccount it should handle CREATE_ACCOUNT_SUCCESS 1`] = `
+Object {
+  "accountName": "testName",
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": true,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer getDashboard it should handle GET_DASHBOARD_FAILURE 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": "Not logged in",
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": true,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer getDashboard it should handle GET_DASHBOARD_REQUEST 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer getDashboard it should handle GET_DASHBOARD_SUCCESS 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": Object {
+    "collections": Array [],
+    "files": Array [],
+  },
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer it should handle UPDATE_TOKEN 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": "Bearer FakeTokenToken",
+}
+`;
+
+exports[`AuthReducer it should return initial state 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer logIn it should handle LOG_IN_FAILURE 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": "Wrong account info",
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": true,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer logIn it should handle LOG_IN_REQUEST 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer logIn it should handle LOG_IN_SUCCESS 1`] = `
+Object {
+  "accountName": "testName",
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": true,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer logOut it should handle LOG_OUT_FAILURE 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer logOut it should handle LOG_OUT_REQUEST 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;
+
+exports[`AuthReducer logOut it should handle LOG_OUT_SUCCESS 1`] = `
+Object {
+  "accountName": undefined,
+  "alertMessage": undefined,
+  "authPrompt": false,
+  "dashboard": undefined,
+  "loggedIn": false,
+  "openAlert": false,
+  "token": undefined,
+}
+`;

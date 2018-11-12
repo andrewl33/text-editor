@@ -37,7 +37,7 @@ export default async function handleAuthRequests<T, U>(
       dispatch(updateToken(newAuth));
     }
     if (res.status === 422) {
-      return (await ({ success: false, message: "authFetch" } as unknown)) as U;
+      return ((await { success: false, message: "authFetch" }) as unknown) as U;
     }
     return await res.json();
   } catch (e) {
@@ -45,5 +45,5 @@ export default async function handleAuthRequests<T, U>(
     console.log(e);
   }
 
-  return (await ({ success: false, message: "authFetch" } as unknown)) as U;
+  return ({ success: false, message: "authFetch" } as unknown) as U;
 }

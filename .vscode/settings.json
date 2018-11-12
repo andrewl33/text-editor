@@ -6,9 +6,16 @@
   "editor.formatOnSave": true,
   "jsDocCompletion.enabled": true,
   "cSpell.words": [
+    "contenteditable",
     "db",
     "inno",
     "middlewares",
+    "okaidia",
+    "portal",
+    "prismjs",
+    "selectable",
+    "transitionable",
+    "unmount",
     "varchar"
   ]
 }

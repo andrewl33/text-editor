@@ -26,6 +26,7 @@
     "webpack",
     "jest",
     "src/setupTests.ts",
-    "public/prism.js"
+    "public/prism.js",
+    "coverage/lcov-report"
   ]
 }

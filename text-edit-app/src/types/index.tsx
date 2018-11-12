@@ -125,29 +125,21 @@ export interface HomeProps {
   loggedIn: boolean;
 }
 
-// user
-export interface UserStoreState extends UserProps {
-  dashboard: DashboardProps;
-}
-
-export interface UserProps {
-  loggedIn: boolean;
-  accountName?: string;
-}
-
-export interface DashboardContainerProps extends DashboardProps {
+export interface DashboardContainerProps extends DashboardComponentProps {
   authPrompt: boolean;
   onAuthAccount: (name: string, pass: string) => {};
   onMount: () => {};
 }
 
-export interface DashboardProps {
-  dashboard?: {
-    collections: Item[];
-    files: Item[];
-  };
+export interface DashboardComponentProps {
+  dashboard?: Dashboard;
   onCollectionClick: (id: string) => any;
   onFileClick: (id: string) => any;
+}
+
+export interface Dashboard {
+  collections: Item[];
+  files: Item[];
 }
 
 // router
@@ -187,17 +179,20 @@ export interface HeaderProps extends PromptComponentProps {
 }
 
 // header/prompts
+
+export type PromptType =
+  | "Login"
+  | "Create Account"
+  | "Private Collection"
+  | "Private File"
+  | "Lock";
+
 export interface PromptComponentProps {
   getAccountCredentials?: (accountName: string, password: string) => {};
   onClosePrompt?: () => {};
   getPassword?: (password: string) => {};
   lockItem?: (password: string) => void;
-  prompt?:
-    | "Login"
-    | "Create Account"
-    | "Private Collection"
-    | "Private File"
-    | "Lock";
+  prompt?: PromptType;
 }
 
 export interface Item {

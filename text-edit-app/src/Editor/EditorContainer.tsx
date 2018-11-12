@@ -10,12 +10,7 @@ import {
   logOut
 } from "../Auth/AuthAction";
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
-import {
-  EditorContainerProps,
-  HeaderProps,
-  StoreState,
-  UserProps
-} from "../types";
+import { EditorContainerProps, HeaderProps, StoreState } from "../types";
 import {
   addTag,
   addUserToFile,
@@ -40,7 +35,7 @@ import EditorComponent from "./EditorComponent";
  * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/17829
  */
 export class EditorContainer extends React.Component<
-  EditorContainerProps & UserProps & HeaderProps
+  EditorContainerProps & HeaderProps
 > {
   public render() {
     const {

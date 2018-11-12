@@ -18,7 +18,7 @@ import {
   UPDATE_TOKEN
 } from "../constants";
 import { API_URL as URL } from "../envConstants";
-import { DashboardProps, StoreState } from "../types";
+import { Dashboard, StoreState } from "../types";
 import authFetch from "../util/authFetch";
 import modDate from "../util/modDate";
 
@@ -42,7 +42,7 @@ export interface GetDashboard {
   type: GET_DASHBOARD_FAILURE | GET_DASHBOARD_REQUEST | GET_DASHBOARD_SUCCESS;
   payload?: {
     success: boolean;
-    dashboard?: DashboardProps;
+    dashboard?: Dashboard;
   };
 }
 
@@ -99,11 +99,16 @@ export const createAccount = (accountName: string, password: string) => {
         getState().authentication.token,
         data
       );
-
-      dispatch({
-        type: CREATE_ACCOUNT_SUCCESS,
-        payload: { success: body.success, accountName }
-      });
+      if (body.success) {
+        dispatch({
+          type: CREATE_ACCOUNT_SUCCESS,
+          payload: { success: body.success, accountName }
+        });
+      } else {
+        dispatch({
+          type: CREATE_ACCOUNT_FAILURE
+        });
+      }
     } catch (e) {
       // tslint:disable-next-line
       console.log(e);

@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardComponent renders correctly 1`] = `
+<div>
+  <div>
+    <table
+      className="ui blue large celled inverted middle aligned table"
+      divided="true"
+      relaxed="true"
+      style={
+        Object {
+          "borderRadius": 0,
+          "color": "rgba(255,255,255,.9)",
+        }
+      }
+    >
+      <thead
+        className=""
+      >
+        <tr
+          className=""
+        >
+          <th
+            className=""
+            colSpan="2"
+          >
+            Collections
+          </th>
+          <th
+            className=""
+            colSpan="2"
+          >
+            Dates
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className=""
+      />
+    </table>
+  </div>
+  <div>
+    <table
+      className="ui blue large celled inverted middle aligned table"
+      divided="true"
+      relaxed="true"
+      style={
+        Object {
+          "borderRadius": 0,
+          "color": "rgba(255,255,255,.9)",
+        }
+      }
+    >
+      <thead
+        className=""
+      >
+        <tr
+          className=""
+        >
+          <th
+            className=""
+            colSpan="2"
+          >
+            Files
+          </th>
+          <th
+            className=""
+          >
+            Tags
+          </th>
+          <th
+            className=""
+            colSpan="2"
+          >
+            Dates
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className=""
+      />
+    </table>
+  </div>
+</div>
+`;

@@ -1,20 +1,19 @@
 import * as React from "react";
 import { ListComponent } from "../generic/Lists/ListComponent";
-import { DashboardProps } from "../types";
+import { DashboardComponentProps } from "../types";
 
 export const DashboardComponent = (
-  props: DashboardProps
-): React.ReactElement<DashboardProps> => {
+  props: DashboardComponentProps
+): React.ReactElement<DashboardComponentProps> => {
   return (
     <div>
-      {props.dashboard!.collections &&
-        props.onCollectionClick && (
-          <ListComponent
-            header="Collections"
-            items={...props.dashboard!.collections}
-            onClickToPage={props.onCollectionClick}
-          />
-        )}
+      {props.dashboard!.collections && props.onCollectionClick && (
+        <ListComponent
+          header="Collections"
+          items={...props.dashboard!.collections}
+          onClickToPage={props.onCollectionClick}
+        />
+      )}
       {props.dashboard!.files && (
         <ListComponent
           header="Files"

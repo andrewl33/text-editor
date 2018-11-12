@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardContainer logged in renders correctly 1`] = `
+<div>
+  <header>
+    <div
+      className="ui huge inverted attached menu"
+      primary="true"
+    >
+      <a
+        className="item"
+        onClick={[Function]}
+      >
+        Text Edit
+      </a>
+      <div
+        className="item"
+        onClick={[Function]}
+      >
+        Dashboard
+      </div>
+      <div
+        className="right menu"
+      >
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <div>
+            <div
+              aria-expanded={false}
+              className="ui button floating labeled dropdown icon"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              role="listbox"
+              style={
+                Object {
+                  "backgroundColor": "#2185d0",
+                  "color": "#fff",
+                  "fontSize": 17,
+                }
+              }
+              tabIndex={0}
+            >
+              <div
+                aria-live="polite"
+                className="text"
+                role="alert"
+              >
+                test
+              </div>
+              <i
+                aria-hidden="true"
+                className="user icon"
+                onClick={[Function]}
+              />
+              <div
+                className="menu transition"
+              >
+                <div
+                  className="item"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  Dashboard
+                </div>
+                <div
+                  className="item"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  Log out
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div>
+    <div>
+      <table
+        className="ui blue large celled inverted middle aligned table"
+        divided="true"
+        relaxed="true"
+        style={
+          Object {
+            "borderRadius": 0,
+            "color": "rgba(255,255,255,.9)",
+          }
+        }
+      >
+        <thead
+          className=""
+        >
+          <tr
+            className=""
+          >
+            <th
+              className=""
+              colSpan="2"
+            >
+              Collections
+            </th>
+            <th
+              className=""
+              colSpan="2"
+            >
+              Dates
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className=""
+        />
+      </table>
+    </div>
+    <div>
+      <table
+        className="ui blue large celled inverted middle aligned table"
+        divided="true"
+        relaxed="true"
+        style={
+          Object {
+            "borderRadius": 0,
+            "color": "rgba(255,255,255,.9)",
+          }
+        }
+      >
+        <thead
+          className=""
+        >
+          <tr
+            className=""
+          >
+            <th
+              className=""
+              colSpan="2"
+            >
+              Files
+            </th>
+            <th
+              className=""
+            >
+              Tags
+            </th>
+            <th
+              className=""
+              colSpan="2"
+            >
+              Dates
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className=""
+        />
+      </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DashboardContainer not logged in renders correctly 1`] = `
+<div>
+  <header>
+    <div
+      className="ui huge inverted attached menu"
+      primary="true"
+    >
+      <a
+        className="item"
+        onClick={[Function]}
+      >
+        Text Edit
+      </a>
+      <div
+        className="item"
+        onClick={[Function]}
+      >
+        Dashboard
+      </div>
+      <div
+        className="right menu"
+      >
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <div>
+            <div
+              aria-expanded={false}
+              className="ui button floating labeled dropdown icon"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              role="listbox"
+              style={
+                Object {
+                  "backgroundColor": "#2185d0",
+                  "color": "#fff",
+                  "fontSize": 17,
+                }
+              }
+              tabIndex={0}
+            >
+              <div
+                aria-live="polite"
+                className="text"
+                role="alert"
+              >
+                Account
+              </div>
+              <i
+                aria-hidden="true"
+                className="user icon"
+                onClick={[Function]}
+              />
+              <div
+                className="menu transition"
+              >
+                <div
+                  className="item"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  Log in
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <h1
+    style={
+      Object {
+        "color": "rgba(255,255,255,.9)",
+      }
+    }
+  >
+    Not logged in!
+  </h1>
+</div>
+`;
