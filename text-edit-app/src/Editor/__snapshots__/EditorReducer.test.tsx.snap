@@ -525,7 +525,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 1,
+  "remountContentEditable": 0,
   "tags": Array [],
   "users": Array [],
 }

@@ -68,8 +68,7 @@ export const editorReducer = (
         ...state,
         isSaved: true,
         openAlert: true,
-        alertMessage: "Updated code",
-        remountContentEditable: state.remountContentEditable + 1
+        alertMessage: "Updated code"
       };
     case UPDATE_CODE_FAILURE:
       return {

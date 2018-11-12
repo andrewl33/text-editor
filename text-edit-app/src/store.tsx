@@ -14,7 +14,7 @@ export const store = createStore<StoreState, EditorAction, any, any>(
   // rootReducer is casted from
   // EditorStoreState to StoreState
   // connectRouter creates a new StoreState, but without the
-  // typings for rootreducer
+  // typings for rootReducer
   connectRouter(history)(rootReducer as Reducer<StoreState>),
   composeWithDevTools(
     applyMiddleware(

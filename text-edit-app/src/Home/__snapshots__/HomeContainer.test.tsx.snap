@@ -1,0 +1,303 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeContainer it renders 1`] = `
+<HomeContainer
+  loggedIn={false}
+  onCreateAccount={[MockFunction]}
+  onLogin={[MockFunction]}
+  onNewCollection={[MockFunction]}
+  onNewFile={[MockFunction]}
+  toDashboard={[MockFunction]}
+>
+  <HomeComponent
+    loggedIn={false}
+    onCreateAccount={[MockFunction]}
+    onLogin={[MockFunction]}
+    onNewCollection={[MockFunction]}
+    onNewFile={[MockFunction]}
+    toDashboard={[MockFunction]}
+  >
+    <Container
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
+    >
+      <div
+        className="ui container"
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
+      >
+        <Grid
+          centered={true}
+          columns={2}
+          style={
+            Object {
+              "height": "100%",
+            }
+          }
+          textAlign="center"
+          verticalAlign="middle"
+        >
+          <div
+            className="ui centered center aligned middle aligned two column grid"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
+          >
+            <GridColumn
+              centered="true"
+              style={
+                Object {
+                  "maxWidth": 450,
+                }
+              }
+              textAlign="center"
+            >
+              <div
+                centered="true"
+                className="center aligned column"
+                style={
+                  Object {
+                    "maxWidth": 450,
+                  }
+                }
+              >
+                <Header
+                  as="h1"
+                  content="TextEdit"
+                  inverted={true}
+                >
+                  <h1
+                    className="ui inverted header"
+                  >
+                    TextEdit
+                  </h1>
+                </Header>
+                <Header
+                  as="h2"
+                  content="A way to share text files, that may be highlighted one day. Also, only works on the OSU network."
+                  inverted={true}
+                >
+                  <h2
+                    className="ui inverted header"
+                  >
+                    A way to share text files, that may be highlighted one day. Also, only works on the OSU network.
+                  </h2>
+                </Header>
+                <a
+                  href="https://github.com/andrewl33/text-editor"
+                >
+                  <img
+                    alt="github"
+                  />
+                </a>
+              </div>
+            </GridColumn>
+            <GridColumn
+              centered="true"
+              style={
+                Object {
+                  "maxWidth": 450,
+                }
+              }
+              textAlign="center"
+            >
+              <div
+                centered="true"
+                className="center aligned column"
+                style={
+                  Object {
+                    "maxWidth": 450,
+                  }
+                }
+              >
+                <Segment
+                  inverted={true}
+                  padded="very"
+                  style={
+                    Object {
+                      "maxWidth": 450,
+                    }
+                  }
+                  textAlign="center"
+                >
+                  <div
+                    className="ui inverted very padded center aligned segment"
+                    style={
+                      Object {
+                        "maxWidth": 450,
+                      }
+                    }
+                  >
+                    <Button
+                      as="button"
+                      fluid={true}
+                      onClick={[Function]}
+                      primary={true}
+                      role="button"
+                      size="huge"
+                    >
+                      <button
+                        className="ui huge fluid primary button"
+                        onClick={[Function]}
+                        role="button"
+                      >
+                        <Icon
+                          as="i"
+                          loading={false}
+                          name="file outline"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="file outline icon"
+                          />
+                        </Icon>
+                        New File
+                      </button>
+                    </Button>
+                    <br />
+                    <Button
+                      as="button"
+                      fluid={true}
+                      onClick={[Function]}
+                      primary={true}
+                      role="button"
+                      size="huge"
+                    >
+                      <button
+                        className="ui huge fluid primary button"
+                        onClick={[Function]}
+                        role="button"
+                      >
+                        <Icon
+                          as="i"
+                          loading={false}
+                          name="folder outline"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="folder outline icon"
+                          />
+                        </Icon>
+                        New Collection
+                      </button>
+                    </Button>
+                    <br />
+                    <Form
+                      as="form"
+                      inverted={true}
+                    >
+                      <form
+                        className="ui inverted form"
+                        onSubmit={[Function]}
+                      >
+                        <FormField
+                          error={false}
+                        >
+                          <div
+                            className="field"
+                          >
+                            <label>
+                              Account Name
+                            </label>
+                            <input
+                              onChange={[Function]}
+                              placeholder="Account Name"
+                              value=""
+                            />
+                          </div>
+                        </FormField>
+                        <FormField
+                          error={false}
+                        >
+                          <div
+                            className="field"
+                          >
+                            <label>
+                              Password
+                            </label>
+                            <input
+                              onChange={[Function]}
+                              placeholder="Password"
+                              value=""
+                            />
+                          </div>
+                        </FormField>
+                        <br />
+                        <Button
+                          as="button"
+                          fluid={true}
+                          onClick={[Function]}
+                          primary={true}
+                          role="button"
+                          size="huge"
+                          type="submit"
+                        >
+                          <button
+                            className="ui huge fluid primary button"
+                            onClick={[Function]}
+                            role="button"
+                            type="submit"
+                          >
+                            <Icon
+                              as="i"
+                              loading={false}
+                              name="user outline"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="user outline icon"
+                              />
+                            </Icon>
+                            Log in
+                          </button>
+                        </Button>
+                        <br />
+                        <Button
+                          as="button"
+                          fluid={true}
+                          onClick={[Function]}
+                          primary={true}
+                          role="button"
+                          size="huge"
+                          type="submit"
+                        >
+                          <button
+                            className="ui huge fluid primary button"
+                            onClick={[Function]}
+                            role="button"
+                            type="submit"
+                          >
+                            <Icon
+                              as="i"
+                              loading={false}
+                              name="user outline"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="user outline icon"
+                              />
+                            </Icon>
+                            Create Account
+                          </button>
+                        </Button>
+                      </form>
+                    </Form>
+                  </div>
+                </Segment>
+              </div>
+            </GridColumn>
+          </div>
+        </Grid>
+      </div>
+    </Container>
+  </HomeComponent>
+</HomeContainer>
+`;

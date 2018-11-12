@@ -23,6 +23,7 @@ interface HomeComponentState {
   logInLoading: boolean;
   accountName: string;
   password: string;
+  highlight: boolean;
 }
 
 export default class HomeComponent extends React.Component<
@@ -39,7 +40,8 @@ export default class HomeComponent extends React.Component<
       logInLoading: false,
       createAccountLoading: false,
       accountName: "",
-      password: ""
+      password: "",
+      highlight: false
     };
   }
 
@@ -50,7 +52,8 @@ export default class HomeComponent extends React.Component<
       logInLoading,
       createAccountLoading,
       accountName,
-      password
+      password,
+      highlight
     } = this.state;
 
     const loggedInComponent = this.props.loggedIn ? (
@@ -64,7 +67,7 @@ export default class HomeComponent extends React.Component<
       </Button>
     ) : (
       <Form inverted={true}>
-        <Form.Field>
+        <Form.Field error={highlight}>
           <label>Account Name</label>
           <input
             placeholder="Account Name"
@@ -72,7 +75,7 @@ export default class HomeComponent extends React.Component<
             onChange={this.handleAccountNameChange}
           />
         </Form.Field>
-        <Form.Field>
+        <Form.Field error={highlight}>
           <label>Password</label>
           <input
             placeholder="Password"
@@ -198,7 +201,9 @@ export default class HomeComponent extends React.Component<
 
   private onLogIn = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!this.state.logInLoading && !this.state.throttle) {
+    if (this.isEmpty()) {
+      this.setState({ highlight: true });
+    } else if (!this.state.logInLoading && !this.state.throttle) {
       this.props.onLogin(this.state.accountName, this.state.password);
       this.setState({ logInLoading: true, throttle: false });
     }
@@ -206,7 +211,9 @@ export default class HomeComponent extends React.Component<
 
   private onCreateAccount = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!this.state.logInLoading && !this.state.throttle) {
+    if (this.isEmpty()) {
+      this.setState({ highlight: true });
+    } else if (!this.state.logInLoading && !this.state.throttle) {
       this.props.onCreateAccount(this.state.accountName, this.state.password);
       this.setState({ createAccountLoading: true, throttle: false });
     }
@@ -220,5 +227,15 @@ export default class HomeComponent extends React.Component<
 
   private handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: e.target.value });
+  };
+
+  private isEmpty = () => {
+    if (
+      this.state.accountName.replace(" ", "") === "" ||
+      this.state.password.replace(" ", "") === ""
+    ) {
+      return true;
+    }
+    return false;
   };
 }
