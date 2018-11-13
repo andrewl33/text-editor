@@ -18,13 +18,14 @@ dotenv.config();
 
 const app = express();
 
-app.set("port", process.env.PORT || 3300);
+// app.set("port", process.env.PORT || 3300);
+app.set("port", 37539);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(setToken);
 
 // frontend
-const frontendPaths = ["/", "/dashboard", "/files/*", "/collections/*"];
+const frontendPaths = ["/", "/dashboard", "/files/*", "/collections/*", "/grading"];
 app.use(express.static(path.join(__dirname, "../../text-edit-app/build")));
 app.get(frontendPaths, (req, res) => {
   console.log(
