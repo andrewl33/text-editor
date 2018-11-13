@@ -8,6 +8,7 @@ import DashboardContainer from "./Auth/DashboardContainer";
 import CollectionContainer from "./Collection/CollectionContainer";
 import EditorContainer from "./Editor/EditorContainer";
 import HomeContainer from "./Home/HomeContainer";
+import ShowAllComponent from "./ShowAll/ShowAllComponent";
 import { history } from "./store";
 
 import { StoreState } from "./types";
@@ -30,6 +31,7 @@ class App extends React.Component<AppProps | StoreState> {
             />
             <Route exact={true} path="/files/*" component={EditorContainer} />
             <Route path="/collections/*" component={CollectionContainer} />
+            <Route path="/grading" component={ShowAllComponent} />
           </Switch>
         </ConnectedRouter>
       </Container>

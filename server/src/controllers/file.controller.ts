@@ -55,7 +55,6 @@ export const generate = async (
   return response.send({ success: true, url: uuid });
 };
 
-// TODO: Test
 export const open = async (
   request: Request,
   response: Response,

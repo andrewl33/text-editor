@@ -11,6 +11,7 @@ import accountRouter from "./routes/account.route";
 import authRouter from "./routes/auth.route";
 import collectionRouter from "./routes/collection.route";
 import fileRouter from "./routes/file.route";
+import showAllRouter from "./routes/showAll.route";
 import tagRouter from "./routes/tag.route";
 
 dotenv.config();
@@ -40,6 +41,9 @@ app.use("/api/account", accountRouter);
 app.use("/api/file", fileRouter);
 app.use("/api/collection", collectionRouter);
 app.use("/api/tag", tagRouter);
+
+// show all route
+app.use("/api/grading", showAllRouter);
 
 app.listen(app.get("port"), () => {
   startDB();
