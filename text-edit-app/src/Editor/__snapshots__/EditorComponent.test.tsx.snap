@@ -12,33 +12,27 @@ exports[`EditorComponent renders correctly 1`] = `
 >
   <div
     className="thirteen wide column"
+    style={
+      Object {
+        "padding": 0,
+      }
+    }
   >
     <div
-      className="editor language-javascript"
       style={
         Object {
           "height": "100%",
+          "width": "100%",
         }
       }
     >
       <div
-        className="code-line editor"
-        contentEditable={true}
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "test code text",
-          }
-        }
-        onBlur={[Function]}
-        onInput={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onPaste={[Function]}
+        id="ace-editor"
         style={
           Object {
             "height": "100%",
-            "padding": 0,
-            "whiteSpace": "pre-wrap",
+            "position": "absolute",
+            "width": "100%",
           }
         }
       />

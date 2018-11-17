@@ -6,11 +6,13 @@
   "editor.formatOnSave": true,
   "jsDocCompletion.enabled": true,
   "cSpell.words": [
+    "browserslist",
     "contenteditable",
     "db",
     "devtools",
     "inno",
     "middlewares",
+    "monokai",
     "okaidia",
     "portal",
     "prismjs",

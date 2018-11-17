@@ -28,9 +28,6 @@ app.use(setToken);
 const frontendPaths = ["/", "/dashboard", "/files/*", "/collections/*", "/grading"];
 app.use(express.static(path.join(__dirname, "../../text-edit-app/build")));
 app.get(frontendPaths, (req, res) => {
-  console.log(
-    path.join(__dirname, "..", "..", "text-edit-app", "build", "index.html")
-  );
   res.sendFile(
     path.join(__dirname, "..", "..", "text-edit-app", "build", "index.html")
   );
