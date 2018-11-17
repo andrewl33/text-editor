@@ -69,7 +69,8 @@ export class EditorContainer extends React.Component<
       onNameChange,
       isLocked,
       onLocalUpdate,
-      onHomeClick
+      onHomeClick,
+      remountEditorComponent
     } = this.props;
 
     return (
@@ -111,7 +112,7 @@ export class EditorContainer extends React.Component<
           isLocked={isLocked || filePrompt}
           onLocalUpdate={onLocalUpdate}
           accountName={accountName}
-          remountContentEditable={this.props.remountContentEditable}
+          key={remountEditorComponent}
         />
       </div>
     );
@@ -139,7 +140,7 @@ const mapStateToProps = (state: StoreState) => {
     name,
     createDate,
     users,
-    remountContentEditable
+    remountEditorComponent
   } = state.editor;
   const { pathname } = state.router.location;
   return {
@@ -158,7 +159,7 @@ const mapStateToProps = (state: StoreState) => {
     createDate,
     users,
     pathname,
-    remountContentEditable
+    remountEditorComponent
   };
 };
 

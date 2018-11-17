@@ -1,6 +1,6 @@
 import { mount } from "enzyme";
 import * as React from "react";
-import ContentEditable from "react-sane-contenteditable";
+import AceEditor from "react-ace";
 import * as renderer from "react-test-renderer";
 import EditorComponent from "./EditorComponent";
 
@@ -20,13 +20,12 @@ const props = {
   createDate: "1-1-1",
   users: ["user1", "user2"],
   isLocked: false,
-  accountName: "accountName1",
-  remountContentEditable: 0
+  accountName: "accountName1"
 };
 
 const wrapper = mount(<EditorComponent {...props} />);
 
-const contentEditable = wrapper.find(ContentEditable);
+const aceEditor = wrapper.find(AceEditor);
 
 describe("EditorComponent", () => {
   test("renders correctly", () => {
@@ -37,17 +36,17 @@ describe("EditorComponent", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test("it renders ContentEditable", () => {
-    expect(contentEditable.length).toEqual(1);
+  test("it renders AceEditor", () => {
+    expect(aceEditor.length).toEqual(1);
   });
 
   test("it does not call mockFunction before 2.5 seconds", () => {
-    contentEditable.simulate("change");
+    aceEditor.simulate("change");
     expect(mockBatchUpdate).not.toBeCalled();
   });
 
   test("it does call mockFunction after 2.5 seconds", () => {
-    contentEditable.simulate("change");
+    aceEditor.simulate("change");
     setTimeout(() => {
       expect(mockBatchUpdate.mock.calls.length).toEqual(2);
     }, 2600);
@@ -55,7 +54,7 @@ describe("EditorComponent", () => {
 
   test("delay resets the timer whenever another change is called", () => {
     for (let i = 0; i < 10; i++) {
-      contentEditable.simulate("change");
+      aceEditor.simulate("change");
     }
 
     expect(mockBatchUpdate.mock.calls.length).toBeLessThan(4);

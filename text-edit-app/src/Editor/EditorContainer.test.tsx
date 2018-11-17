@@ -4,7 +4,6 @@ import * as renderer from "react-test-renderer";
 import { HeaderComponent } from "../generic/TopBar/HeaderComponent";
 import EditorComponent from "./EditorComponent";
 import { EditorContainer } from "./EditorContainer";
-import { initialState as editorStoreState } from "./EditorReducer";
 
 export const dispatchProps = {
   onLocalUpdate: jest.fn(),
@@ -51,7 +50,7 @@ const editorStateProps = {
   name: "name1",
   createDate: "1-1-1",
   users: ["user1"],
-  remountContentEditable: 0
+  remountEditorComponent: 0
 };
 
 const staticProps = {
@@ -66,16 +65,17 @@ const props = {
   ...staticProps
 };
 
-export const initState = {
-  ...editorStoreState,
-  pathname: "test.com/test",
-  authPrompt: false
-};
-
-const componentLoaded = shallow(<EditorContainer {...props} />);
+const componentLoaded = shallow(
+  <EditorContainer {...props} key={editorStateProps.remountEditorComponent} />
+);
 describe("EditorContainer", () => {
   test("renders correctly", () => {
-    const component = renderer.create(<EditorContainer {...props} />);
+    const component = renderer.create(
+      <EditorContainer
+        {...props}
+        key={editorStateProps.remountEditorComponent}
+      />
+    );
 
     const tree = component.toJSON();
 

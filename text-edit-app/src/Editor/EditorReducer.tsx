@@ -50,7 +50,7 @@ export const initialState: EditorStoreState = {
   createDate: "",
   users: [],
   name: "",
-  remountContentEditable: 0
+  remountEditorComponent: 0
 };
 
 export const editorReducer = (
@@ -96,7 +96,7 @@ export const editorReducer = (
           isSaved: true,
           users: action.payload.body.users,
           createDate: action.payload.body.createDate,
-          remountContentEditable: state.remountContentEditable + 1
+          remountEditorComponent: state.remountEditorComponent + 1
         };
       }
 

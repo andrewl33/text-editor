@@ -11,7 +11,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -28,7 +28,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -45,7 +45,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [
     "newTag",
   ],
@@ -64,7 +64,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -81,7 +81,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -98,7 +98,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [
     "newName",
@@ -117,7 +117,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -134,7 +134,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -151,7 +151,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -168,7 +168,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -185,7 +185,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -202,7 +202,7 @@ Object {
   "isSaved": true,
   "name": "newName",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -219,7 +219,7 @@ Object {
   "isSaved": false,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -236,7 +236,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -253,7 +253,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 1,
+  "remountEditorComponent": 1,
   "tags": Array [],
   "users": Array [],
 }
@@ -270,7 +270,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -287,7 +287,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -304,7 +304,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -321,7 +321,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -338,7 +338,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -355,7 +355,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -372,7 +372,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -389,7 +389,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -406,7 +406,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -423,7 +423,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -440,7 +440,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -457,7 +457,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -474,7 +474,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -491,7 +491,7 @@ Object {
   "isSaved": false,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -508,7 +508,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": false,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }
@@ -525,7 +525,7 @@ Object {
   "isSaved": true,
   "name": "",
   "openAlert": true,
-  "remountContentEditable": 0,
+  "remountEditorComponent": 0,
   "tags": Array [],
   "users": Array [],
 }

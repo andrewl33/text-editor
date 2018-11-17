@@ -1,30 +1,31 @@
 import * as React from "react";
-// import * as Prism from 'prismjs';
-import ContentEditable from "react-sane-contenteditable";
+
+import AceEditor from "react-ace";
+
 import { Container, Grid } from "semantic-ui-react";
 import Sidebar from "../generic/Sidebar/SidebarComponent";
-
 import { EditorComponentProps } from "../types";
-// import '../../node_modules/prismjs/themes/prism-okaidia.css';
 
+import "brace/mode/javascript";
+import "brace/theme/monokai";
 interface EditorPrivateState {
   text: string;
 }
 
-// TODO: check https://github.com/ashleyw/react-sane-contenteditable/issues/31
-// right now, the content editable does not listen to content correctly
-
-// TODO: Update typings for react-sane-contenteditable
 class EditorComponent extends React.Component<
   EditorComponentProps,
   EditorPrivateState
 > {
   private delayBeforeUpdate: number;
-  private myRef: React.RefObject<any>;
+  private aceContainerRef: React.RefObject<any>;
   constructor(props: EditorComponentProps) {
     super(props);
 
-    this.myRef = React.createRef();
+    this.aceContainerRef = React.createRef();
+
+    this.state = {
+      text: this.props.codeText
+    };
   }
 
   public render() {
@@ -39,26 +40,26 @@ class EditorComponent extends React.Component<
       onAddUser,
       onRemoveUser,
       onNameChange,
-      codeText,
       accountName
     } = this.props;
 
     return (
       <Grid style={{ marginTop: 0, height: "100%" }}>
-        <Grid.Column width={13}>
+        <Grid.Column width={13} style={{ padding: 0 }}>
           <div
-            className="editor language-javascript"
-            ref={this.myRef}
-            style={{ height: "100%" }}
+            ref={this.aceContainerRef}
+            style={{ height: "100%", width: "100%" }}
           >
-            <ContentEditable
-              className="code-line editor"
-              content={codeText}
-              editable={true}
-              multiLine={true}
-              onKeyDown={this.handleChange}
-              style={{ padding: 0, height: "100%" }}
-              key={this.props.remountContentEditable}
+            <AceEditor
+              mode="javascript"
+              theme="monokai"
+              onChange={this.handleChange}
+              name="ace-editor"
+              height="100%"
+              width="100%"
+              value={this.state.text}
+              fontSize={16}
+              style={{ position: "absolute" }}
             />
           </div>
         </Grid.Column>
@@ -93,7 +94,7 @@ class EditorComponent extends React.Component<
     );
   }
 
-  private handleChange = (e: React.SyntheticEvent, value: string) => {
+  private handleChange = (value: string, e: React.SyntheticEvent) => {
     this.setState({ text: value });
     this.props.onLocalUpdate(value);
     clearTimeout(this.delayBeforeUpdate);
