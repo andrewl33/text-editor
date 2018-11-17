@@ -25,7 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(setToken);
 
 // frontend
-const frontendPaths = ["/", "/dashboard", "/files/*", "/collections/*", "/grading"];
+const frontendPaths = [
+  "/",
+  "/dashboard",
+  "/files/*",
+  "/collections/*",
+  "/grading"
+];
 app.use(express.static(path.join(__dirname, "../../text-edit-app/build")));
 app.get(frontendPaths, (req, res) => {
   res.sendFile(

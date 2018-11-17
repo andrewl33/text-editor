@@ -4,9 +4,8 @@
 
 // tslint:disable
 
-// TODO: add a filter
 import * as React from "react";
-import { Table } from "semantic-ui-react";
+import { Input, Table } from "semantic-ui-react";
 import { API_URL as URL } from "../envConstants";
 
 export default class ShowAll extends React.Component {
@@ -18,7 +17,8 @@ export default class ShowAll extends React.Component {
     collectionFileInfo: [],
     collectionOwnerInfo: [],
     fileOwnerInfo: [],
-    fileTagInfo: []
+    fileTagInfo: [],
+    searchItem: ""
   };
 
   async componentDidMount() {
@@ -66,13 +66,21 @@ export default class ShowAll extends React.Component {
 
     // body
     const body = data.map((row: any, idx: number) => {
-      return (
+      let isValid = false;
+      const regex = new RegExp(this.state.searchItem, "i");
+
+      const tRow = (
         <Table.Row key={idx}>
           {keyList.map((label: string, innerIdx: number) => {
+            isValid =
+              isValid ||
+              (row[label] !== null && row[label].toString().match(regex));
+
             return <Table.Cell key={innerIdx}>{row[label]}</Table.Cell>;
           })}
         </Table.Row>
       );
+      return isValid ? tRow : undefined;
     });
 
     return (
@@ -83,6 +91,14 @@ export default class ShowAll extends React.Component {
         <Table.Body>{body}</Table.Body>
       </Table>
     );
+  };
+
+  /**
+   * Search
+   */
+
+  handleSearch = (e: React.SyntheticEvent) => {
+    this.setState({ searchItem: (e.target as HTMLInputElement).value });
   };
 
   render() {
@@ -108,6 +124,11 @@ export default class ShowAll extends React.Component {
 
     return (
       <div style={{ color: "white" }}>
+        <Input
+          placeholder="Search..."
+          value={this.state.searchItem}
+          onChange={this.handleSearch}
+        />
         <h2>Account</h2>
         {tAccount}
         <h2>File Info</h2>
