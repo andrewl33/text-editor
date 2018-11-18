@@ -34,7 +34,8 @@ const mapDispatchToProps = (
     onNewCollection: () => dispatch(newCollection()),
     toDashboard: () => dispatch(push("/dashboard")),
     onCreateAccount: (name: string, pass: string) =>
-      dispatch(createAccount(name, pass))
+      dispatch(createAccount(name, pass)),
+    toGradingPage: () => dispatch(push('/grading'))
   };
 };
 

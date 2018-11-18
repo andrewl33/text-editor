@@ -121,6 +121,7 @@ export interface HomeProps {
   onLogin: (name: string, pass: string) => {};
   toDashboard: () => {};
   onCreateAccount: (name: string, pass: string) => {};
+  toGradingPage: () => {};
   loggedIn: boolean;
 }
 

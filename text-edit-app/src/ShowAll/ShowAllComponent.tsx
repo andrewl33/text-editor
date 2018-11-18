@@ -3,7 +3,6 @@
  */
 
 // tslint:disable
-
 import * as React from "react";
 import { Input, Table } from "semantic-ui-react";
 import { API_URL as URL } from "../envConstants";
@@ -124,6 +123,10 @@ export default class ShowAll extends React.Component {
 
     return (
       <div style={{ color: "white" }}>
+        <h1>
+          Grading: Only used for graders, will not be exposed on real site
+        </h1>
+        <h2>Searches for any entry that matches the search string</h2>
         <Input
           placeholder="Search..."
           value={this.state.searchItem}

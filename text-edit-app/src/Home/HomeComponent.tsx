@@ -176,6 +176,15 @@ export default class HomeComponent extends React.Component<
               </Button>
               <br />
               {loggedInComponent}
+              <br />
+              <Button
+                fluid={true}
+                primary={true}
+                size="huge"
+                onClick={this.props.toGradingPage}
+              >
+                To Grading Page
+              </Button>
             </Segment>
           </Grid.Column>
         </Grid>

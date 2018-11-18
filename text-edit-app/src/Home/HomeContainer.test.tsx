@@ -13,7 +13,8 @@ const dispatchProps = {
   onNewFile: jest.fn(),
   onNewCollection: jest.fn(),
   toDashboard: jest.fn(),
-  onCreateAccount: jest.fn()
+  onCreateAccount: jest.fn(),
+  toGradingPage: jest.fn()
 };
 
 let wrapper: any;
