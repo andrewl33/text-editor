@@ -3,11 +3,13 @@
  */
 
 // tslint:disable
+import { push } from "connected-react-router";
+import { connect } from "react-redux";
 import * as React from "react";
-import { Input, Table } from "semantic-ui-react";
+import { Input, Table, Button, Icon } from "semantic-ui-react";
 import { API_URL as URL } from "../envConstants";
 
-export default class ShowAll extends React.Component {
+export class ShowAll extends React.Component<any, any> {
   state = {
     accountInfo: [],
     codeFileInfo: [],
@@ -52,7 +54,7 @@ export default class ShowAll extends React.Component {
     });
   }
 
-  buildTable = (data: any) => {
+  buildTable = (data: any, option = "none") => {
     if (data.length <= 0) {
       return undefined;
     }
@@ -60,7 +62,10 @@ export default class ShowAll extends React.Component {
     // header
     const keyList = Object.keys(data[0]).sort();
     const header = keyList.map((label: string, idx: number) => {
-      return <Table.HeaderCell key={idx}>{label}</Table.HeaderCell>;
+      return (
+        label !== "code_text" &&
+        label !== "id" && <Table.HeaderCell key={idx}>{label}</Table.HeaderCell>
+      );
     });
 
     // body
@@ -75,7 +80,42 @@ export default class ShowAll extends React.Component {
               isValid ||
               (row[label] !== null && row[label].toString().match(regex));
 
-            return <Table.Cell key={innerIdx}>{row[label]}</Table.Cell>;
+            if (label === "url") {
+              if (option === "file") {
+                return (
+                  <Table.Cell key={innerIdx}>
+                    <Button
+                      icon
+                      labelPosition="right"
+                      onClick={() => this.props.toFilePage(row[label])}
+                    >
+                      <Icon name="external alternate" />
+                      {row[label]}
+                    </Button>
+                  </Table.Cell>
+                );
+              } else if (option === "collection") {
+                return (
+                  <Table.Cell key={innerIdx}>
+                    <Button
+                      icon
+                      labelPosition="right"
+                      onClick={() => this.props.toCollectionPage(row[label])}
+                    >
+                      <Icon name="external alternate" />
+                      {row[label]}
+                    </Button>
+                  </Table.Cell>
+                );
+              }
+            }
+
+            return (
+              label !== "code_text" &&
+              label !== "id" && (
+                <Table.Cell key={innerIdx}>{row[label]}</Table.Cell>
+              )
+            );
           })}
         </Table.Row>
       );
@@ -113,13 +153,13 @@ export default class ShowAll extends React.Component {
     } = this.state;
 
     const tAccount = this.buildTable(accountInfo);
-    const tCodeFile = this.buildTable(codeFileInfo);
-    const tCollection = this.buildTable(collectionInfo);
+    const tCodeFile = this.buildTable(codeFileInfo, "file");
+    const tCollection = this.buildTable(collectionInfo, "collection");
     const tTag = this.buildTable(tagInfo);
     const tColFile = this.buildTable(collectionFileInfo);
-    const tColOwner = this.buildTable(collectionOwnerInfo);
-    const tFileOwner = this.buildTable(fileOwnerInfo);
-    const tFileTag = this.buildTable(fileTagInfo);
+    const tColOwner = this.buildTable(collectionOwnerInfo, "collection");
+    const tFileOwner = this.buildTable(fileOwnerInfo, "file");
+    const tFileTag = this.buildTable(fileTagInfo, "collection");
 
     return (
       <div style={{ color: "white" }}>
@@ -152,3 +192,15 @@ export default class ShowAll extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    toFilePage: (url: string) => dispatch(push(`/files/${url}`)),
+    toCollectionPage: (url: string) => dispatch(push(`/collections/${url}`))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ShowAll);
