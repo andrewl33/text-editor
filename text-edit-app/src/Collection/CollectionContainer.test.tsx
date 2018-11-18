@@ -23,7 +23,8 @@ const dispatchProps = {
   onLogOut: jest.fn(),
   onClosePrompt: jest.fn(),
   onFileClick: jest.fn(),
-  onHomeClick: jest.fn()
+  onHomeClick: jest.fn(),
+  toGradingPage: jest.fn()
 };
 
 const colProps = {

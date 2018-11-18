@@ -20,7 +20,8 @@ const dispatchProps = {
   onCollectionClick: jest.fn(),
   onFileClick: jest.fn(),
   onHomeClick: jest.fn(),
-  onMount: jest.fn()
+  onMount: jest.fn(),
+  toGradingPage: jest.fn()
 };
 
 const staticProps = {

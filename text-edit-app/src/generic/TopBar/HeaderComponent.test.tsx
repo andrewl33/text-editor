@@ -15,6 +15,7 @@ const props = {
   onLogOut: jest.fn(),
   onLogInPrompt: jest.fn(),
   onHomeClick: jest.fn(),
+  toGradingPage: jest.fn(),
   accountName: undefined,
   loggedIn: false,
   pathname: "/test",
@@ -46,12 +47,12 @@ describe("HeaderComponent", () => {
   });
 
   test("renders all buttons", () => {
-    expect(wrapper.find(Button).length).toEqual(3);
+    expect(wrapper.find(Button).length).toEqual(4);
   });
 
   test("renders new and lock buttons", () => {
     wrapper.setProps({ isShareable: false });
-    expect(wrapper.find(Button).length).toEqual(2);
+    expect(wrapper.find(Button).length).toEqual(3);
   });
 
   test("renders no buttons", () => {
@@ -60,17 +61,17 @@ describe("HeaderComponent", () => {
       onNew: undefined,
       onLock: undefined
     });
-    expect(wrapper.find(Button).length).toEqual(0);
+    expect(wrapper.find(Button).length).toEqual(1);
   });
 
   test("calls new on click", () => {
-    const button = wrapper.find(Button).at(0);
+    const button = wrapper.find(Button).at(1);
     button.simulate("click");
     expect(props.onNew.mock.calls.length).toBe(1);
   });
 
   test("mounts PromptComponent on lock", () => {
-    const button = wrapper.find(Button).at(1);
+    const button = wrapper.find(Button).at(2);
     button.simulate("click");
 
     setTimeout(

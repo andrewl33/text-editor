@@ -33,7 +33,8 @@ export class DashboardContainer extends React.Component<
       onCollectionClick,
       onAuthAccount,
       onClosePrompt,
-      onHomeClick
+      onHomeClick,
+      toGradingPage
     } = this.props;
     const header = (
       <HeaderComponent
@@ -51,6 +52,7 @@ export class DashboardContainer extends React.Component<
         prompt={"Login"}
         getAccountCredentials={onAuthAccount}
         onClosePrompt={onClosePrompt}
+        toGradingPage={toGradingPage}
       />
     );
 
@@ -112,7 +114,8 @@ const mapDispatchToProps = (
     onCollectionClick: (id: string) => dispatch(push(`/collections/${id}`)),
     onFileClick: (id: string) => dispatch(push(`/files/${id}`)),
     onHomeClick: () => dispatch(push("/")),
-    onMount: () => dispatch(getDashboard())
+    onMount: () => dispatch(getDashboard()),
+    toGradingPage: () => dispatch(push("/grading"))
   };
 };
 

@@ -61,7 +61,8 @@ export class CollectionContainer extends React.Component<
       onClosePrompt,
       onFileClick,
       items,
-      onHomeClick
+      onHomeClick,
+      toGradingPage
     } = this.props;
 
     return (
@@ -87,6 +88,7 @@ export class CollectionContainer extends React.Component<
           onDashboard={onDashboard}
           onLogOut={onLogOut}
           onClosePrompt={onClosePrompt}
+          toGradingPage={toGradingPage}
         />
         <CollectionComponent
           items={items}
@@ -169,7 +171,8 @@ const mapDispatchToProps = (
     onLogOut: () => dispatch(logOut()),
     onClosePrompt: () => dispatch(closePrompt()),
     onFileClick: (id: string) => dispatch(push(`/files/${id}`)),
-    onHomeClick: () => dispatch(push("/"))
+    onHomeClick: () => dispatch(push("/")),
+    toGradingPage: () => dispatch(push("/grading"))
   };
 };
 

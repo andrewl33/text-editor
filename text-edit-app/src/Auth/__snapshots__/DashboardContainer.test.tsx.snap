@@ -26,6 +26,18 @@ exports[`DashboardContainer logged in renders correctly 1`] = `
           className="item"
           onClick={[Function]}
         >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            Grading
+          </button>
+        </div>
+        <div
+          className="item"
+          onClick={[Function]}
+        >
           <div>
             <div
               aria-expanded={false}
@@ -187,6 +199,18 @@ exports[`DashboardContainer not logged in renders correctly 1`] = `
       <div
         className="right menu"
       >
+        <div
+          className="item"
+          onClick={[Function]}
+        >
+          <button
+            className="ui primary button"
+            onClick={[Function]}
+            role="button"
+          >
+            Grading
+          </button>
+        </div>
         <div
           className="item"
           onClick={[Function]}

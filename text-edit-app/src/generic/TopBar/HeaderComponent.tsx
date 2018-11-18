@@ -117,6 +117,11 @@ export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
           <Menu.Item name="TextEdit" onClick={onHomeClick} />
           <Menu.Item name={pageName} />
           <Menu.Menu position="right">
+            <Menu.Item>
+              <Button primary={true} onClick={this.props.toGradingPage}>
+                Grading
+              </Button>
+            </Menu.Item>
             {newButton}
             {lockButton}
             {shareButton}

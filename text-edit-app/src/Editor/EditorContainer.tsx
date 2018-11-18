@@ -70,12 +70,14 @@ export class EditorContainer extends React.Component<
       isLocked,
       onLocalUpdate,
       onHomeClick,
-      remountEditorComponent
+      remountEditorComponent,
+      toGradingPage
     } = this.props;
 
     return (
       <div style={{ height: "100%" }}>
         <HeaderComponent
+          toGradingPage={toGradingPage}
           onNew={onNew}
           onLock={onLock}
           onShare={onShare}
@@ -190,7 +192,8 @@ const mapDispatchToProps = (
     onClosePrompt: () => dispatch(closePrompt()),
     onDashboard: () => dispatch(push("/dashboard")),
     onLogOut: () => dispatch(logOut()),
-    onHomeClick: () => dispatch(push("/"))
+    onHomeClick: () => dispatch(push("/")),
+    toGradingPage: () => dispatch(push("/grading"))
   };
 };
 

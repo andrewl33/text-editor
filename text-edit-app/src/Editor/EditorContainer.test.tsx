@@ -25,7 +25,8 @@ export const dispatchProps = {
   onClosePrompt: jest.fn(),
   onDashboard: jest.fn(),
   onLogOut: jest.fn(),
-  onHomeClick: jest.fn()
+  onHomeClick: jest.fn(),
+  toGradingPage: jest.fn()
 };
 
 const routerProps = {

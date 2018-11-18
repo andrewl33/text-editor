@@ -8,6 +8,7 @@ exports[`HomeContainer it renders 1`] = `
   onNewCollection={[MockFunction]}
   onNewFile={[MockFunction]}
   toDashboard={[MockFunction]}
+  toGradingPage={[MockFunction]}
 >
   <HomeComponent
     loggedIn={false}
@@ -16,6 +17,7 @@ exports[`HomeContainer it renders 1`] = `
     onNewCollection={[MockFunction]}
     onNewFile={[MockFunction]}
     toDashboard={[MockFunction]}
+    toGradingPage={[MockFunction]}
   >
     <Container
       style={
@@ -290,6 +292,23 @@ exports[`HomeContainer it renders 1`] = `
                         </Button>
                       </form>
                     </Form>
+                    <br />
+                    <Button
+                      as="button"
+                      fluid={true}
+                      onClick={[MockFunction]}
+                      primary={true}
+                      role="button"
+                      size="huge"
+                    >
+                      <button
+                        className="ui huge fluid primary button"
+                        onClick={[Function]}
+                        role="button"
+                      >
+                        To Grading Page
+                      </button>
+                    </Button>
                   </div>
                 </Segment>
               </div>

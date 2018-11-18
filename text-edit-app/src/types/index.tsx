@@ -168,6 +168,7 @@ export interface HeaderProps extends PromptComponentProps {
   onLogOut: () => {};
   onLogInPrompt: () => {};
   onHomeClick: () => {};
+  toGradingPage: () => {};
   accountName?: string;
   loggedIn: boolean;
   pathname?: string;
