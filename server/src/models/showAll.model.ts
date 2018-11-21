@@ -35,3 +35,16 @@ export default async function showAll() {
     console.log(e);
   }
 }
+
+export const filterText = async (searchString: string) => {
+  try {
+    const codeText = await query(
+      `select * from code_file where code_text like concat('%', ? ,'%')`,
+      [searchString]
+    );
+
+    return codeText[0];
+  } catch (e) {
+    console.log(e);
+  }
+};

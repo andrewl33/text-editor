@@ -19,17 +19,31 @@ export class ShowAll extends React.Component<any, any> {
     collectionOwnerInfo: [],
     fileOwnerInfo: [],
     fileTagInfo: [],
-    searchItem: ""
+    codeFileFilteredInfo: [],
+    searchItem: "",
+    searchCodeText: "",
+    isFiltered: false
   };
 
   async componentDidMount() {
     try {
-      await this.fetchAllData();
+      await this.fetchAllData(false);
     } catch (e) {}
   }
 
-  async fetchAllData() {
-    const res = await fetch(`${URL}/grading/all`);
+  async fetchAllData(isFiltered: boolean) {
+    const data = {
+      isFilter: isFiltered,
+      filterString: this.state.searchCodeText
+    };
+
+    const res = await fetch(`${URL}/grading/all`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     const body = await res.json();
     const {
       accountInfo,
@@ -41,17 +55,32 @@ export class ShowAll extends React.Component<any, any> {
       fileOwnerInfo,
       fileTagInfo
     } = body.allInfo;
-
-    this.setState({
-      accountInfo,
-      collectionInfo,
-      codeFileInfo,
-      tagInfo,
-      collectionFileInfo,
-      collectionOwnerInfo,
-      fileOwnerInfo,
-      fileTagInfo
-    });
+    console.log(body);
+    if (isFiltered) {
+      this.setState({
+        accountInfo,
+        collectionInfo,
+        codeFileInfo,
+        tagInfo,
+        collectionFileInfo,
+        collectionOwnerInfo,
+        fileOwnerInfo,
+        fileTagInfo,
+        codeFileFilteredInfo: body.filteredText,
+        isFiltered: true
+      });
+    } else {
+      this.setState({
+        accountInfo,
+        collectionInfo,
+        codeFileInfo,
+        tagInfo,
+        collectionFileInfo,
+        collectionOwnerInfo,
+        fileOwnerInfo,
+        fileTagInfo
+      });
+    }
   }
 
   buildTable = (data: any, option = "none") => {
@@ -140,6 +169,23 @@ export class ShowAll extends React.Component<any, any> {
     this.setState({ searchItem: (e.target as HTMLInputElement).value });
   };
 
+  /**
+   * Filtered Search
+   */
+  handleSearchCodeText = (e: React.SyntheticEvent) => {
+    this.setState({ searchCodeText: (e.target as HTMLInputElement).value });
+  };
+
+  onFindCodeText = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    this.fetchAllData(true);
+  };
+
+  clearFilter = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    this.setState({ isFiltered: false });
+  };
+
   render() {
     const {
       accountInfo,
@@ -149,7 +195,8 @@ export class ShowAll extends React.Component<any, any> {
       collectionFileInfo,
       collectionOwnerInfo,
       fileOwnerInfo,
-      fileTagInfo
+      fileTagInfo,
+      codeFileFilteredInfo
     } = this.state;
 
     const tAccount = this.buildTable(accountInfo);
@@ -157,6 +204,8 @@ export class ShowAll extends React.Component<any, any> {
     const tCollection = this.buildTable(collectionInfo, "collection");
     const tTag = this.buildTable(tagInfo);
     const tColFile = this.buildTable(collectionFileInfo);
+    const tFilteredCodeFile =
+      this.state.isFiltered && this.buildTable(codeFileFilteredInfo, "file");
     const tColOwner = this.buildTable(collectionOwnerInfo, "collection");
     const tFileOwner = this.buildTable(fileOwnerInfo, "file");
     const tFileTag = this.buildTable(fileTagInfo, "collection");
@@ -172,10 +221,26 @@ export class ShowAll extends React.Component<any, any> {
           value={this.state.searchItem}
           onChange={this.handleSearch}
         />
+        <h2>Searches by text in each file</h2>
+        <Input
+          placeholder="Search..."
+          value={this.state.searchCodeText}
+          onChange={this.handleSearchCodeText}
+        />
+        <Button primary={true} onClick={this.onFindCodeText}>
+          Find In Text
+        </Button>
+        <Button primary={true} onClick={this.clearFilter}>
+          Clear Filter
+        </Button>
         <h2>Account</h2>
         {tAccount}
-        <h2>File Info</h2>
-        {tCodeFile}
+        <h2>
+          {this.state.isFiltered
+            ? "File Info With Text: " + this.state.searchCodeText
+            : "File Info"}
+        </h2>
+        {this.state.isFiltered ? tFilteredCodeFile : tCodeFile}
         <h2>Collections</h2>
         {tCollection}
         <h2>Tags</h2>

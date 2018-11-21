@@ -3,6 +3,6 @@ import { showAll } from "../controllers/showAll.controller";
 
 const router = Router();
 
-router.get("/all", showAll);
+router.post("/all", showAll);
 
 export default router;
