@@ -2,6 +2,7 @@ import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as express from "express";
 import * as path from "path";
+import * as socketio from "socket.io";
 
 import { startDB } from "./models/dbinit";
 
@@ -18,6 +19,7 @@ dotenv.config();
 const app = express();
 
 app.set("port", process.env.PORT || 3300);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(setToken);
@@ -38,7 +40,7 @@ app.use("/api/file", fileRouter);
 app.use("/api/collection", collectionRouter);
 app.use("/api/tag", tagRouter);
 
-app.listen(app.get("port"), () => {
+const server = app.listen(app.get("port"), () => {
   startDB();
   console.log(
     "App is running at http://localhost:%d in %s mode",
