@@ -1,18 +1,33 @@
 import * as React from "react";
-import { Button, Icon, Input, Label, Table } from "semantic-ui-react";
+import { Button, Dropdown, Icon, Label, Table } from "semantic-ui-react";
+import allData from "../../ShowAll/fetchAllData";
 import { ListProps } from "../../types";
 
 export class ListComponent extends React.Component<
   ListProps,
-  { itemInput: string }
+  { itemInput: string; fileList: string[]; colList: string[] }
 > {
   constructor(props: ListProps) {
     super(props);
 
     this.state = {
-      itemInput: ""
+      itemInput: "",
+      fileList: [],
+      colList: []
     };
   }
+
+  public componentDidMount = async () => {
+    const body = await allData(false);
+    this.setState({
+      fileList: body.allInfo.codeFileInfo.map((obj: any) => {
+        return obj.url;
+      }),
+      colList: body.allInfo.collectionInfo.map((obj: any) => {
+        return obj.url;
+      })
+    });
+  };
 
   public render() {
     const listItems =
@@ -77,28 +92,57 @@ export class ListComponent extends React.Component<
           <Table.Body>{listItems}</Table.Body>
         </Table>
         {this.props.onAdd && (
-          <Input
-            placeholder={
-              this.props.header === "Files"
-                ? "File url..."
-                : "Collection url..."
-            }
-            onChange={this.handleInput}
-            value={this.state.itemInput}
-          >
-            <input />
-
+          <Button.Group color="blue">
             <Button type="submit" onClick={this.handleNewItemInput}>
-              Add
+              Add {this.props.header === "Files" ? "File" : "Collection"}
             </Button>
-          </Input>
+            <Dropdown
+              floating={true}
+              button={true}
+              placeholder={
+                this.props.header === "Files"
+                  ? "File url..."
+                  : "Collection url..."
+              }
+              options={
+                this.props.header === "Files"
+                  ? this.state.fileList
+                      .filter((i: string) => {
+                        return (
+                          this.props.items
+                            .map((e: any) => {
+                              return e.id;
+                            })
+                            .indexOf(i) === -1
+                        );
+                      })
+                      .map((i: string, idx: number) => {
+                        return { key: idx, value: i, text: i };
+                      })
+                  : this.state.colList
+                      .filter((i: string) => {
+                        return (
+                          this.props.items
+                            .map((e: any) => {
+                              return e.id;
+                            })
+                            .indexOf(i) === -1
+                        );
+                      })
+                      .map((i: string, idx: number) => {
+                        return { key: idx, value: i, text: i };
+                      })
+              }
+              onChange={this.handleInput}
+            />
+          </Button.Group>
         )}
       </div>
     );
   }
 
-  private handleInput = (e: React.SyntheticEvent) => {
-    this.setState({ itemInput: (e.target as HTMLInputElement).value });
+  private handleInput = (e: React.SyntheticEvent, data: any) => {
+    this.setState({ itemInput: data.value });
   };
 
   private handleNewItemInput = (e: React.SyntheticEvent) => {

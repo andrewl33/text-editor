@@ -30,8 +30,6 @@ export default class SidebarComponent extends React.Component<
   public componentDidMount = async () => {
     if (this.props.pageType === "file") {
       const body = await allData(false);
-      //tslint:disable
-      console.log(body.allInfo.tagInfo);
 
       this.setState({
         allTagsList: body.allInfo.tagInfo.map((obj: any) => {
