@@ -77,7 +77,6 @@ class EditorComponent extends React.Component<
               name={name}
               pageType="file"
               tagList={tags}
-              allTagsList={["wow", "same same"]} // TODO:
               createDate={createDate}
               isPrivate={isLocked}
               users={users}

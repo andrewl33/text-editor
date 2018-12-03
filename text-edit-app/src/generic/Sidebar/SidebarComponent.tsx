@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Icon, Input, Label, List } from "semantic-ui-react";
+import allData from "../../ShowAll/fetchAllData";
 import { SidebarProps } from "../../types";
 
 interface SidebarState {
@@ -7,6 +8,7 @@ interface SidebarState {
   tagType: string;
   nameEdit: boolean;
   tagEdit: boolean;
+  allTagsList: string[];
 }
 
 export default class SidebarComponent extends React.Component<
@@ -20,12 +22,27 @@ export default class SidebarComponent extends React.Component<
       nameInput: this.props.name,
       tagType: "",
       nameEdit: false,
-      tagEdit: false
+      tagEdit: false,
+      allTagsList: []
     };
   }
 
+  public componentDidMount = async () => {
+    if (this.props.pageType === "file") {
+      const body = await allData(false);
+      //tslint:disable
+      console.log(body.allInfo.tagInfo);
+
+      this.setState({
+        allTagsList: body.allInfo.tagInfo.map((obj: any) => {
+          return obj.name;
+        })
+      });
+    }
+  };
+
   public render() {
-    const { nameInput, nameEdit, tagType, tagEdit } = this.state;
+    const { nameInput, nameEdit, tagType, tagEdit, allTagsList } = this.state;
     const {
       pageType,
       name,
@@ -66,6 +83,7 @@ export default class SidebarComponent extends React.Component<
     );
 
     let tags: JSX.Element[] | undefined;
+    let allTags: JSX.Element[] | undefined;
     if (pageType === "file") {
       const { tagList } = this.props;
 
@@ -83,6 +101,29 @@ export default class SidebarComponent extends React.Component<
             </Label>
           );
         });
+
+      allTags =
+        allTagsList.length > 0
+          ? allTagsList
+              .filter(tagName => {
+                return tagList ? tagList.indexOf(tagName) === -1 : true;
+              })
+              .map((tagName: string, idx: number) => {
+                return (
+                  <Label
+                    key={idx}
+                    link="true"
+                    onClick={
+                      this.onTagAddFromList &&
+                      this.onTagAddFromList.bind(null, tagName)
+                    }
+                  >
+                    {tagName}
+                    <Icon name="plus" size="small" />
+                  </Label>
+                );
+              })
+          : undefined;
     }
 
     const usersElement =
@@ -134,6 +175,7 @@ export default class SidebarComponent extends React.Component<
             <List.Header>Tags</List.Header>
             <span>
               {tags ? tags : "No Tags"}
+              {allTags}
               {tagField}
             </span>
           </List.Item>
@@ -163,6 +205,12 @@ export default class SidebarComponent extends React.Component<
 
   private openTagEdit = () => {
     this.setState({ tagEdit: true, tagType: "" });
+  };
+
+  private onTagAddFromList = (tagType: string) => {
+    if (this.props.onAddTag) {
+      this.props.onAddTag(tagType);
+    }
   };
 
   private onTagAdd = () => {

@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import * as React from "react";
 import { Input, Table, Button, Icon } from "semantic-ui-react";
-import { API_URL as URL } from "../envConstants";
+import allData from "./fetchAllData";
 
 export class ShowAll extends React.Component<any, any> {
   state = {
@@ -32,19 +32,7 @@ export class ShowAll extends React.Component<any, any> {
   }
 
   async fetchAllData(isFiltered: boolean) {
-    const data = {
-      isFilter: isFiltered,
-      filterString: this.state.searchCodeText
-    };
-
-    const res = await fetch(`${URL}/grading/all`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    const body = await res.json();
+    const body = await allData(isFiltered, this.state.searchCodeText);
     const {
       accountInfo,
       codeFileInfo,
@@ -55,7 +43,7 @@ export class ShowAll extends React.Component<any, any> {
       fileOwnerInfo,
       fileTagInfo
     } = body.allInfo;
-    console.log(body);
+
     if (isFiltered) {
       this.setState({
         accountInfo,

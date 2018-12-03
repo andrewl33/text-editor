@@ -217,7 +217,7 @@ export interface SidebarProps {
   name: string;
   pageType: "file" | "collection";
   tagList?: string[];
-  allTagsList?: string[];
+  allTagsList?: boolean;
   createDate: string;
   isPrivate: boolean;
   users: string[];
