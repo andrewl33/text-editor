@@ -4,7 +4,7 @@ CodeShare clone, saves text and shares it with anyone who has the custom url.
 
 ## Dev/Watch
 
-MariaDB will need to be installed.
+MariaDB will need to be installed, with a config file located at `./config` to work.
 
 To watch:
 
