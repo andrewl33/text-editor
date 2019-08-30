@@ -82,12 +82,12 @@ export interface EditorContainerProps
   extends EditorStoreState,
     EditorComponentProps {
   onAlert: () => any;
-  onLock: () => any;
+  onLock: (password: string) => Promise<void>;
   onMount: () => any;
   onNew: () => any;
   onShare: () => any;
-  onAuthFile?: () => any;
-  onAuthAccount?: () => any;
+  onAuthFile?: (pass: string) => Promise<void>;
+  onAuthAccount?: (name: string, pass: string) => Promise<void>;
   onDashboard: () => any;
   onLogInPrompt: () => any;
   onLogOut: () => any;

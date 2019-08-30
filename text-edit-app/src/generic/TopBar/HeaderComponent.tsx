@@ -12,7 +12,7 @@ interface HeaderState {
 
 export class HeaderComponent extends React.Component<HeaderProps, HeaderState> {
   private urlHolder: React.RefObject<HTMLTextAreaElement>;
-  private notificationDuration: number;
+  private notificationDuration: number = 0;
 
   constructor(props: HeaderProps) {
     super(props);

@@ -153,7 +153,7 @@ export default class SidebarComponent extends React.Component<
     }
   };
 
-  private onNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private onNameInputChange = (e: any, data: any) => {
     this.setState({ nameInput: e.target.value });
   };
 
@@ -172,7 +172,7 @@ export default class SidebarComponent extends React.Component<
     }
   };
 
-  private onTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private onTagInputChange = (e: any, data: any) => {
     this.setState({ tagType: e.target.value });
   };
 

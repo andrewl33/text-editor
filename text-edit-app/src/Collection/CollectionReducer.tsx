@@ -60,6 +60,7 @@ export const collectionReducer = (
           users: []
         };
       }
+    // eslint-disable-next-line
     case NEW_COLLECTION_FAILURE:
       return state;
 
@@ -107,9 +108,9 @@ export const collectionReducer = (
           ...state,
           users: [...state.users, action.payload.accountName]
         };
-      } else {
-        return state;
-      }
+      } 
+      return state;
+
     case ADD_USER_TO_COLLECTION_FAILURE:
       return state;
 
@@ -122,6 +123,7 @@ export const collectionReducer = (
           users: state.users.filter(u => u !== action.payload!.accountName)
         };
       }
+    // eslint-disable-next-line
     case REMOVE_USER_FROM_COLLECTION_FAILURE:
       return state;
 
@@ -152,6 +154,7 @@ export const collectionReducer = (
             state.items.filter(f => f.id !== action.payload!.fileId)
         };
       }
+    // eslint-disable-next-line
     case REMOVE_FILE_FROM_COLLECTION_FAILURE:
       return state;
 

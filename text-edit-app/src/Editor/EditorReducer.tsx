@@ -99,7 +99,7 @@ export const editorReducer = (
           remountEditorComponent: state.remountEditorComponent + 1
         };
       }
-
+    // eslint-disable-next-line
     case GET_TEXT_FAILURE:
       return {
         ...state,

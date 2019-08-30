@@ -16,7 +16,7 @@ class EditorComponent extends React.Component<
   EditorComponentProps,
   EditorPrivateState
 > {
-  private delayBeforeUpdate: number;
+  private delayBeforeUpdate: number = 0;
   private aceContainerRef: React.RefObject<any>;
   constructor(props: EditorComponentProps) {
     super(props);

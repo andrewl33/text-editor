@@ -20,6 +20,9 @@ Run `npm run test` for tests.
 
 Frontend:
 
+- [ ] Slowly make ts more strict
+- [ ] Add branch that save to browser storage
+
 - [ ] Handle notification spam
 - [ ] Notification animation in buttons
   - [ ] isLoading Reducer
@@ -37,4 +40,4 @@ Backend:
 
 - [ ] Test API
 
-* [ ] Deploy
+
